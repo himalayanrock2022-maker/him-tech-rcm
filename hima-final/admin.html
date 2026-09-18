@@ -343,22 +343,37 @@ let posts = [];
 let featuredImageBase64 = '';
 let editingId = null;
 
-function loadPosts() {
-  const saved = localStorage.getItem('himatech_blog_posts');
-  if (saved) {
-    posts = JSON.parse(saved);
-  } else {
-    posts = [
-      {id:1,title:"5 Revenue Cycle Management Trends to Watch in 2026",category:"Revenue Cycle Management",image:"https://images.pexels.com/photos/3184292/pexels-photo-3184292.jpeg?auto=compress&cs=tinysrgb&w=800",excerpt:"Stay ahead with the latest RCM trends including AI automation, predictive analytics, and value-based care models.",content:"<h2>1. AI-Powered Claims Processing</h2><p>Automation is reducing claim denials by up to 40%. Machine learning algorithms now predict denial risks before claims are submitted.</p><h2>2. Predictive Analytics</h2><p>Data-driven decisions are becoming the norm. Practices using predictive analytics see 25% faster reimbursements.</p><h2>3. Value-Based Care Models</h2><p>Fee-for-service is giving way to outcomes-based reimbursement. Providers must adapt their RCM strategies accordingly.</p><h2>4. Patient Financial Experience</h2><p>Transparent pricing and flexible payment options are now expectations, not luxuries.</p><h2>5. Regulatory Compliance Automation</h2><p>Staying compliant without the overhead. Automated tools handle ever-changing regulations.</p>",date:"2026-09-10",slug:"5-rcm-trends-2026"},
-      {id:2,title:"ICD-10 Coding Changes: What Providers Need to Know",category:"Compliance",image:"https://images.pexels.com/photos/7680686/pexels-photo-7680686.jpeg?auto=compress&cs=tinysrgb&w=800",excerpt:"Updated ICD-10 codes for 2026 and how they impact your billing accuracy.",content:"<p>Annual ICD-10 updates bring significant changes. Here's what you need to know to stay compliant and avoid denials.</p><h2>Key Changes for 2026</h2><ul><li>New codes for telehealth services</li><li>Expanded mental health categories</li><li>Updated injury codes</li><li>Revised evaluation and management guidelines</li></ul><p>Make sure your coding team is updated before the October deadline.</p>",date:"2026-09-05",slug:"icd-10-coding-changes-2026"},
-      {id:3,title:"CAQH Updates: Every Provider Must Know",category:"Credentialing",image:"https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=800",excerpt:"Recent CAQH ProView changes that affect provider enrollment and credentialing timelines.",content:"<p>CAQH has updated their verification process. Providers must update their profiles to avoid enrollment delays.</p><h2>What's Changed</h2><p>The new CAQH ProView 3.0 requires additional documentation and more frequent re-attestation.</p><h2>Action Items</h2><ul><li>Log in to CAQH ProView and update your profile</li><li>Upload current insurance certificates</li><li>Re-attest to all existing attestations</li></ul>",date:"2026-08-28",slug:"caqh-updates-every-provider-must-know-2026"}
-    ];
-    savePosts();
+async function loadPosts() {
+  try {
+    const res = await fetch('/api/blog');
+    if (res.ok) posts = await res.json();
+  } catch(e) {}
+  if (!posts.length) {
+    posts = [];
   }
   renderPosts();
 }
 
-function savePosts() { localStorage.setItem('himatech_blog_posts', JSON.stringify(posts)); }
+async function saveToGitHub(action, post, postId) {
+  try {
+    const body = { action };
+    if (action === 'delete') body.postId = postId;
+    else if (action === 'update') { body.posts = [post]; body.postId = postId; }
+    else body.posts = [post];
+
+    const res = await fetch('/api/blog', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error);
+    return true;
+  } catch(e) {
+    showStatus('Failed to save: ' + e.message, 'error');
+    return false;
+  }
+}
 
 function renderPosts() {
   const list = document.getElementById('postList');
@@ -464,7 +479,7 @@ quill.root.addEventListener('paste', function(e) {
   }
 });
 
-function publishPost() {
+async function publishPost() {
   const title = document.getElementById('title').value.trim();
   const category = document.getElementById('category').value;
   const excerpt = document.getElementById('excerpt').value.trim();
@@ -479,17 +494,21 @@ function publishPost() {
   const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
   const date = new Date().toISOString().split('T')[0];
 
+  const post = { id: Date.now(), title, category, image, excerpt, content, date, slug };
+
+  showStatus('Publishing to website...', 'success');
+
   if (editingId) {
-    const idx = posts.findIndex(p => p.id === editingId);
-    if (idx >= 0) posts[idx] = { ...posts[idx], title, category, image, excerpt, content, date, slug };
+    const ok = await saveToGitHub('update', post, editingId);
+    if (!ok) return;
     editingId = null;
-    showStatus('Post updated successfully!', 'success');
+    showStatus('Post updated and published!', 'success');
   } else {
-    posts.unshift({ id: Date.now(), title, category, image, excerpt, content, date, slug });
-    showStatus('Post published! Download blog.json and send to developer.', 'success');
+    const ok = await saveToGitHub('create', post);
+    if (!ok) return;
+    showStatus('Post published! Live on website in ~30 seconds.', 'success');
   }
-  savePosts();
-  renderPosts();
+  await loadPosts();
   clearForm();
 }
 
@@ -510,12 +529,12 @@ function editPost(id) {
   showStatus('Editing post. Make changes and click Publish.', 'success');
 }
 
-function deletePost(id) {
+async function deletePost(id) {
   if (!confirm('Delete this post?')) return;
-  posts = posts.filter(p => p.id !== id);
-  savePosts();
-  renderPosts();
+  const ok = await saveToGitHub('delete', null, id);
+  if (!ok) return;
   showStatus('Post deleted.', 'success');
+  await loadPosts();
 }
 
 function clearForm() {
@@ -562,19 +581,21 @@ function downloadJSON() {
   a.download = 'blog.json';
   a.click();
   URL.revokeObjectURL(url);
-  showStatus('blog.json downloaded! Send it to developer for deployment.', 'success');
+  showStatus('blog.json downloaded!', 'success');
 }
 
-function uploadJSON(e) {
+async function uploadJSON(e) {
   const file = e.target.files[0];
   if (!file) return;
   const reader = new FileReader();
-  reader.onload = function(ev) {
+  reader.onload = async function(ev) {
     try {
-      posts = JSON.parse(ev.target.result);
-      savePosts();
-      renderPosts();
-      showStatus('Posts loaded from blog.json!', 'success');
+      const uploaded = JSON.parse(ev.target.result);
+      for (const post of uploaded) {
+        await saveToGitHub('create', post);
+      }
+      showStatus('Posts uploaded to website!', 'success');
+      await loadPosts();
     } catch(err) {
       showStatus('Invalid JSON file!', 'error');
     }
