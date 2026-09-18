@@ -446,7 +446,7 @@ quill.root.addEventListener('paste', function(e) {
   }
 });
 
-// FIXED VERSION - SHORT SLUG + SAME ID ON EDIT
+// FINAL FIX - WORD BOUNDARY SLUG
 async function publishPost() {
   const title = document.getElementById('title').value.trim();
   const category = document.getElementById('category').value;
@@ -460,12 +460,14 @@ async function publishPost() {
 
   const image = featuredImageBase64 || imageUrl || 'https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=800';
   
-  // FIX: 60 chars max slug
-  let slug = title.toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-|-$/g, '')
-    .substring(0, 60)
-    .replace(/-$/g, '');
+  // PROPER SLUG - WORD BOUNDARY PE CUT HOGA
+  let rawSlug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  let slug = rawSlug;
+  if (rawSlug.length > 60) {
+    let cut = rawSlug.substring(0, 60);
+    let lastHyphen = cut.lastIndexOf('-');
+    slug = lastHyphen > 30 ? cut.substring(0, lastHyphen) : cut;
+  }
 
   const date = new Date().toISOString().split('T')[0];
   const postId = editingId ? editingId : Date.now();
