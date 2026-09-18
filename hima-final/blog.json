@@ -1,5 +1,15 @@
 [
   {
+    "id": 99999,
+    "title": "TEST POST - Delete me",
+    "category": "Tips & Insights",
+    "content": "<p>Test content - this post was created via the API.</p>",
+    "date": "2026-09-18",
+    "excerpt": "This is a test post to verify the blog system works end-to-end.",
+    "image": "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "slug": "test-post-delete-me"
+  },
+  {
     "id": 1,
     "title": "5 Revenue Cycle Management Trends to Watch in 2026",
     "category": "Revenue Cycle Management",
