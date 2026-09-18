@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="500" viewBox="0 0 800 500" fill="none">
+  <!-- ABOUT: Human side / People -->
+  
+  <!-- Large person -->
+  <g fill="rgba(255,255,255,.25)">
+    <circle cx="120" cy="150" r="30"/>
+    <path d="M75 210 Q120 190 165 210 L165 300 Q120 310 75 300Z"/>
+  </g>
+  
+  <!-- Medium person -->
+  <g fill="rgba(255,255,255,.22)">
+    <circle cx="240" cy="160" r="25"/>
+    <path d="M202 215 Q240 200 278 215 L278 295 Q240 303 202 295Z"/>
+  </g>
+  
+  <!-- Small person -->
+  <g fill="rgba(255,255,255,.18)">
+    <circle cx="340" cy="170" r="22"/>
+    <path d="M307 220 Q340 208 373 220 L373 290 Q340 297 307 290Z"/>
+  </g>
+  
+  <!-- Shield with checkmark -->
+  <g transform="translate(550,100)" fill="none" stroke="rgba(255,255,255,.30)" stroke-width="3">
+    <path d="M40 0 L75 16 L75 48 Q75 72 40 85 Q5 72 5 48 L5 16Z"/>
+    <path d="M30 42 L38 50 L55 32" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  
+  <!-- Heartbeat line -->
+  <path d="M0 350 L150 350 L180 300 L200 400 L220 280 L240 380 L260 320 L300 350 L800 350" stroke="rgba(255,255,255,.22)" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  
+  <!-- Handshake -->
+  <g transform="translate(600,280)" fill="none" stroke="rgba(255,255,255,.25)" stroke-width="2.5" stroke-linecap="round">
+    <path d="M0 25 Q30 5 60 25"/>
+    <path d="M40 25 Q70 5 100 25"/>
+    <circle cx="50" cy="18" r="5" fill="rgba(255,255,255,.18)"/>
+  </g>
+  
+  <!-- Connection network -->
+  <g stroke="rgba(255,255,255,.18)" stroke-width="1.5">
+    <line x1="420" y1="80" x2="460" y2="120"/>
+    <line x1="460" y1="120" x2="510" y2="90"/>
+    <line x1="460" y1="120" x2="480" y2="180"/>
+    <line x1="510" y1="90" x2="560" y2="130"/>
+  </g>
+  <circle cx="420" cy="80" r="6" fill="rgba(255,255,255,.22)"/>
+  <circle cx="460" cy="120" r="7" fill="rgba(255,255,255,.28)"/>
+  <circle cx="510" cy="90" r="6" fill="rgba(255,255,255,.22)"/>
+  <circle cx="480" cy="180" r="5" fill="rgba(255,255,255,.18)"/>
+  <circle cx="560" cy="130" r="5" fill="rgba(255,255,255,.20)"/>
+  
+  <!-- Medical cross -->
+  <g transform="translate(700,60)">
+    <rect x="0" y="5" width="12" height="22" rx="3" fill="rgba(255,255,255,.22)"/>
+    <rect x="-5" y="10" width="22" height="12" rx="3" fill="rgba(255,255,255,.22)"/>
+  </g>
+  
+  <!-- Floating dots -->
+  <circle cx="400" cy="400" r="5" fill="rgba(255,255,255,.20)"/>
+  <circle cx="100" cy="420" r="4" fill="rgba(255,255,255,.18)"/>
+  <circle cx="700" cy="380" r="4.5" fill="rgba(255,255,255,.16)"/>
+</svg>

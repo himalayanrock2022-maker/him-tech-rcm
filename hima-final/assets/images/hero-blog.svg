@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="500" viewBox="0 0 800 500" fill="none">
+  <!-- BLOG: Articles & Knowledge -->
+  
+  <!-- Large document -->
+  <rect x="80" y="60" width="120" height="150" rx="8" fill="rgba(255,255,255,.22)"/>
+  <g stroke="rgba(255,255,255,.35)" stroke-width="3" stroke-linecap="round">
+    <line x1="100" y1="95" x2="180" y2="95"/>
+    <line x1="100" y1="115" x2="165" y2="115"/>
+    <line x1="100" y1="135" x2="175" y2="135"/>
+    <line x1="100" y1="155" x2="150" y2="155"/>
+    <line x1="100" y1="175" x2="170" y2="175"/>
+  </g>
+  
+  <!-- Medium document -->
+  <rect x="250" y="90" width="100" height="130" rx="7" fill="rgba(255,255,255,.18)"/>
+  <g stroke="rgba(255,255,255,.30)" stroke-width="2.5" stroke-linecap="round">
+    <line x1="268" y1="120" x2="332" y2="120"/>
+    <line x1="268" y1="138" x2="320" y2="138"/>
+    <line x1="268" y1="156" x2="328" y2="156"/>
+    <line x1="268" y1="174" x2="310" y2="174"/>
+  </g>
+  
+  <!-- Small document -->
+  <rect x="400" y="70" width="80" height="100" rx="6" fill="rgba(255,255,255,.15)"/>
+  <g stroke="rgba(255,255,255,.25)" stroke-width="2" stroke-linecap="round">
+    <line x1="415" y1="95" x2="465" y2="95"/>
+    <line x1="415" y1="110" x2="455" y2="110"/>
+    <line x1="415" y1="125" x2="460" y2="125"/>
+  </g>
+  
+  <!-- Pen -->
+  <g transform="translate(620,80) rotate(-25)" fill="none" stroke="rgba(255,255,255,.28)" stroke-width="2.5">
+    <rect x="0" y="0" width="10" height="50" rx="2"/>
+    <path d="M0 50 L5 62 L10 50"/>
+  </g>
+  
+  <!-- Lightbulb -->
+  <g transform="translate(680,180)" fill="none" stroke="rgba(255,255,255,.30)" stroke-width="2.5">
+    <path d="M22 0 Q0 0 0 22 Q0 38 15 45 L15 55 L30 55 L30 45 Q45 38 45 22 Q45 0 22 0Z"/>
+    <line x1="15" y1="60" x2="30" y2="60"/>
+    <line x1="18" y1="66" x2="27" y2="66"/>
+  </g>
+  
+  <!-- Bookmark -->
+  <path d="M538 50 L562 50 L562 102 L550 92 L538 102Z" fill="rgba(255,255,255,.22)"/>
+  
+  <!-- Chat bubbles -->
+  <rect x="150" y="300" width="80" height="40" rx="14" fill="rgba(255,255,255,.20)"/>
+  <path d="M165 340 L158 352 L178 340" fill="rgba(255,255,255,.20)"/>
+  <rect x="260" y="310" width="65" height="35" rx="12" fill="rgba(255,255,255,.16)"/>
+  <path d="M305 345 L312 356 L298 345" fill="rgba(255,255,255,.16)"/>
+  
+  <!-- Stars -->
+  <g fill="rgba(255,255,255,.22)">
+    <path d="M612 350 L615 358 L624 358 L617 364 L619 372 L612 367 L605 372 L607 364 L600 358 L609 358Z"/>
+    <path d="M635 355 L637 361 L643 361 L638 365 L640 371 L635 367 L630 371 L632 365 L627 361 L633 361Z"/>
+  </g>
+  
+  <!-- Medical cross -->
+  <g transform="translate(50,380)">
+    <rect x="0" y="4" width="10" height="18" rx="2" fill="rgba(255,255,255,.22)"/>
+    <rect x="-4" y="8" width="18" height="10" rx="2" fill="rgba(255,255,255,.22)"/>
+  </g>
+  
+  <!-- Floating dots -->
+  <circle cx="350" cy="380" r="5" fill="rgba(255,255,255,.20)"/>
+  <circle cx="500" cy="400" r="4" fill="rgba(255,255,255,.18)"/>
+  <circle cx="750" cy="100" r="4.5" fill="rgba(255,255,255,.20)"/>
+  <circle cx="30" cy="200" r="3.5" fill="rgba(255,255,255,.18)"/>
+</svg>

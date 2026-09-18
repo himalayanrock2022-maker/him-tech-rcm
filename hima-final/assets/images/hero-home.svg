@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="500" viewBox="0 0 800 500" fill="none">
+  <!-- HOME: Revenue/Growth -->
+  
+  <!-- Rising bar chart -->
+  <rect x="60" y="340" width="24" height="80" rx="5" fill="rgba(255,255,255,.25)"/>
+  <rect x="95" y="300" width="24" height="120" rx="5" fill="rgba(255,255,255,.30)"/>
+  <rect x="130" y="260" width="24" height="160" rx="5" fill="rgba(255,255,255,.22)"/>
+  <rect x="165" y="220" width="24" height="200" rx="5" fill="rgba(255,255,255,.32)"/>
+  <rect x="200" y="180" width="24" height="240" rx="5" fill="rgba(255,255,255,.28)"/>
+  
+  <!-- Growth arrow -->
+  <path d="M60 380 Q200 280 300 200 Q380 140 450 100" stroke="rgba(255,255,255,.30)" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <path d="M440 90 L455 100 L440 112" stroke="rgba(255,255,255,.30)" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  
+  <!-- Dashboard card -->
+  <rect x="520" y="120" width="220" height="160" rx="16" stroke="rgba(255,255,255,.25)" stroke-width="2" fill="rgba(255,255,255,.08)"/>
+  <rect x="540" y="145" width="80" height="40" rx="8" fill="rgba(255,255,255,.12)"/>
+  <rect x="635" y="145" width="80" height="40" rx="8" fill="rgba(255,255,255,.12)"/>
+  <rect x="540" y="200" width="80" height="40" rx="8" fill="rgba(255,255,255,.12)"/>
+  <rect x="635" y="200" width="80" height="40" rx="8" fill="rgba(255,255,255,.12)"/>
+  
+  <!-- Medical cross -->
+  <g transform="translate(380,60)">
+    <rect x="0" y="5" width="14" height="26" rx="3" fill="rgba(255,255,255,.22)"/>
+    <rect x="-6" y="11" width="26" height="14" rx="3" fill="rgba(255,255,255,.22)"/>
+  </g>
+  
+  <!-- Dollar signs -->
+  <text x="500" y="80" font-family="Inter,sans-serif" font-size="36" font-weight="800" fill="rgba(255,255,255,.20)">$</text>
+  <text x="720" y="340" font-family="Inter,sans-serif" font-size="28" font-weight="800" fill="rgba(255,255,255,.18)">$</text>
+  
+  <!-- Gear -->
+  <g transform="translate(680,60)" fill="none" stroke="rgba(255,255,255,.22)" stroke-width="2">
+    <circle cx="18" cy="18" r="8"/>
+    <circle cx="18" cy="18" r="15"/>
+    <line x1="18" y1="0" x2="18" y2="5"/>
+    <line x1="18" y1="31" x2="18" y2="36"/>
+    <line x1="0" y1="18" x2="5" y2="18"/>
+    <line x1="31" y1="18" x2="36" y2="18"/>
+  </g>
+  
+  <!-- Pie chart -->
+  <circle cx="650" cy="350" r="45" stroke="rgba(255,255,255,.18)" stroke-width="6" fill="none"/>
+  <path d="M650 305 A45 45 0 0 1 695 350" stroke="rgba(255,255,255,.28)" stroke-width="6" fill="none"/>
+  
+  <!-- Floating dots -->
+  <circle cx="350" cy="150" r="5" fill="rgba(255,255,255,.22)"/>
+  <circle cx="480" cy="320" r="4" fill="rgba(255,255,255,.18)"/>
+  <circle cx="150" cy="100" r="4" fill="rgba(255,255,255,.20)"/>
+  <circle cx="750" cy="400" r="4.5" fill="rgba(255,255,255,.18)"/>
+  <circle cx="600" cy="50" r="3.5" fill="rgba(255,255,255,.20)"/>
+  
+  <!-- Grid lines -->
+  <line x1="0" y1="150" x2="800" y2="150" stroke="rgba(255,255,255,.06)" stroke-width=".5"/>
+  <line x1="0" y1="300" x2="800" y2="300" stroke="rgba(255,255,255,.06)" stroke-width=".5"/>
+</svg>

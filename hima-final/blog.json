@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "title": "5 Revenue Cycle Management Trends to Watch in 2026",
+    "category": "Revenue Cycle Management",
+    "image": "https://images.pexels.com/photos/3184292/pexels-photo-3184292.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "excerpt": "Stay ahead with the latest RCM trends including AI automation, predictive analytics, and value-based care models.",
+    "content": "<p>The healthcare revenue cycle is evolving rapidly. Here are the top 5 trends shaping 2026:</p><h2>1. AI-Powered Claims Processing</h2><p>Automation is reducing claim denials by up to 40%. Machine learning algorithms now predict denial risks before claims are submitted.</p><h2>2. Predictive Analytics</h2><p>Data-driven decisions are becoming the norm. Practices using predictive analytics see 25% faster reimbursements.</p><h2>3. Value-Based Care Models</h2><p>Fee-for-service is giving way to outcomes-based reimbursement. Providers must adapt their RCM strategies accordingly.</p><h2>4. Patient Financial Experience</h2><p>Transparent pricing and flexible payment options are now expectations, not luxuries.</p><h2>5. Regulatory Compliance Automation</h2><p>Staying compliant without the overhead. Automated tools handle ever-changing regulations.</p>",
+    "date": "2026-09-10",
+    "slug": "5-rcm-trends-2026"
+  },
+  {
+    "id": 2,
+    "title": "ICD-10 Coding Changes: What Providers Need to Know",
+    "category": "Compliance",
+    "image": "https://images.pexels.com/photos/7680686/pexels-photo-7680686.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "excerpt": "Updated ICD-10 codes for 2026 and how they impact your billing accuracy.",
+    "content": "<p>Annual ICD-10 updates bring significant changes. Here's what you need to know to stay compliant and avoid denials.</p><h2>Key Changes for 2026</h2><ul><li>New codes for telehealth services</li><li>Expanded mental health categories</li><li>Updated injury codes</li><li>Revised evaluation and management guidelines</li></ul><p>Make sure your coding team is updated before the October deadline.</p>",
+    "date": "2026-09-05",
+    "slug": "icd-10-coding-changes-2026"
+  },
+  {
+    "id": 3,
+    "title": "CAQH Updates: Every Provider Must Know",
+    "category": "Credentialing",
+    "image": "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "excerpt": "Recent CAQH ProView changes that affect provider enrollment and credentialing timelines.",
+    "content": "<p>CAQH has updated their verification process. Providers must update their profiles to avoid enrollment delays.</p><h2>What's Changed</h2><p>The new CAQH ProView 3.0 requires additional documentation and more frequent re-attestation. Non-compliance can result in enrollment suspensions.</p><h2>Action Items</h2><ul><li>Log in to CAQH ProView and update your profile</li><li>Upload current insurance certificates</li><li>Re-attest to all existing attestations</li></ul>",
+    "date": "2026-08-28",
+    "slug": "caqh-updates-every-provider-must-know-2026"
+  }
+]
