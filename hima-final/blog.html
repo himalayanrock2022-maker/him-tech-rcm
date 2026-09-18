@@ -1,215 +1,100 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Medical Billing & RCM Blog | Hima Tech RCM</title>
-<meta name="description" content="Expert insights on medical billing, RCM, credentialing, denial management, and medical coding for healthcare providers.">
-<link rel="icon" href="/assets/images/favicon.png">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-<link rel="stylesheet" href="/assets/css/site.css?v=200">
-<style>
-.blog-hero{background:linear-gradient(120deg,rgba(6,43,71,.92) 0%,rgba(11,80,120,.88) 52%,rgba(12,136,164,.85) 100%);color:#fff;padding:80px 0;text-align:center;position:relative;overflow:hidden}.blog-hero:before{content:"";position:absolute;inset:0;background:url('https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=1400&h=600&fit=crop') center/cover no-repeat;opacity:.6;pointer-events:none}
-.blog-hero h1{font-size:clamp(32px,4vw,48px);margin:0 0 12px}
-.blog-hero p{font-size:17px;color:#d7edf5;max-width:700px;margin:auto}
-.blog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:40px}
-.blog-card{background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:0 8px 24px rgba(8,45,73,.06);transition:.3s;position:relative}
-.blog-card:hover{transform:translateY(-8px);box-shadow:0 20px 50px rgba(139,26,26,.2)}
-.blog-card::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#842135,#a83045);opacity:0;transition:.3s}
-.blog-card:hover::before{opacity:1}
-.blog-img{width:100%;height:200px;display:flex;align-items:center;justify-content:center;font-size:52px;position:relative;overflow:hidden}
-.blog-img::after{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(139,26,26,.08),rgba(192,57,43,.05))}
-.blog-img i{position:relative;z-index:1;transition:.3s}
-.blog-card:hover .blog-img i{transform:scale(1.15)}
-.blog-body{padding:24px}
-.blog-meta{display:flex;gap:12px;align-items:center;margin-bottom:12px;font-size:13px}
-.blog-date{color:#842135;font-weight:700}
-.blog-cat{color:var(--muted);background:rgba(139,26,26,.06);padding:3px 10px;border-radius:20px;font-size:12px;font-weight:600}
-.blog-card h3{font-size:19px;color:var(--navy);margin:0 0 10px;line-height:1.35}
-.blog-card p{color:var(--muted);font-size:14px;margin:0 0 16px;line-height:1.6}
-.blog-link{color:#842135;font-weight:700;font-size:14px;display:inline-flex;align-items:center;gap:6px;transition:.2s}
-.blog-link:hover{color:#a83045;gap:10px}
-.blog-link i{transition:.2s}
-.blog-card:hover .blog-link i{transform:translateX(3px)}
-/* Icon background colors per card */
-.blog-card:nth-child(1) .blog-img{background:linear-gradient(135deg,rgba(139,26,26,.08),rgba(139,26,26,.15));color:#842135}
-.blog-card:nth-child(2) .blog-img{background:linear-gradient(135deg,#f0f7fb,#e3f0f7);color:#842135}
-.blog-card:nth-child(3) .blog-img{background:linear-gradient(135deg,#f0f7f0,#e3f5e3);color:#a83045}
-/* Premium section heading */
-.blog-section-head{text-align:center;margin-bottom:40px}
-.blog-section-head .kicker{color:#842135}
-.blog-section-head h2{color:var(--navy)}
-/* Featured badge */
-.blog-badge{position:absolute;top:16px;right:16px;background:#842135;color:#fff;font-size:11px;font-weight:700;padding:4px 12px;border-radius:20px;z-index:2;text-transform:uppercase;letter-spacing:.05em}
-.navbar .logo img{width:90px!important;max-width:90px!important;height:auto!important}
-.footer-grid img[src*="logo-trim-light"]{width:90px!important;max-width:90px!important;height:auto!important}
-@media(max-width:991px){.navbar .logo img{width:75px!important;max-width:75px!important}.footer-grid img[src*="logo-trim-light"]{width:70px!important;max-width:70px!important}}
-@media(max-width:900px){.blog-grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:991px){.blog-grid{grid-template-columns:repeat(2,1fr)}.blog-hero{padding:60px 0}.blog-hero h1{font-size:clamp(28px,4vw,38px)}}@media(max-width:600px){.blog-grid{grid-template-columns:1fr}.blog-hero{padding:45px 0}.blog-hero h1{font-size:26px}.blog-hero p{font-size:15px}.blog-img{height:160px}.blog-card h3{font-size:17px}.blog-card p{font-size:13px}.blog-body{padding:18px}.blog-meta{flex-wrap:wrap;gap:8px}}
-</style>
-</head>
-<body style="overflow-x:hidden">
-
-<div class="topbar">
-  <div class="container">
-    <span>Healthcare Revenue Cycle & Credentialing Services</span>
-    <span>
-      <a href="mailto:info@himatechrcm.com">info@himatechrcm.com</a>
-      <a href="tel:+12146138150">+1 (214) 613-8150</a>
-    </span>
-  </div>
-</div>
-
-<header class="navbar">
-  <div class="container nav">
-    <a href="/" class="logo">
-      <img src="/assets/images/logo-trim.png" alt="Hima Tech RCM">
-    </a>
-    <nav class="navlinks">
-      <a href="/">Home</a>
-      <a href="/about">About</a>
-      <div class="dropdown">
-        <button>Services <i class="fa-solid fa-chevron-down"></i></button>
-        <div class="mega">
-          <a href="/services/medical-billing"><i class="fa-solid fa-file-invoice-dollar"></i><span>Medical Billing</span></a>
-          <a href="/services/revenue-cycle-management"><i class="fa-solid fa-chart-line"></i><span>Revenue Cycle Management</span></a>
-          <a href="/services/medical-coding"><i class="fa-solid fa-code"></i><span>Medical Coding</span></a>
-          <a href="/services/provider-credentialing"><i class="fa-solid fa-id-badge"></i><span>Provider Credentialing</span></a>
-          <a href="/services/payer-enrollment"><i class="fa-solid fa-network-wired"></i><span>Payer Enrollment</span></a>
-          <a href="/services/caqh-management"><i class="fa-solid fa-database"></i><span>CAQH Management</span></a>
-          <a href="/services/medicare-pecos"><i class="fa-solid fa-hospital-user"></i><span>Medicare & PECOS Enrollment</span></a>
-          <a href="/services/medicaid-enrollment"><i class="fa-solid fa-file-medical"></i><span>Medicaid Enrollment</span></a>
-          <a href="/services/eligibility-verification"><i class="fa-solid fa-shield-halved"></i><span>Eligibility & Benefits Verification</span></a>
-          <a href="/services/claims-management"><i class="fa-solid fa-file-circle-check"></i><span>Claims Management</span></a>
-          <a href="/services/denial-management"><i class="fa-solid fa-ban"></i><span>Denial Management</span></a>
-          <a href="/services/prior-authorization"><i class="fa-solid fa-clipboard-check"></i><span>Prior Authorization</span></a>
-          <a href="/services/hospital-privileging"><i class="fa-solid fa-building-columns"></i><span>Hospital Privileging</span></a>
-          <a href="/services/credentialing-tracking"><i class="fa-solid fa-calendar-check"></i><span>Credentialing & Expiration Tracking</span></a>
-        </div>
-      </div>
-      <a href="/specialties">Specialties</a>
-      <a href="/blog" style="color:#842135">Blog</a>
-      <a href="/audit">Audit</a><a href="/contact">Contact</a>
-      <a class="navcta" href="/contact">Request a Consultation</a>
-    </nav>
-    <button class="menu" aria-label="Open menu"><i class="fa-solid fa-bars"></i></button>
-  </div>
-  <div class="mobile-menu">
-    <a href="/">Home</a>
-    <a href="/about">About</a>
-    <a href="/specialties">Specialties</a>
-    <a href="/blog">Blog</a>
-    <a href="/audit">Audit</a><a href="/contact">Contact</a>
-    <hr>
-    <strong>Services</strong>
-    <a href="/services/medical-billing"><i class="fa-solid fa-file-invoice-dollar"></i><span>Medical Billing</span></a>
-    <a href="/services/revenue-cycle-management"><i class="fa-solid fa-chart-line"></i><span>Revenue Cycle Management</span></a>
-    <a href="/services/medical-coding"><i class="fa-solid fa-code"></i><span>Medical Coding</span></a>
-    <a href="/services/provider-credentialing"><i class="fa-solid fa-id-badge"></i><span>Provider Credentialing</span></a>
-    <a href="/services/payer-enrollment"><i class="fa-solid fa-network-wired"></i><span>Payer Enrollment</span></a>
-    <a href="/services/caqh-management"><i class="fa-solid fa-database"></i><span>CAQH Management</span></a>
-    <a href="/services/medicare-pecos"><i class="fa-solid fa-hospital-user"></i><span>Medicare & PECOS Enrollment</span></a>
-    <a href="/services/medicaid-enrollment"><i class="fa-solid fa-file-medical"></i><span>Medicaid Enrollment</span></a>
-    <a href="/services/eligibility-verification"><i class="fa-solid fa-shield-halved"></i><span>Eligibility & Benefits Verification</span></a>
-    <a href="/services/claims-management"><i class="fa-solid fa-file-circle-check"></i><span>Claims Management</span></a>
-    <a href="/services/denial-management"><i class="fa-solid fa-ban"></i><span>Denial Management</span></a>
-    <a href="/services/prior-authorization"><i class="fa-solid fa-clipboard-check"></i><span>Prior Authorization</span></a>
-    <a href="/services/hospital-privileging"><i class="fa-solid fa-building-columns"></i><span>Hospital Privileging</span></a>
-    <a href="/services/credentialing-tracking"><i class="fa-solid fa-calendar-check"></i><span>Credentialing & Expiration Tracking</span></a>
-  </div>
-</header>
-
-<section class="blog-hero" style="background:linear-gradient(rgba(26,10,10,.82),rgba(26,10,10,.82)),url('https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=1400&h=600&fit=crop') center/cover no-repeat">
-  <div class="container">
-    <h1>Medical Billing & RCM Blog</h1>
-    <p>Expert insights, practical strategies, and industry updates to help healthcare providers improve billing, coding, credentialing, and revenue cycle performance.</p>
-  </div>
-</section>
-
-<section class="section">
-  <div class="container">
-    <div class="blog-section-head">
-      <div class="kicker"><i class="fa-solid fa-newspaper" style="margin-right:6px"></i>BLOG</div>
-      <h2>Latest Articles</h2>
-      <p class="lead">Practical insights for healthcare providers and medical practices.</p>
-    </div>
-
-    <div class="blog-grid" id="blogGrid">
-      <p style="color:#888;text-align:center;grid-column:1/-1">Loading posts...</p>
-    </div>
-  </div>
-</section>
-
-<footer class="footer">
-  <div class="container footer-grid">
-    <div>
-      <img src="/assets/images/logo-trim-light.png" alt="Hima Tech RCM">
-      <p>Healthcare revenue cycle, credentialing, enrollment and billing support for U.S. providers.</p>
-      <p style="margin-top:12px">
-        <a href="mailto:info@himatechrcm.com" style="display:block;margin:6px 0"><i class="fa-solid fa-envelope" style="margin-right:6px"></i>info@himatechrcm.com</a>
-        <a href="tel:+12146138150" style="display:block;margin:6px 0"><i class="fa-solid fa-phone" style="margin-right:6px"></i>+1 (214) 613-8150</a>
-      </p>
-    </div>
-    <div>
-      <h4>Solutions</h4>
-      <a href="/services/medical-billing">Medical Billing</a>
-      <a href="/services/revenue-cycle-management">Revenue Cycle Management</a>
-      <a href="/services/medical-coding">Medical Coding</a>
-      <a href="/services/provider-credentialing">Provider Credentialing</a>
-      <a href="/services/payer-enrollment">Payer Enrollment</a>
-    </div>
-    <div>
-      <h4>More Services</h4>
-      <a href="/services/caqh-management">CAQH Management</a>
-      <a href="/services/medicare-pecos">Medicare & PECOS Enrollment</a>
-      <a href="/services/medicaid-enrollment">Medicaid Enrollment</a>
-      <a href="/services/eligibility-verification">Eligibility & Benefits Verification</a>
-      <a href="/services/claims-management">Claims Management</a>
-    </div>
-    <div>
-      <h4>Company</h4>
-      <a href="/about">About Us</a>
-      <a href="/specialties">Specialties</a>
-      <a href="/audit">Audit</a><a href="/contact">Contact</a>
-      <a href="/contact">Free Consultation</a>
-      </div>
-  </div>
-  <div style="border-top:1px solid rgba(255,255,255,.12);margin-top:35px;padding:20px 0;font-size:13px">
-    <div class="container" style="display:flex!important;align-items:center!important;justify-content:space-between!important;flex-wrap:wrap!important;gap:12px!important">
-      <p style="margin:0;white-space:nowrap">&copy; 2026 Hima Tech RCM. All rights reserved.</p>
-      <div style="display:inline-flex;align-items:center;gap:8px;white-space:nowrap">
-        <a href="/privacy" style="display:inline!important;color:#cbd5e0;text-decoration:none;font-size:13px;margin:0!important">Privacy</a>
-        <span style="color:#4a5568">&middot;</span>
-        <a href="/terms" style="display:inline!important;color:#cbd5e0;text-decoration:none;font-size:13px;margin:0!important">Terms</a>
-        <span style="color:#4a5568">&middot;</span>
-        <a href="/hipaa" style="display:inline!important;color:#cbd5e0;text-decoration:none;font-size:13px;margin:0!important">HIPAA</a>
-      </div>
-    </div>
-  </div>
-</footer>
-
-<script src="/assets/js/site.js"></script>
-<script>
-fetch('/blog.json').then(r=>r.json()).then(posts=>{
-  const grid=document.getElementById('blogGrid');
-  grid.innerHTML=posts.map((p,i)=>`
-    <article class="blog-card">
-      ${i===0?'<span class="blog-badge">Featured</span>':''}
-      <div class="blog-img" style="background:url('${p.image}') center/cover no-repeat"><div style="position:absolute;inset:0;background:rgba(139,26,26,.15)"></div></div>
-      <div class="blog-body">
-        <div class="blog-meta">
-          <span class="blog-date"><i class="fa-solid fa-calendar-days" style="margin-right:4px"></i> ${new Date(p.date).toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'})}</span>
-          <span class="blog-cat">${p.category}</span>
-        </div>
-        <h3>${p.title}</h3>
-        <p>${p.excerpt}</p>
-        <a href="/blog/${p.slug}" class="blog-link">Read Article <i class="fa-solid fa-arrow-right"></i></a>
-      </div>
-    </article>
-  `).join('');
-}).catch(()=>{
-  document.getElementById('blogGrid').innerHTML='<p style="color:#888;text-align:center;grid-column:1/-1">No posts available yet.</p>';
-});
-</script>
-</body>
-</html>
+{
+  "rewrites": [
+    {
+      "source": "/about",
+      "destination": "/about.html"
+    },
+    {
+      "source": "/services/medical-billing",
+      "destination": "/services/medical-billing.html"
+    },
+    {
+      "source": "/services/revenue-cycle-management",
+      "destination": "/services/revenue-cycle-management.html"
+    },
+    {
+      "source": "/services/medical-coding",
+      "destination": "/services/medical-coding.html"
+    },
+    {
+      "source": "/services/provider-credentialing",
+      "destination": "/services/provider-credentialing.html"
+    },
+    {
+      "source": "/services/payer-enrollment",
+      "destination": "/services/payer-enrollment.html"
+    },
+    {
+      "source": "/services/caqh-management",
+      "destination": "/services/caqh-management.html"
+    },
+    {
+      "source": "/services/medicare-pecos",
+      "destination": "/services/medicare-pecos.html"
+    },
+    {
+      "source": "/services/medicaid-enrollment",
+      "destination": "/services/medicaid-enrollment.html"
+    },
+    {
+      "source": "/services/eligibility-verification",
+      "destination": "/services/eligibility-verification.html"
+    },
+    {
+      "source": "/services/claims-management",
+      "destination": "/services/claims-management.html"
+    },
+    {
+      "source": "/services/denial-management",
+      "destination": "/services/denial-management.html"
+    },
+    {
+      "source": "/services/prior-authorization",
+      "destination": "/services/prior-authorization.html"
+    },
+    {
+      "source": "/services/hospital-privileging",
+      "destination": "/services/hospital-privileging.html"
+    },
+    {
+      "source": "/services/credentialing-tracking",
+      "destination": "/services/credentialing-tracking.html"
+    },
+    {
+      "source": "/specialties",
+      "destination": "/specialties.html"
+    },
+    {
+      "source": "/blog/:slug",
+      "destination": "/blog.html"
+    },
+    {
+      "source": "/blog",
+      "destination": "/blog.html"
+    },
+    {
+      "source": "/audit",
+      "destination": "/audit.html"
+    },
+    {
+      "source": "/contact",
+      "destination": "/contact.html"
+    },
+    {
+      "source": "/privacy",
+      "destination": "/privacy.html"
+    },
+    {
+      "source": "/terms",
+      "destination": "/terms.html"
+    },
+    {
+      "source": "/hipaa",
+      "destination": "/hipaa.html"
+    },
+    {
+      "source": "/admin",
+      "destination": "/admin.html"
+    }
+  ]
+}
