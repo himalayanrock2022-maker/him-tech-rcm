@@ -571,3 +571,41 @@ a[href="#medicaid"] {
   top: 100%;
   height: 12px;
 }
+/* ✅ DARK BUTTONS - permanent dark */
+.tools-mega a.bill-defender { 
+  background: #842135 !important; 
+  color: white !important; 
+  border-color: #842135 !important; 
+}
+.tools-mega a.rcm-portal { 
+  background: #0e3a8a !important; 
+  color: white !important; 
+  border-color: #0e3a8a !important; 
+}
+.bill-defender .tool-icon { background: white !important; color: #842135 !important; }
+.rcm-portal .tool-icon { background: white !important; color: #0e3a8a !important; }
+.badge-new { background: white !important; }
+.bill-defender .badge-new { color: #842135 !important; }
+.rcm-portal .badge-new { color: #0e3a8a !important; }
+/* ✅ SOLID WHITE - no transparency */
+.navbar .dropdown .mega {
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  opacity: 1 !important;
+  backdrop-filter: none !important;
+  border: 1px solid #e2e8f0 !important;
+  box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25) !important;
+}
+.navbar .dropdown .mega a {
+  background: #ffffff !important;
+  color: #1e293b !important;
+  font-weight: 600 !important;
+  font-size: 14px !important;
+}
+.navbar .dropdown .mega a i {
+  color: #0e3a8a !important;
+}
+.navbar .dropdown .mega a:hover {
+  background: #f1f5f9 !important;
+  color: #0e3a8a !important;
+}
