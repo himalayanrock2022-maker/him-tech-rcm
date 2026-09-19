@@ -609,3 +609,82 @@ a[href="#medicaid"] {
   background: #f1f5f9 !important;
   color: #0e3a8a !important;
 }
+/* ===== Hima Tech RCM - FINAL NAVBAR - CLEAN, NO CONFUSION =====
+   Is file ko assets/css/site.css ke END me paste karo, purana navbar wala CSS delete kar do
+*/
+
+.navbar .logo img { width: 90px !important; max-width: 90px !important; }
+.footer .footer-grid > div:first-child > img { width: 180px !important; max-width: 180px !important; }
+.hero{overflow:visible!important}
+@media(max-width:991px){ .navbar .logo img{width:75px!important} }
+
+/* SERVICES DROPDOWN - SOLID WHITE, READABLE */
+.navbar .dropdown { position: relative; }
+.navbar .dropdown .mega {
+  position: absolute;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  top: 100% !important;
+  min-width: 700px;
+  max-width: 85vw;
+  margin-top: 10px;
+  background: #ffffff !important;
+  opacity: 1 !important;
+  backdrop-filter: none !important;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 16px;
+  box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25), 0 0 0 1px rgba(0,0,0,0.05) !important;
+  padding: 16px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 4px;
+  z-index: 9999;
+  display: none;
+}
+.navbar .dropdown:hover .mega { display: grid !important; }
+.navbar .dropdown .mega a {
+  background: #ffffff !important;
+  color: #1e293b !important;
+  padding: 12px 14px !important;
+  border-radius: 10px;
+  font-weight: 600 !important;
+  font-size: 14px !important;
+  border: 1px solid transparent;
+  display: flex !important;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none !important;
+}
+.navbar .dropdown .mega a i { color: #0e3a8a !important; font-size: 14px; width: 20px; text-align: center; }
+.navbar .dropdown .mega a:hover { background: #f1f5f9 !important; color: #0e3a8a !important; border-color: #e2e8f0 !important; transform: translateX(2px); }
+.navbar .dropdown .mega a:hover i { color: #842135 !important; }
+.navbar .dropdown::before { content: ''; position: absolute; left: 0; right: 0; top: 100%; height: 12px; }
+
+/* FREE TOOLS - DARK BUTTONS, SOLID WHITE CONTAINER */
+.free-tools-dropdown { position: relative; }
+.free-tools-dropdown .mega.tools-mega {
+  min-width: 360px !important;
+  grid-template-columns: 1fr !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  padding: 12px !important;
+  background: #ffffff !important;
+  opacity: 1 !important;
+}
+.tools-mega a { display: flex !important; align-items: center; gap: 12px; padding: 14px 16px !important; border-radius: 12px; text-decoration: none; border: 1px solid transparent; transition: all 0.2s; }
+.tools-mega a:hover { transform: translateY(-1px); filter: brightness(1.1); }
+.tools-mega a.bill-defender { background: #842135 !important; color: white !important; border-color: #842135 !important; }
+.tools-mega a.bill-defender small { color: rgba(255,255,255,0.85) !important; }
+.tools-mega a.rcm-portal { background: #0e3a8a !important; color: white !important; border-color: #0e3a8a !important; }
+.tools-mega a.rcm-portal small { color: rgba(255,255,255,0.85) !important; }
+.tools-mega a .tool-icon { width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+.bill-defender .tool-icon { background: white !important; color: #842135 !important; }
+.rcm-portal .tool-icon { background: white !important; color: #0e3a8a !important; }
+.badge-new { font-size: 9px; font-weight: 800; padding: 3px 7px; border-radius: 20px; background: white; color: #842135; margin-left: auto; letter-spacing: 0.5px; }
+.rcm-portal .badge-new { background: white; color: #0e3a8a; }
+.bill-defender .badge-new { background: white; color: #842135; }
+.free-tools-btn { display: inline-flex; align-items: center; gap: 6px; background: linear-gradient(135deg, #842135, #0e3a8a); color: white !important; padding: 8px 16px !important; border-radius: 20px; font-weight: 700; font-size: 13px; }
+.free-tools-btn .badge-new { background: white; color: #842135; }
+@media(max-width:1200px){
+  .navbar .dropdown .mega { left: 0 !important; transform: none !important; min-width: 600px; }
+  .free-tools-dropdown .mega.tools-mega { left: 0 !important; transform: none !important; }
+}
