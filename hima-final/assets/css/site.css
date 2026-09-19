@@ -715,3 +715,10 @@ a[href="#medicaid"] {
   .navbar .dropdown .mega { left: 0 !important; transform: none !important; min-width: 600px; }
   .free-tools-dropdown .mega.tools-mega { left: 0 !important; transform: none !important; }
 }
+.navbar .navlinks .free-tools-btn,
+.navbar .free-tools-btn,
+button.free-tools-btn { 
+  background: white !important;
+  color: #842135 !important;
+  border: 1.5px solid #842135 !important;
+}
