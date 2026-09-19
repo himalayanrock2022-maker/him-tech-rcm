@@ -527,3 +527,17 @@ a[href="#medicaid"] {
   border: 1px solid #a7f3d0 !important;
   color: #065f46 !important;
 }
+/* ✅ NO STUCK FIX */
+.navbar .dropdown .mega {
+  display: grid !important;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.2s ease;
+}
+.navbar .dropdown:hover .mega,
+.navbar .dropdown:focus-within .mega {
+  pointer-events: auto;
+  opacity: 1;
+  visibility: visible;
+}
