@@ -507,125 +507,23 @@
   .navbar .logo img { width: 70px !important; }
   .footer .footer-grid > div:first-child > img { width: 120px !important; }
 }
-/* ============================================
-   HimaTech RCM - Resources Menu Stuck Fix
-   Add this to: hima-final/assets/css/site.css
-   100% CSS only - No JS needed
-   ============================================ */
-
-/* 1. Base - Dropdown hidden by default */
-.resources-dropdown .resources-menu,
-.nav-item.dropdown .dropdown-menu,
-li.has-dropdown .sub-menu,
-.resources-wrapper .resources-list {
-  opacity: 0 !important;
-  visibility: hidden !important;
-  transform: translateY(-10px) !important;
-  pointer-events: none !important;
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
-}
-
-/* 2. Show on hover - Desktop */
-.resources-dropdown:hover .resources-menu,
-.nav-item.dropdown:hover .dropdown-menu,
-li.has-dropdown:hover .sub-menu,
-.resources-wrapper:hover .resources-list,
-.group:hover .resources-menu {
-  opacity: 1 !important;
-  visibility: visible !important;
-  transform: translateY(0) !important;
-  pointer-events: auto !important;
-}
-
-/* 3. Show on focus-within - Keyboard navigation + Click fix */
-.resources-dropdown:focus-within .resources-menu,
-.nav-item.dropdown:focus-within .dropdown-menu,
-li.has-dropdown:focus-within .sub-menu {
-  opacity: 1 !important;
-  visibility: visible !important;
-  transform: translateY(0) !important;
-  pointer-events: auto !important;
-}
-
-/* 4. FIX: When mouse leaves the whole area, force hide */
-.resources-dropdown:not(:hover):not(:focus-within) .resources-menu,
-.nav-item.dropdown:not(:hover):not(:focus-within) .dropdown-menu {
-  opacity: 0 !important;
-  visibility: hidden !important;
-  transform: translateY(-10px) !important;
-  pointer-events: none !important;
-  transition-delay: 0.1s !important;
-}
-
-/* 5. Prevent stuck on scroll */
-body.menu-open .resources-menu,
-html.no-scroll .resources-menu {
-  opacity: 0 !important;
-  visibility: hidden !important;
-}
-
-/* 6. Z-index fix - Ensure it doesn't get stuck behind */
+/* Resources ko hamesha ke liye band */
+.resources-dropdown,
 .resources-menu,
-.dropdown-menu,
-.sub-menu {
-  z-index: 9999 !important;
-  position: absolute !important;
-  will-change: opacity, transform !important;
+.dropdown-menu:has(#resources),
+li:has(> a:contains("Resources")) {
+  display: none !important;
 }
 
-/* 7. Mobile - Click to toggle (using :target or checkbox hack if you have) */
-@media (max-width: 768px) {
-  .resources-dropdown .resources-menu,
-  .nav-item.dropdown .dropdown-menu {
-    position: static !important;
-    transform: none !important;
-    display: none !important;
-    opacity: 1 !important;
-    visibility: visible !important;
-  }
-  
-  .resources-dropdown.active .resources-menu,
-  .nav-item.dropdown.active .dropdown-menu,
-  .resources-dropdown:focus-within .resources-menu {
-    display: block !important;
-  }
+/* Naye buttons ka style */
+a[href="#hospital-privileging"] {
+  background: #eff6ff !important;
+  border: 1px solid #bfdbfe !important;
+  color: #0e3a8a !important;
 }
 
-/* 8. Extra: Smooth close - No sudden stuck */
-.resources-menu a,
-.dropdown-menu a {
-  pointer-events: auto !important;
-}
-
-/* 9. If you use Tailwind group-hover pattern */
-.group .group-hover\:visible {
-  pointer-events: none;
-}
-.group:hover .group-hover\:visible {
-  pointer-events: auto !important;
-}
-.group:not(:hover) .group-hover\:visible {
-  transition-delay: 150ms !important;
-}
-
-/* ============================================
-   Apply to HimaTech specific classes
-   ============================================ */
-#resources-menu,
-[data-menu="resources"],
-.resources-dropdown-menu {
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(-8px);
-  pointer-events: none;
-  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
-}
-
-#resources-menu.show,
-.resources-dropdown:hover #resources-menu,
-li:hover > #resources-menu {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
-  pointer-events: auto;
+a[href="#medicaid"] {
+  background: #ecfdf5 !important;
+  border: 1px solid #a7f3d0 !important;
+  color: #065f46 !important;
 }
