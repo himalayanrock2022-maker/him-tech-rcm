@@ -4,15 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>HimaTech RCM - Provider Portal (Sequenced Workflow)</title>
-
-  <!-- Favicon - HimaTech Logo for URL bar -->
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%230e3a8a'/><text x='50%' y='55%' dominant-baseline='middle' text-anchor='middle' font-family='Inter,sans-serif' font-weight='700' font-size='60' fill='white'>H</text></svg>">
-  <link rel="icon" type="image/png" sizes="32x32" href="https://info.himatechrcm.com/wp-content/uploads/2023/06/cropped-HimaTech-Favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="192x192" href="https://info.himatechrcm.com/wp-content/uploads/2023/06/cropped-HimaTech-Favicon-192x192.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="https://info.himatechrcm.com/wp-content/uploads/2023/06/cropped-HimaTech-Favicon-180x180.png">
-  <meta name="theme-color" content="#0e3a8a">
-  <meta property="og:image" content="https://info.himatechrcm.com/wp-content/uploads/2023/06/HimaTech-RCM-Logo.png">
   
+    <!-- Favicon - Both Logos -->
+  <link rel="icon" type="image/png" href="hima-final/assets/images/logo-trim.png">
+  <link rel="icon" type="image/png" href="./logo-trim.png">
+  <link rel="apple-touch-icon" href="hima-final/assets/images/logo-trim-light.png">
+  <meta name="theme-color" content="#0e3a8a">
   
   <!-- Tailwind -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -33,24 +30,58 @@
 </head>
 <body class="min-h-screen bg-[#f6f8fb] text-slate-900 antialiased">
 
-  <!-- Header -->
+    <!-- Header - NO Resources Dropdown, Separate Buttons -->
   <header class="sticky top-0 z-40 bg-white border-b border-slate-200">
     <div class="max-w-[1440px] mx-auto px-6 h-[64px] flex items-center justify-between">
-      <div class="flex items-center gap-3">
-        <div class="w-9 h-9 rounded-lg bg-[#0e3a8a] flex items-center justify-center text-white font-bold">H</div>
-        <div>
-          <div class="font-semibold text-[14px]">HimaTech <span class="text-[#0e3a8a]">RCM</span> - Provider Portal</div>
-          <div class="text-[11px] tracking-widest uppercase text-slate-500">Sequenced Workflow • Cario Style</div>
+      <div class="flex items-center gap-8">
+        <div class="flex items-center gap-3">
+          <img src="hima-final/assets/images/logo-trim.png" alt="HimaTech RCM" class="w-10 h-10 object-contain rounded-lg bg-white border border-slate-200 p-1" onerror="this.src='./logo-trim.png'; this.onerror=function(){this.style.display='none'; this.nextElementSibling.style.display='flex'}">
+          <div style="display:none" class="w-10 h-10 rounded-lg bg-[#0e3a8a] text-white font-bold items-center justify-center">H</div>
+          <div>
+            <div class="font-semibold text-[14px]">HimaTech <span class="text-[#0e3a8a]">RCM</span></div>
+            <div class="text-[11px] tracking-widest uppercase text-slate-500">Provider Portal</div>
+          </div>
         </div>
+        
+        <!-- NAVBAR - Resources removed, separate buttons -->
+        <nav class="hidden lg:flex items-center gap-1">
+          <a href="#dashboard" onclick="goStep(1)" class="px-3 py-2 rounded-lg text-[13px] font-medium hover:bg-slate-100 text-slate-700">Home</a>
+          <a href="#services" class="px-3 py-2 rounded-lg text-[13px] font-medium hover:bg-slate-100 text-slate-700">Services</a>
+          
+          <!-- Previously inside Resources - now separate buttons -->
+          <a href="#hospital-privileging" onclick="goStep(2)" class="px-3 py-2 rounded-lg text-[13px] font-medium bg-blue-50 text-[#0e3a8a] border border-blue-200 hover:bg-blue-100 flex items-center gap-1.5">
+            <i data-lucide="building-2" class="w-3.5 h-3.5"></i> Hospital Privileging
+          </a>
+          <a href="#medicaid" onclick="goStep(2)" class="px-3 py-2 rounded-lg text-[13px] font-medium bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100 flex items-center gap-1.5">
+            <i data-lucide="shield-check" class="w-3.5 h-3.5"></i> Medicaid Enrollment
+          </a>
+          
+          <a href="#about" class="px-3 py-2 rounded-lg text-[13px] font-medium hover:bg-slate-100 text-slate-700">About</a>
+          <a href="mailto:info@himatechrcm.com" class="px-3 py-2 rounded-lg text-[13px] font-medium hover:bg-slate-100 text-slate-700">Contact</a>
+        </nav>
       </div>
+      
       <div class="flex items-center gap-3">
-        <span class="hidden md:flex items-center gap-2 text-[12px] bg-slate-50 border rounded-full px-3 py-1.5">
-          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Live Provider Mode
-        </span>
+        <a href="mailto:info@himatechrcm.com" class="hidden md:flex items-center gap-2 text-[12px] bg-[#0e3a8a] text-white rounded-full px-4 py-2 hover:bg-[#0a2e6e]">
+          <i data-lucide="mail" class="w-3.5 h-3.5"></i> info@himatechrcm.com
+        </a>
         <div class="w-8 h-8 rounded-full bg-[#0e3a8a] text-white flex items-center justify-center text-sm font-semibold">DR</div>
+        <!-- Mobile menu button -->
+        <button id="mobile-menu-btn" class="lg:hidden p-2 border rounded-lg">
+          <i data-lucide="menu" class="w-4 h-4"></i>
+        </button>
       </div>
     </div>
+    
+    <!-- Mobile Nav - No Resources dropdown -->
+    <div id="mobile-menu" class="hidden lg:hidden border-t bg-white px-6 py-3 space-y-1">
+      <a href="#dashboard" onclick="goStep(1)" class="block px-3 py-2 rounded-lg text-[13px] bg-slate-50">Home / Dashboard</a>
+      <a href="#hospital-privileging" onclick="goStep(2)" class="block px-3 py-2 rounded-lg text-[13px] bg-blue-50 text-[#0e3a8a] border border-blue-200">🏥 Hospital Privileging</a>
+      <a href="#medicaid" onclick="goStep(2)" class="block px-3 py-2 rounded-lg text-[13px] bg-emerald-50 text-emerald-700 border border-emerald-200">🛡️ Medicaid Enrollment</a>
+      <a href="mailto:info@himatechrcm.com" class="block px-3 py-2 rounded-lg text-[13px]">Contact: info@himatechrcm.com</a>
+    </div>
   </header>
+
 
   <!-- Sequence Stepper - Cario Style -->
   <div class="bg-white border-b border-slate-200 sticky top-[64px] z-30">
@@ -426,6 +457,15 @@
 
     function sendTrack(d){
       fetch(WEBHOOK, {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(d), mode:'no-cors'}).catch(()=>{});
+    }
+
+    // Mobile menu toggle
+    const mobileBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    if(mobileBtn && mobileMenu){
+      mobileBtn.addEventListener('click', ()=>{
+        mobileMenu.classList.toggle('hidden');
+      });
     }
 
     document.addEventListener('DOMContentLoaded', ()=>{
