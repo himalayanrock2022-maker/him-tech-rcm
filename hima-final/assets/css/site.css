@@ -682,8 +682,20 @@ a[href="#medicaid"] {
 .badge-new { font-size: 9px; font-weight: 800; padding: 3px 7px; border-radius: 20px; background: white; color: #842135; margin-left: auto; letter-spacing: 0.5px; }
 .rcm-portal .badge-new { background: white; color: #0e3a8a; }
 .bill-defender .badge-new { background: white; color: #842135; }
-.free-tools-btn { display: inline-flex; align-items: center; gap: 6px; background: linear-gradient(135deg, #842135, #0e3a8a); color: white !important; padding: 8px 16px !important; border-radius: 20px; font-weight: 700; font-size: 13px; }
-.free-tools-btn .badge-new { background: white; color: #842135; }
+.free-tools-btn { 
+  display: inline-flex; align-items: center; gap: 6px; 
+  background: white !important;
+  color: #842135 !important;
+  border: 1.5px solid #842135 !important;
+  padding: 8px 16px !important; 
+  border-radius: 20px; 
+  font-weight: 800; 
+  font-size: 13px; 
+}
+.free-tools-btn .badge-new { 
+  background: #842135 !important;
+  color: white !important; 
+}
 @media(max-width:1200px){
   .navbar .dropdown .mega { left: 0 !important; transform: none !important; min-width: 600px; }
   .free-tools-dropdown .mega.tools-mega { left: 0 !important; transform: none !important; }
