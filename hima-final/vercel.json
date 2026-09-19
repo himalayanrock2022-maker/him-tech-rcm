@@ -1,5 +1,7 @@
 {
   "rewrites": [
+    { "source": "/tools/patient-bill-defender", "destination": "/tools/patient-bill-defender.html" },
+{ "source": "/tools/doctor-rcm-portal", "destination": "/tools/doctor-rcm-portal.html" },
     {
       "source": "/sitemap.xml",
       "destination": "/api/sitemap.js"
