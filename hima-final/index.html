@@ -157,5 +157,33 @@
   <div style="border-top:1px solid rgba(255,255,255,.12);margin-top:35px;padding:20px 0;font-size:13px"><div class="container" style="display:flex!important;align-items:center!important;justify-content:space-between!important;flex-wrap:wrap!important;gap:12px!important"><p style="margin:0;white-space:nowrap">&copy; 2026 Hima Tech RCM. All rights reserved.</p><div style="display:inline-flex;align-items:center;gap:8px;white-space:nowrap"><a href="/privacy" style="display:inline!important;color:#cbd5e0;text-decoration:none;font-size:13px;margin:0!important">Privacy</a><span style="color:#4a5568">&middot;</span><a href="/terms" style="display:inline!important;color:#cbd5e0;text-decoration:none;font-size:13px;margin:0!important">Terms</a><span style="color:#4a5568">&middot;</span><a href="/hipaa" style="display:inline!important;color:#cbd5e0;text-decoration:none;font-size:13px;margin:0!important">HIPAA</a></div></div></div>
 </footer>
 <script src="/assets/js/site.js"></script>
+  <script>
+document.addEventListener('DOMContentLoaded', function() {
+  const dropdowns = document.querySelectorAll('.navbar .dropdown');
+  dropdowns.forEach(drop => {
+    const btn = drop.querySelector('button');
+    btn.addEventListener('click', function(e) {
+      e.preventDefault();
+      if(drop.classList.contains('open')) {
+        drop.classList.remove('open');
+        btn.blur();
+      } else {
+        dropdowns.forEach(d => d.classList.remove('open'));
+        drop.classList.add('open');
+        setTimeout(() => btn.blur(), 150);
+      }
+    });
+    drop.addEventListener('mouseleave', () => {
+      drop.classList.remove('open');
+      btn.blur();
+    });
+  });
+  document.addEventListener('click', (e) => {
+    if(!e.target.closest('.navbar .dropdown')) {
+      dropdowns.forEach(d => d.classList.remove('open'));
+    }
+  });
+});
+</script>
 </body>
 </html>
