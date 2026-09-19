@@ -17,11 +17,13 @@
   .navbar .logo img { width: 75px !important; max-width: 75px !important; }
   .footer .footer-grid > div:first-child > img { width: 140px !important; max-width: 140px !important; }
 }
+.resources-mega { min-width:320px !important; grid-template-columns:1fr !important; padding:12px !important; }
+.resources-mega a { display:flex !important; align-items:center; gap:10px; padding:12px 14px !important; border-radius:10px; }
+.resources-mega a:hover { background:#f1f5f9; }
+.resources-badge { font-size:10px; background:#842135; color:white; padding:2px 6px; border-radius:20px; margin-left:auto; }
 </style>
 </head>
-
 <body style="overflow-x:hidden">
-
 <div class="topbar">
   <div class="container">
     <span>Healthcare Revenue Cycle & Credentialing Services</span>
@@ -31,714 +33,112 @@
     </span>
   </div>
 </div>
-
 <header class="navbar">
   <div class="container nav">
     <a href="/" class="logo">
       <img src="/assets/images/logo-trim.png" alt="Hima Tech RCM">
     </a>
-
     <nav class="navlinks">
       <a href="/">Home</a>
       <a href="/about">About</a>
-
       <div class="dropdown">
         <button>Services <i class="fa-solid fa-chevron-down"></i></button>
-
         <div class="mega">
-          <a href="/services/medical-billing">
-            <i class="fa-solid fa-file-invoice-dollar"></i>
-            <span>Medical Billing</span>
-          </a>
-
-          <a href="/services/revenue-cycle-management">
-            <i class="fa-solid fa-chart-line"></i>
-            <span>Revenue Cycle Management</span>
-          </a>
-
-          <a href="/services/medical-coding">
-            <i class="fa-solid fa-code"></i>
-            <span>Medical Coding</span>
-          </a>
-
-          <a href="/services/provider-credentialing">
-            <i class="fa-solid fa-id-badge"></i>
-            <span>Provider Credentialing</span>
-          </a>
-
-          <a href="/services/payer-enrollment">
-            <i class="fa-solid fa-network-wired"></i>
-            <span>Payer Enrollment</span>
-          </a>
-
-          <a href="/services/caqh-management">
-            <i class="fa-solid fa-database"></i>
-            <span>CAQH Management</span>
-          </a>
-
-          <a href="/services/medicare-pecos">
-            <i class="fa-solid fa-hospital-user"></i>
-            <span>Medicare & PECOS Enrollment</span>
-          </a>
-
-          <a href="/services/medicaid-enrollment">
-            <i class="fa-solid fa-file-medical"></i>
-            <span>Medicaid Enrollment</span>
-          </a>
-
-          <a href="/services/eligibility-verification">
-            <i class="fa-solid fa-shield-halved"></i>
-            <span>Eligibility & Benefits Verification</span>
-          </a>
-
-          <a href="/services/claims-management">
-            <i class="fa-solid fa-file-circle-check"></i>
-            <span>Claims Management</span>
-          </a>
-
-          <a href="/services/denial-management">
-            <i class="fa-solid fa-ban"></i>
-            <span>Denial Management</span>
-          </a>
-
-          <a href="/services/prior-authorization">
-            <i class="fa-solid fa-clipboard-check"></i>
-            <span>Prior Authorization</span>
-          </a>
-
-          <a href="/services/hospital-privileging">
-            <i class="fa-solid fa-building-columns"></i>
-            <span>Hospital Privileging</span>
-          </a>
-
-          <a href="/services/credentialing-tracking">
-            <i class="fa-solid fa-calendar-check"></i>
-            <span>Credentialing & Expiration Tracking</span>
-          </a>
+          <a href="/services/medical-billing"><i class="fa-solid fa-file-invoice-dollar"></i><span>Medical Billing</span></a>
+          <a href="/services/revenue-cycle-management"><i class="fa-solid fa-chart-line"></i><span>Revenue Cycle Management</span></a>
+          <a href="/services/medical-coding"><i class="fa-solid fa-code"></i><span>Medical Coding</span></a>
+          <a href="/services/provider-credentialing"><i class="fa-solid fa-id-badge"></i><span>Provider Credentialing</span></a>
+          <a href="/services/payer-enrollment"><i class="fa-solid fa-network-wired"></i><span>Payer Enrollment</span></a>
+          <a href="/services/caqh-management"><i class="fa-solid fa-database"></i><span>CAQH Management</span></a>
+          <a href="/services/medicare-pecos"><i class="fa-solid fa-hospital-user"></i><span>Medicare & PECOS Enrollment</span></a>
+          <a href="/services/medicaid-enrollment"><i class="fa-solid fa-file-medical"></i><span>Medicaid Enrollment</span></a>
+          <a href="/services/eligibility-verification"><i class="fa-solid fa-shield-halved"></i><span>Eligibility & Benefits Verification</span></a>
+          <a href="/services/claims-management"><i class="fa-solid fa-file-circle-check"></i><span>Claims Management</span></a>
+          <a href="/services/denial-management"><i class="fa-solid fa-ban"></i><span>Denial Management</span></a>
+          <a href="/services/prior-authorization"><i class="fa-solid fa-clipboard-check"></i><span>Prior Authorization</span></a>
+          <a href="/services/hospital-privileging"><i class="fa-solid fa-building-columns"></i><span>Hospital Privileging</span></a>
+          <a href="/services/credentialing-tracking"><i class="fa-solid fa-calendar-check"></i><span>Credentialing & Expiration Tracking</span></a>
         </div>
       </div>
-
       <a href="/specialties">Specialties</a>
       <a href="/blog">Blog</a>
+      <div class="dropdown">
+        <button>Resources <i class="fa-solid fa-chevron-down"></i></button>
+        <div class="mega resources-mega">
+          <a href="/blog"><i class="fa-solid fa-newspaper"></i><span>Blog & Insights</span></a>
+          <a href="/tools/patient-bill-defender"><i class="fa-solid fa-shield-heart" style="color:#842135"></i><span>Patient Bill Defender</span><span class="resources-badge">NEW</span></a>
+          <a href="/tools/doctor-rcm-portal"><i class="fa-solid fa-user-doctor" style="color:#0e3a8a"></i><span>Doctor RCM Portal</span><span class="resources-badge">NEW</span></a>
+        </div>
+      </div>
       <a href="/audit">Audit</a>
       <a href="/contact">Contact</a>
       <a class="navcta" href="/contact">Request a Consultation</a>
     </nav>
-
-    <button class="menu" aria-label="Open menu">
-      <i class="fa-solid fa-bars"></i>
-    </button>
+    <button class="menu" aria-label="Open menu"><i class="fa-solid fa-bars"></i></button>
   </div>
-
   <div class="mobile-menu">
     <a href="/">Home</a>
     <a href="/about">About</a>
     <a href="/specialties">Specialties</a>
     <a href="/blog">Blog</a>
-    <a href="/contact">Contact</a>
-
     <hr>
-
     <strong>Services</strong>
-
-    <a href="/services/medical-billing">
-      <i class="fa-solid fa-file-invoice-dollar"></i>
-      <span>Medical Billing</span>
-    </a>
-
-    <a href="/services/revenue-cycle-management">
-      <i class="fa-solid fa-chart-line"></i>
-      <span>Revenue Cycle Management</span>
-    </a>
-
-    <a href="/services/medical-coding">
-      <i class="fa-solid fa-code"></i>
-      <span>Medical Coding</span>
-    </a>
-
-    <a href="/services/provider-credentialing">
-      <i class="fa-solid fa-id-badge"></i>
-      <span>Provider Credentialing</span>
-    </a>
-
-    <a href="/services/payer-enrollment">
-      <i class="fa-solid fa-network-wired"></i>
-      <span>Payer Enrollment</span>
-    </a>
-
-    <a href="/services/caqh-management">
-      <i class="fa-solid fa-database"></i>
-      <span>CAQH Management</span>
-    </a>
-
-    <a href="/services/medicare-pecos">
-      <i class="fa-solid fa-hospital-user"></i>
-      <span>Medicare & PECOS Enrollment</span>
-    </a>
-
-    <a href="/services/medicaid-enrollment">
-      <i class="fa-solid fa-file-medical"></i>
-      <span>Medicaid Enrollment</span>
-    </a>
-
-    <a href="/services/eligibility-verification">
-      <i class="fa-solid fa-shield-halved"></i>
-      <span>Eligibility & Benefits Verification</span>
-    </a>
-
-    <a href="/services/claims-management">
-      <i class="fa-solid fa-file-circle-check"></i>
-      <span>Claims Management</span>
-    </a>
-
-    <a href="/services/denial-management">
-      <i class="fa-solid fa-ban"></i>
-      <span>Denial Management</span>
-    </a>
-
-    <a href="/services/prior-authorization">
-      <i class="fa-solid fa-clipboard-check"></i>
-      <span>Prior Authorization</span>
-    </a>
-
-    <a href="/services/hospital-privileging">
-      <i class="fa-solid fa-building-columns"></i>
-      <span>Hospital Privileging</span>
-    </a>
-
-    <a href="/services/credentialing-tracking">
-      <i class="fa-solid fa-calendar-check"></i>
-      <span>Credentialing & Expiration Tracking</span>
-    </a>
+    <a href="/services/medical-billing"><i class="fa-solid fa-file-invoice-dollar"></i><span>Medical Billing</span></a>
+    <a href="/services/revenue-cycle-management"><i class="fa-solid fa-chart-line"></i><span>Revenue Cycle Management</span></a>
+    <a href="/services/medical-coding"><i class="fa-solid fa-code"></i><span>Medical Coding</span></a>
+    <a href="/services/provider-credentialing"><i class="fa-solid fa-id-badge"></i><span>Provider Credentialing</span></a>
+    <a href="/services/payer-enrollment"><i class="fa-solid fa-network-wired"></i><span>Payer Enrollment</span></a>
+    <a href="/services/caqh-management"><i class="fa-solid fa-database"></i><span>CAQH Management</span></a>
+    <a href="/services/medicare-pecos"><i class="fa-solid fa-hospital-user"></i><span>Medicare & PECOS Enrollment</span></a>
+    <a href="/services/medicaid-enrollment"><i class="fa-solid fa-file-medical"></i><span>Medicaid Enrollment</span></a>
+    <a href="/services/eligibility-verification"><i class="fa-solid fa-shield-halved"></i><span>Eligibility & Benefits Verification</span></a>
+    <a href="/services/claims-management"><i class="fa-solid fa-file-circle-check"></i><span>Claims Management</span></a>
+    <a href="/services/denial-management"><i class="fa-solid fa-ban"></i><span>Denial Management</span></a>
+    <a href="/services/prior-authorization"><i class="fa-solid fa-clipboard-check"></i><span>Prior Authorization</span></a>
+    <a href="/services/hospital-privileging"><i class="fa-solid fa-building-columns"></i><span>Hospital Privileging</span></a>
+    <a href="/services/credentialing-tracking"><i class="fa-solid fa-calendar-check"></i><span>Credentialing & Expiration Tracking</span></a>
+    <hr>
+    <strong>Resources</strong>
+    <a href="/blog"><i class="fa-solid fa-newspaper"></i><span>Blog & Insights</span></a>
+    <a href="/tools/patient-bill-defender" style="background:#fef2f2; border-radius:10px;"><i class="fa-solid fa-shield-heart" style="color:#842135"></i><span>Patient Bill Defender <small style="background:#842135;color:white;padding:2px 6px;border-radius:10px;font-size:10px;margin-left:6px;">NEW</small></span></a>
+    <a href="/tools/doctor-rcm-portal" style="background:#eff6ff; border-radius:10px;"><i class="fa-solid fa-user-doctor" style="color:#0e3a8a"></i><span>Doctor RCM Portal <small style="background:#0e3a8a;color:white;padding:2px 6px;border-radius:10px;font-size:10px;margin-left:6px;">NEW</small></span></a>
+    <hr>
+    <a href="/contact">Contact</a>
   </div>
 </header>
 
 <main>
-
 <section class="hero" style="background:linear-gradient(rgba(26,10,10,.82),rgba(26,10,10,.82)),url('https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1400&h=600&fit=crop') center/cover no-repeat">
   <div class="container hero-grid">
-
     <div>
-      <div class="eyebrow">
-        <i class="fa-solid fa-circle-check"></i>
-        Revenue. Credentialing. Growth.
-      </div>
-
+      <div class="eyebrow"><i class="fa-solid fa-circle-check"></i> Revenue. Credentialing. Growth.</div>
       <h1>Healthcare operations, built around your practice.</h1>
-
-      <p>
-        Hima Tech RCM helps U.S. healthcare providers simplify billing,
-        credentialing, payer enrollment and revenue cycle operations with
-        accountable, technology-enabled support.
-      </p>
-
+      <p>Hima Tech RCM helps U.S. healthcare providers simplify billing, credentialing, payer enrollment and revenue cycle operations with accountable, technology-enabled support.</p>
       <div class="actions">
-        <a class="btn primary" href="/contact">
-          Free Consultation
-          <i class="fa-solid fa-arrow-right"></i>
-        </a>
-
-        <a class="btn" href="/audit" style="background:#842135;color:#fff;border-color:#842135">
-          Free RCM Audit
-          <i class="fa-solid fa-arrow-right"></i>
-        </a>
-
-        <a class="btn outline" href="#solutions">
-          Explore Solutions
-          <i class="fa-solid fa-arrow-right"></i>
-        </a>
+        <a class="btn primary" href="/contact">Free Consultation <i class="fa-solid fa-arrow-right"></i></a>
+        <a class="btn" href="/audit" style="background:#842135;color:#fff;border-color:#842135">Free RCM Audit <i class="fa-solid fa-arrow-right"></i></a>
+        <a class="btn outline" href="#solutions">Explore Solutions <i class="fa-solid fa-arrow-right"></i></a>
       </div>
     </div>
-
-    <div class="hero-card">
-      <div class="dashboard">
-
-        <div class="dash-head">
-          <strong>Practice Revenue Dashboard</strong>
-          <span>
-            <span class="dot"></span>
-            Live workflow
-          </span>
-        </div>
-
-        <div class="metric-grid">
-
-          <div class="metric">
-            <small>Claims Clean Rate</small>
-            <strong data-count="97.4" data-suffix="%">0%</strong>
-          </div>
-
-          <div class="metric">
-            <small>AR Follow-Up</small>
-            <strong data-count="1284" data-suffix="">0</strong>
-          </div>
-
-          <div class="metric">
-            <small>Providers Tracked</small>
-            <strong data-count="128" data-suffix="">0</strong>
-          </div>
-
-          <div class="metric">
-            <small>Enrollment Tasks</small>
-            <strong data-count="246" data-suffix="">0</strong>
-          </div>
-
-        </div>
-
-        <div class="chart" style="background:url('https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1400&h=600&fit=crop')"></div>
-
-      </div>
-    </div>
-
+    <div class="hero-card"><div class="dashboard"><div class="dash-head"><strong>Practice Revenue Dashboard</strong><span><span class="dot"></span> Live workflow</span></div><div class="metric-grid"><div class="metric"><small>Claims Clean Rate</small><strong data-count="97.4" data-suffix="%">0%</strong></div><div class="metric"><small>AR Follow-Up</small><strong data-count="1284" data-suffix="">0</strong></div><div class="metric"><small>Providers Tracked</small><strong data-count="128" data-suffix="">0</strong></div><div class="metric"><small>Enrollment Tasks</small><strong data-count="246" data-suffix="">0</strong></div></div><div class="chart" style="background:url('https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1400&h=600&fit=crop')"></div></div></div>
   </div>
 </section>
-
-<section class="trust">
-  <div class="container trust-grid">
-
-    <div class="trust-item">
-      <strong>RCM</strong>
-      <span>End-to-end revenue support</span>
-    </div>
-
-    <div class="trust-item">
-      <strong>CAQH</strong>
-      <span>Provider data management</span>
-    </div>
-
-    <div class="trust-item">
-      <strong>PECOS</strong>
-      <span>Medicare enrollment support</span>
-    </div>
-
-    <div class="trust-item">
-      <strong>HIPAA</strong>
-      <span>Security-minded operations</span>
-    </div>
-
-  </div>
-</section>
-
-<section class="section" id="solutions">
-  <div class="container center">
-
-    <span class="kicker">One partner. Multiple workflows.</span>
-
-    <h2>Everything you need to run a healthier revenue cycle.</h2>
-
-    <p class="lead">
-      From front-end eligibility to payer enrollment and back-end denials,
-      our services connect the operational pieces that drive reimbursement.
-    </p>
-
-    <div class="cards">
-
-      <article class="card">
-        <div class="icon">
-          <i class="fa-solid fa-file-invoice-dollar"></i>
-        </div>
-        <h3>Medical Billing</h3>
-        <p>Clean claims, faster payments, stronger revenue.</p>
-        <a class="kicker" href="/services/medical-billing">
-          Explore service →
-        </a>
-      </article>
-
-      <article class="card">
-        <div class="icon">
-          <i class="fa-solid fa-chart-line"></i>
-        </div>
-        <h3>Revenue Cycle Management</h3>
-        <p>
-          Turn every step of the revenue cycle into a measurable advantage.
-        </p>
-        <a class="kicker" href="/services/revenue-cycle-management">
-          Explore service →
-        </a>
-      </article>
-
-      <article class="card">
-        <div class="icon">
-          <i class="fa-solid fa-code"></i>
-        </div>
-        <h3>Medical Coding</h3>
-        <p>Accurate coding that supports compliant reimbursement.</p>
-        <a class="kicker" href="/services/medical-coding">
-          Explore service →
-        </a>
-      </article>
-
-      <article class="card">
-        <div class="icon">
-          <i class="fa-solid fa-id-badge"></i>
-        </div>
-        <h3>Provider Credentialing</h3>
-        <p>
-          Get providers credentialed, enrolled, and ready to bill.
-        </p>
-        <a class="kicker" href="/services/provider-credentialing">
-          Explore service →
-        </a>
-      </article>
-
-      <article class="card">
-        <div class="icon">
-          <i class="fa-solid fa-network-wired"></i>
-        </div>
-        <h3>Payer Enrollment</h3>
-        <p>
-          Build a cleaner path from provider approval to payer participation.
-        </p>
-        <a class="kicker" href="/services/payer-enrollment">
-          Explore service →
-        </a>
-      </article>
-
-      <article class="card">
-        <div class="icon">
-          <i class="fa-solid fa-database"></i>
-        </div>
-        <h3>CAQH Management</h3>
-        <p>
-          Keep provider profiles accurate, complete, and ready for attestation.
-        </p>
-        <a class="kicker" href="/services/caqh-management">
-          Explore service →
-        </a>
-      </article>
-
-      <article class="card">
-        <div class="icon">
-          <i class="fa-solid fa-hospital-user"></i>
-        </div>
-        <h3>Medicare & PECOS Enrollment</h3>
-        <p>Navigate Medicare enrollment with confidence.</p>
-        <a class="kicker" href="/services/medicare-pecos">
-          Explore service →
-        </a>
-      </article>
-
-      <article class="card">
-        <div class="icon">
-          <i class="fa-solid fa-file-medical"></i>
-        </div>
-        <h3>Medicaid Enrollment</h3>
-        <p>State Medicaid enrollment managed with precision.</p>
-        <a class="kicker" href="/services/medicaid-enrollment">
-          Explore service →
-        </a>
-      </article>
-
-      <article class="card">
-        <div class="icon">
-          <i class="fa-solid fa-shield-halved"></i>
-        </div>
-        <h3>Eligibility & Benefits Verification</h3>
-        <p>Know coverage before services are delivered.</p>
-        <a class="kicker" href="/services/eligibility-verification">
-          Explore service →
-        </a>
-      </article>
-
-    </div>
-
-    <div class="actions" style="justify-content:center">
-      <a class="btn" href="/services/revenue-cycle-management" style="background:#842135;color:#fff;border-color:#842135">
-        View All Services
-      </a>
-    </div>
-
-  </div>
-</section>
-
-<section class="section alt">
-  <div class="container split">
-
-    <div class="visual">
-      <img
-        src="/assets/images/Medical billing.jpg.jpeg" style="border-radius:18px;width:100%;max-height:400px;object-fit:cover"
-        alt="Healthcare revenue cycle workflow illustration"
-      >
-    </div>
-
-    <div>
-      <span class="kicker">Connect. Collaborate. Improve.</span>
-
-      <h2>A workflow that mirrors the way your practice works.</h2>
-
-      <p class="lead" style="margin:0">
-        We organize people, payer requirements, documentation and reporting
-        into a clear operating rhythm—so your team can see what is happening
-        and what needs attention.
-      </p>
-
-      <ul class="list">
-
-        <li>
-          <i class="fa-solid fa-check"></i>
-          <span>
-            <strong>Improve productivity</strong><br>
-            Standardized processes and clear ownership.
-          </span>
-        </li>
-
-        <li>
-          <i class="fa-solid fa-check"></i>
-          <span>
-            <strong>Accelerate reimbursement</strong><br>
-            Cleaner claims and disciplined follow-up.
-          </span>
-        </li>
-
-        <li>
-          <i class="fa-solid fa-check"></i>
-          <span>
-            <strong>Reduce risk</strong><br>
-            Credentialing and documentation visibility.
-          </span>
-        </li>
-
-        <li>
-          <i class="fa-solid fa-check"></i>
-          <span>
-            <strong>Measure performance</strong><br>
-            Practical reporting for better decisions.
-          </span>
-        </li>
-
-      </ul>
-    </div>
-
-  </div>
-</section>
-
-<section class="section">
-  <div class="container">
-
-    <div class="section-head center">
-      <span class="kicker">Built for healthcare</span>
-
-      <h2>Interoperable, specialty-aware support</h2>
-
-      <p>
-        Our workflows are designed to fit the systems and stakeholders
-        already involved in your practice.
-      </p>
-    </div>
-
-    <div class="pill-grid">
-
-      <div class="pill">
-        <i class="fa-solid fa-link"></i> Providers
-      </div>
-
-      <div class="pill">
-        <i class="fa-solid fa-link"></i> Payers
-      </div>
-
-      <div class="pill">
-        <i class="fa-solid fa-link"></i> Clearinghouses
-      </div>
-
-      <div class="pill">
-        <i class="fa-solid fa-link"></i> Labs & Imaging
-      </div>
-
-      <div class="pill">
-        <i class="fa-solid fa-link"></i> Hospitals
-      </div>
-
-      <div class="pill">
-        <i class="fa-solid fa-link"></i> Referring Providers
-      </div>
-
-      <div class="pill">
-        <i class="fa-solid fa-link"></i> Patients
-      </div>
-
-      <div class="pill">
-        <i class="fa-solid fa-link"></i> Practice Managers
-      </div>
-
-      <div class="pill">
-        <i class="fa-solid fa-link"></i> Credentialing Teams
-      </div>
-
-    </div>
-
-  </div>
-</section>
-
-<section class="section alt">
-  <div class="container split">
-
-    <div>
-
-      <span class="kicker">Why Hima Tech RCM</span>
-
-      <h2>Operational discipline without the complexity.</h2>
-
-      <p class="lead" style="margin:0">
-        You get a dedicated partner focused on measurable work,
-        clear communication, and the details that keep healthcare
-        revenue moving.
-      </p>
-
-      <div
-        class="cards"
-        style="grid-template-columns:1fr 1fr;margin-top:28px"
-      >
-
-        <div class="card">
-          <div class="icon">
-            <i class="fa-solid fa-lock"></i>
-          </div>
-
-          <h3>Secure Operations</h3>
-
-          <p>
-            Privacy-conscious workflows and controlled access practices.
-          </p>
-        </div>
-
-        <div class="card">
-          <div class="icon">
-            <i class="fa-solid fa-chart-simple"></i>
-          </div>
-
-          <h3>Actionable Reporting</h3>
-
-          <p>
-            See workload, aging, enrollment status and bottlenecks.
-          </p>
-        </div>
-
-      </div>
-
-    </div>
-
-    <div class="testimonial">
-      <p>
-        “The best revenue cycle partner is the one that makes the next
-        action obvious—and consistently gets it done.”
-      </p>
-
-      <small>
-        Hima Tech RCM — Provider-focused operations
-      </small>
-    </div>
-
-  </div>
-</section>
-
-<section class="section">
-  <div class="container center">
-
-    <span class="kicker">Specialty-focused</span>
-
-    <h2>Support that adapts to your specialty.</h2>
-
-    <p class="lead">
-      Billing and enrollment workflows change by specialty. Our service
-      pages and workflows are structured to reflect those differences.
-    </p>
-
-    <div class="specialties">
-
-      <a class="specialty" href="/specialties">Behavioral Health</a>
-      <a class="specialty" href="/specialties">Primary Care</a>
-      <a class="specialty" href="/specialties">Physical Therapy</a>
-      <a class="specialty" href="/specialties">Psychiatry</a>
-      <a class="specialty" href="/specialties">Dermatology</a>
-      <a class="specialty" href="/specialties">Pediatrics</a>
-      <a class="specialty" href="/specialties">Orthopedics</a>
-      <a class="specialty" href="/specialties">Home Health</a>
-      <a class="specialty" href="/specialties">Cardiology</a>
-      <a class="specialty" href="/specialties">Dental & Specialty Practices</a>
-      <a class="specialty" href="/specialties">Urgent Care</a>
-      <a class="specialty" href="/specialties">Rehabilitation</a>
-
-    </div>
-
-  </div>
-</section>
-
-<section class="cta">
-  <div class="container cta-grid">
-
-    <div>
-      <h2>
-        Ready to make your revenue cycle easier to manage?
-      </h2>
-
-      <p>
-        Tell us where your practice is today and we’ll help map the next steps.
-      </p>
-    </div>
-
-    <div class="cta-btns">
-      <a class="btn primary" href="/contact">
-        Free Consultation
-        <i class="fa-solid fa-arrow-right"></i>
-      </a>
-      </div>
-
-  </div>
-</section>
-
+<section class="trust"><div class="container trust-grid"><div class="trust-item"><strong>RCM</strong><span>End-to-end revenue support</span></div><div class="trust-item"><strong>CAQH</strong><span>Provider data management</span></div><div class="trust-item"><strong>PECOS</strong><span>Medicare enrollment support</span></div><div class="trust-item"><strong>HIPAA</strong><span>Security-minded operations</span></div></div></section>
+<section class="section" id="solutions"><div class="container center"><span class="kicker">One partner. Multiple workflows.</span><h2>Everything you need to run a healthier revenue cycle.</h2><p class="lead">From front-end eligibility to payer enrollment and back-end denials, our services connect the operational pieces that drive reimbursement.</p><div class="cards"><article class="card"><div class="icon"><i class="fa-solid fa-file-invoice-dollar"></i></div><h3>Medical Billing</h3><p>Clean claims, faster payments, stronger revenue.</p><a class="kicker" href="/services/medical-billing">Explore service →</a></article><article class="card"><div class="icon"><i class="fa-solid fa-chart-line"></i></div><h3>Revenue Cycle Management</h3><p>Turn every step of the revenue cycle into a measurable advantage.</p><a class="kicker" href="/services/revenue-cycle-management">Explore service →</a></article><article class="card"><div class="icon"><i class="fa-solid fa-code"></i></div><h3>Medical Coding</h3><p>Accurate coding that supports compliant reimbursement.</p><a class="kicker" href="/services/medical-coding">Explore service →</a></article></div><div class="actions" style="justify-content:center"><a class="btn" href="/services/revenue-cycle-management" style="background:#842135;color:#fff;border-color:#842135">View All Services</a></div></div></section>
+<section class="section alt"><div class="container split"><div class="visual"><img src="/assets/images/Medical billing.jpg.jpeg" style="border-radius:18px;width:100%;max-height:400px;object-fit:cover" alt="Healthcare revenue cycle workflow illustration"></div><div><span class="kicker">Connect. Collaborate. Improve.</span><h2>A workflow that mirrors the way your practice works.</h2><p class="lead" style="margin:0">We organize people, payer requirements, documentation and reporting into a clear operating rhythm—so your team can see what is happening and what needs attention.</p><ul class="list"><li><i class="fa-solid fa-check"></i><span><strong>Improve productivity</strong><br>Standardized processes and clear ownership.</span></li><li><i class="fa-solid fa-check"></i><span><strong>Accelerate reimbursement</strong><br>Cleaner claims and disciplined follow-up.</span></li><li><i class="fa-solid fa-check"></i><span><strong>Reduce risk</strong><br>Credentialing and documentation visibility.</span></li><li><i class="fa-solid fa-check"></i><span><strong>Measure performance</strong><br>Practical reporting for better decisions.</span></li></ul></div></div></section>
+<section class="section"><div class="container"><div class="section-head center"><span class="kicker">Built for healthcare</span><h2>Interoperable, specialty-aware support</h2><p>Our workflows are designed to fit the systems and stakeholders already involved in your practice.</p></div><div class="pill-grid"><div class="pill"><i class="fa-solid fa-link"></i> Providers</div><div class="pill"><i class="fa-solid fa-link"></i> Payers</div><div class="pill"><i class="fa-solid fa-link"></i> Clearinghouses</div><div class="pill"><i class="fa-solid fa-link"></i> Labs & Imaging</div><div class="pill"><i class="fa-solid fa-link"></i> Hospitals</div><div class="pill"><i class="fa-solid fa-link"></i> Referring Providers</div><div class="pill"><i class="fa-solid fa-link"></i> Patients</div><div class="pill"><i class="fa-solid fa-link"></i> Practice Managers</div><div class="pill"><i class="fa-solid fa-link"></i> Credentialing Teams</div></div></div></section>
+<section class="section alt"><div class="container split"><div><span class="kicker">Why Hima Tech RCM</span><h2>Operational discipline without the complexity.</h2><p class="lead" style="margin:0">You get a dedicated partner focused on measurable work, clear communication, and the details that keep healthcare revenue moving.</p><div class="cards" style="grid-template-columns:1fr 1fr;margin-top:28px"><div class="card"><div class="icon"><i class="fa-solid fa-lock"></i></div><h3>Secure Operations</h3><p>Privacy-conscious workflows and controlled access practices.</p></div><div class="card"><div class="icon"><i class="fa-solid fa-chart-simple"></i></div><h3>Actionable Reporting</h3><p>See workload, aging, enrollment status and bottlenecks.</p></div></div></div><div class="testimonial"><p>“The best revenue cycle partner is the one that makes the next action obvious—and consistently gets it done.”</p><small>Hima Tech RCM — Provider-focused operations</small></div></div></section>
+<section class="cta"><div class="container cta-grid"><div><h2>Ready to make your revenue cycle easier to manage?</h2><p>Tell us where your practice is today and we’ll help map the next steps.</p></div><div class="cta-btns"><a class="btn primary" href="/contact">Free Consultation <i class="fa-solid fa-arrow-right"></i></a></div></div></section>
 </main>
-
 <footer class="footer">
   <div class="container footer-grid">
-    <div>
-      <img src="/assets/images/logo-trim-light.png" alt="Hima Tech RCM">
-      <p>Healthcare revenue cycle, credentialing, enrollment and billing support for U.S. providers.</p>
-      <p style="margin-top:12px">
-        <a href="mailto:info@himatechrcm.com" style="display:block;margin:6px 0"><i class="fa-solid fa-envelope" style="margin-right:6px"></i>info@himatechrcm.com</a>
-        <a href="tel:+12146138150" style="display:block;margin:6px 0"><i class="fa-solid fa-phone" style="margin-right:6px"></i>+1 (214) 613-8150</a>
-      </p>
-    </div>
-    <div>
-      <h4>Solutions</h4>
-      <a href="/services/medical-billing">Medical Billing</a>
-      <a href="/services/revenue-cycle-management">Revenue Cycle Management</a>
-      <a href="/services/medical-coding">Medical Coding</a>
-      <a href="/services/provider-credentialing">Provider Credentialing</a>
-      <a href="/services/payer-enrollment">Payer Enrollment</a>
-    </div>
-    <div>
-      <h4>More Services</h4>
-      <a href="/services/caqh-management">CAQH Management</a>
-      <a href="/services/medicare-pecos">Medicare & PECOS Enrollment</a>
-      <a href="/services/medicaid-enrollment">Medicaid Enrollment</a>
-      <a href="/services/eligibility-verification">Eligibility & Benefits Verification</a>
-      <a href="/services/claims-management">Claims Management</a>
-    </div>
-    <div>
-      <h4>Company</h4>
-      <a href="/about">About Us</a>
-      <a href="/specialties">Specialties</a>
-      <a href="/contact">Contact</a>
-      <a href="/contact">Free Consultation</a>
-      </div>
+    <div><img src="/assets/images/logo-trim-light.png" alt="Hima Tech RCM"><p>Healthcare revenue cycle, credentialing, enrollment and billing support for U.S. providers.</p><p style="margin-top:12px"><a href="mailto:info@himatechrcm.com" style="display:block;margin:6px 0"><i class="fa-solid fa-envelope" style="margin-right:6px"></i>info@himatechrcm.com</a><a href="tel:+12146138150" style="display:block;margin:6px 0"><i class="fa-solid fa-phone" style="margin-right:6px"></i>+1 (214) 613-8150</a></p></div>
+    <div><h4>Solutions</h4><a href="/services/medical-billing">Medical Billing</a><a href="/services/revenue-cycle-management">Revenue Cycle Management</a><a href="/services/medical-coding">Medical Coding</a><a href="/services/provider-credentialing">Provider Credentialing</a><a href="/services/payer-enrollment">Payer Enrollment</a></div>
+    <div><h4>More Services</h4><a href="/services/caqh-management">CAQH Management</a><a href="/services/medicare-pecos">Medicare & PECOS Enrollment</a><a href="/services/medicaid-enrollment">Medicaid Enrollment</a><a href="/services/eligibility-verification">Eligibility & Benefits Verification</a><a href="/services/claims-management">Claims Management</a></div>
+    <div><h4>Company</h4><a href="/about">About Us</a><a href="/specialties">Specialties</a><a href="/contact">Contact</a><a href="/contact">Free Consultation</a></div>
   </div>
-  <div style="border-top:1px solid rgba(255,255,255,.12);margin-top:35px;padding:20px 0;font-size:13px">
-    <div class="container" style="display:flex!important;align-items:center!important;justify-content:space-between!important;flex-wrap:wrap!important;gap:12px!important">
-      <p style="margin:0;white-space:nowrap">&copy; 2026 Hima Tech RCM. All rights reserved.</p>
-      <div style="display:inline-flex;align-items:center;gap:8px;white-space:nowrap">
-        <a href="/privacy" style="display:inline!important;color:#cbd5e0;text-decoration:none;font-size:13px;margin:0!important">Privacy</a>
-        <span style="color:#4a5568">&middot;</span>
-        <a href="/terms" style="display:inline!important;color:#cbd5e0;text-decoration:none;font-size:13px;margin:0!important">Terms</a>
-        <span style="color:#4a5568">&middot;</span>
-        <a href="/hipaa" style="display:inline!important;color:#cbd5e0;text-decoration:none;font-size:13px;margin:0!important">HIPAA</a>
-      </div>
-    </div>
-  </div>
+  <div style="border-top:1px solid rgba(255,255,255,.12);margin-top:35px;padding:20px 0;font-size:13px"><div class="container" style="display:flex!important;align-items:center!important;justify-content:space-between!important;flex-wrap:wrap!important;gap:12px!important"><p style="margin:0;white-space:nowrap">&copy; 2026 Hima Tech RCM. All rights reserved.</p><div style="display:inline-flex;align-items:center;gap:8px;white-space:nowrap"><a href="/privacy" style="display:inline!important;color:#cbd5e0;text-decoration:none;font-size:13px;margin:0!important">Privacy</a><span style="color:#4a5568">&middot;</span><a href="/terms" style="display:inline!important;color:#cbd5e0;text-decoration:none;font-size:13px;margin:0!important">Terms</a><span style="color:#4a5568">&middot;</span><a href="/hipaa" style="display:inline!important;color:#cbd5e0;text-decoration:none;font-size:13px;margin:0!important">HIPAA</a></div></div></div>
 </footer>
-
 <script src="/assets/js/site.js"></script>
-
-
-
 </body>
 </html>
