@@ -722,3 +722,11 @@ button.free-tools-btn {
   color: #842135 !important;
   border: 1.5px solid #842135 !important;
 }
+@media(min-width: 992px){
+  .container{padding-left:16px !important;padding-right:16px !important;max-width:96% !important;width:96% !important;}
+  .container.nav{padding-left:16px !important;padding-right:16px !important;max-width:96% !important;}
+}
+@media(min-width: 1200px){
+  .container{max-width:1360px !important;}
+  .container.nav{max-width:1360px !important;}
+}
