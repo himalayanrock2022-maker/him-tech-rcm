@@ -1,106 +1,43 @@
 {
+  "redirects": [
+    {
+      "source": "/(.*).html",
+      "destination": "/$1",
+      "permanent": true
+    },
+    {
+      "source": "[STRIPPED 77 bytes]",
+      "destination": "/blog/when-to-change-rcm-company",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     { "source": "/tools/patient-bill-defender", "destination": "/tools/patient-bill-defender.html" },
-{ "source": "/tools/doctor-rcm-portal", "destination": "/tools/doctor-rcm-portal.html" },
-    {
-      "source": "/sitemap.xml",
-      "destination": "/api/sitemap.js"
-    },
-    {
-      "source": "/about",
-      "destination": "/about.html"
-    },
-    {
-      "source": "/services/medical-billing",
-      "destination": "/services/medical-billing.html"
-    },
-    {
-      "source": "/services/revenue-cycle-management",
-      "destination": "/services/revenue-cycle-management.html"
-    },
-    {
-      "source": "/services/medical-coding",
-      "destination": "/services/medical-coding.html"
-    },
-    {
-      "source": "/services/provider-credentialing",
-      "destination": "/services/provider-credentialing.html"
-    },
-    {
-      "source": "/services/payer-enrollment",
-      "destination": "/services/payer-enrollment.html"
-    },
-    {
-      "source": "/services/caqh-management",
-      "destination": "/services/caqh-management.html"
-    },
-    {
-      "source": "/services/medicare-pecos",
-      "destination": "/services/medicare-pecos.html"
-    },
-    {
-      "source": "/services/medicaid-enrollment",
-      "destination": "/services/medicaid-enrollment.html"
-    },
-    {
-      "source": "/services/eligibility-verification",
-      "destination": "/services/eligibility-verification.html"
-    },
-    {
-      "source": "/services/claims-management",
-      "destination": "/services/claims-management.html"
-    },
-    {
-      "source": "/services/denial-management",
-      "destination": "/services/denial-management.html"
-    },
-    {
-      "source": "/services/prior-authorization",
-      "destination": "/services/prior-authorization.html"
-    },
-    {
-      "source": "/services/hospital-privileging",
-      "destination": "/services/hospital-privileging.html"
-    },
-    {
-      "source": "/services/credentialing-tracking",
-      "destination": "/services/credentialing-tracking.html"
-    },
-    {
-      "source": "/specialties",
-      "destination": "/specialties.html"
-    },
-    {
-      "source": "/blog/:slug",
-      "destination": "/blog.html"
-    },
-    {
-      "source": "/blog",
-      "destination": "/blog.html"
-    },
-    {
-      "source": "/audit",
-      "destination": "/audit.html"
-    },
-    {
-      "source": "/contact",
-      "destination": "/contact.html"
-    },
-    {
-      "source": "/privacy",
-      "destination": "/privacy.html"
-    },
-    {
-      "source": "/terms",
-      "destination": "/terms.html"
-    },
-    {
-      "source": "/hipaa",
-      "destination": "/hipaa.html"
-    },
-    {
-      "source": "/admin",
-      "destination": "/admin.html"
-    }
+    { "source": "/tools/doctor-rcm-portal", "destination": "/tools/doctor-rcm-portal.html" },
+    { "source": "/sitemap.xml", "destination": "/api/sitemap.js" },
+    { "source": "/about", "destination": "/about.html" },
+    { "source": "/services/medical-billing", "destination": "/services/medical-billing.html" },
+    { "source": "/services/revenue-cycle-management", "destination": "/services/revenue-cycle-management.html" },
+    { "source": "/services/medical-coding", "destination": "/services/medical-coding.html" },
+    { "source": "/services/provider-credentialing", "destination": "/services/provider-credentialing.html" },
+    { "source": "/services/payer-enrollment", "destination": "/services/payer-enrollment.html" },
+    { "source": "/services/caqh-management", "destination": "/services/caqh-management.html" },
+    { "source": "/services/medicare-pecos", "destination": "/services/medicare-pecos.html" },
+    { "source": "/services/medicaid-enrollment", "destination": "/services/medicaid-enrollment.html" },
+    { "source": "/services/eligibility-verification", "destination": "/services/eligibility-verification.html" },
+    { "source": "/services/claims-management", "destination": "/services/claims-management.html" },
+    { "source": "/services/denial-management", "destination": "/services/denial-management.html" },
+    { "source": "/services/prior-authorization", "destination": "/services/prior-authorization.html" },
+    { "source": "/services/hospital-privileging", "destination": "/services/hospital-privileging.html" },
+    { "source": "/services/credentialing-tracking", "destination": "/services/credentialing-tracking.html" },
+    { "source": "/specialties", "destination": "/specialties.html" },
+    { "source": "/blog/:slug", "destination": "/blog.html" },
+    { "source": "/blog", "destination": "/blog.html" },
+    { "source": "/audit", "destination": "/audit.html" },
+    { "source": "/contact", "destination": "/contact.html" },
+    { "source": "/privacy", "destination": "/privacy.html" },
+    { "source": "/terms", "destination": "/terms.html" },
+    { "source": "/hipaa", "destination": "/hipaa.html" },
+    { "source": "/admin", "destination": "/admin.html" }
   ]
 }
