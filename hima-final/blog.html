@@ -3,182 +3,94 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Medical Billing & RCM Blog | Hima Tech RCM</title>
-<meta name="description" content="Expert insights on medical billing, RCM, credentialing, denial management, and medical coding for healthcare providers.">
+
+<!-- SEO FIX -->
+<title>Medical Billing & RCM Blog | Expert Insights for US Providers | Hima Tech RCM</title>
+<meta name="description" content="Expert insights on medical billing, RCM, credentialing, denial management, and medical coding for healthcare providers. Stay updated with 2026-2027 ICD-10 changes.">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<link rel="canonical" href="https://www.himatechrcm.com/blog" id="canonicalTag">
+
+<!-- OG Tags - Dynamic honge JS se -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.himatechrcm.com/blog" id="ogUrl">
+<meta property="og:title" content="Medical Billing & RCM Blog | Hima Tech RCM" id="ogTitle">
+<meta property="og:description" content="Expert insights on medical billing, RCM and credentialing." id="ogDesc">
+<meta property="og:image" content="https://www.himatechrcm.com/assets/images/logo-trim.png">
+
+<meta name="twitter:card" content="summary_large_image">
+
 <link rel="icon" href="/assets/images/favicon.png">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-<!-- BEST v=400 -->
-<link rel="stylesheet" href="/assets/css/site.css?v=400">
+<link rel="stylesheet" href="/assets/css/site.css?v=401">
+
 <style>
-/* Blog specific styles - keep as is */
-.blog-hero{background:linear-gradient(120deg,rgba(6,43,71,.92) 0%,rgba(11,80,120,.88) 52%,rgba(12,136,164,.85) 100%);color:#fff;padding:80px 0;text-align:center;position:relative;overflow:hidden}.blog-hero:before{content:"";position:absolute;inset:0;background:url('https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=1400&h=600&fit=crop') center/cover no-repeat;opacity:.6;pointer-events:none}
-.blog-hero h1{font-size:clamp(32px,4vw,48px);margin:0 0 12px}
-.blog-hero p{font-size:17px;color:#d7edf5;max-width:700px;margin:auto}
+.blog-hero{background:linear-gradient(120deg,rgba(6,43,71,.92) 0%,rgba(11,80,120,.88) 52%,rgba(12,136,164,.85) 100%);color:#fff;padding:80px 0;text-align:center;position:relative;overflow:hidden}
+.blog-hero h1{font-size:clamp(32px,4vw,48px);margin:0 0 12px;position:relative;z-index:1}
+.blog-hero p{font-size:17px;color:#d7edf5;max-width:700px;margin:auto;position:relative;z-index:1}
 .blog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:40px}
 .blog-card{background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:0 8px 24px rgba(8,45,73,.06);transition:.3s;position:relative}
 .blog-card:hover{transform:translateY(-8px);box-shadow:0 20px 50px rgba(139,26,26,.2)}
-.blog-card::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#842135,#a83045);opacity:0;transition:.3s}
-.blog-card:hover::before{opacity:1}
-.blog-img{width:100%;height:200px;display:flex;align-items:center;justify-content:center;font-size:52px;position:relative;overflow:hidden}
-.blog-img::after{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(139,26,26,.08),rgba(192,57,43,.05))}
-.blog-img i{position:relative;z-index:1;transition:.3s}
-.blog-card:hover .blog-img i{transform:scale(1.15)}
+.blog-img{width:100%;height:200px;background-size:cover;background-position:center}
 .blog-body{padding:24px}
 .blog-meta{display:flex;gap:12px;align-items:center;margin-bottom:12px;font-size:13px}
 .blog-date{color:#842135;font-weight:700}
 .blog-cat{color:var(--muted);background:rgba(139,26,26,.06);padding:3px 10px;border-radius:20px;font-size:12px;font-weight:600}
 .blog-card h3{font-size:19px;color:var(--navy);margin:0 0 10px;line-height:1.35}
 .blog-card p{color:var(--muted);font-size:14px;margin:0 0 16px;line-height:1.6}
-.blog-link{color:#842135;font-weight:700;font-size:14px;display:inline-flex;align-items:center;gap:6px;transition:.2s}
-.blog-link:hover{color:#a83045;gap:10px}
-.blog-badge{position:absolute;top:16px;right:16px;background:#842135;color:#fff;font-size:11px;font-weight:700;padding:4px 12px;border-radius:20px;z-index:2;text-transform:uppercase;letter-spacing:.05em}
+.blog-link{color:#842135;font-weight:700;font-size:14px;display:inline-flex;align-items:center;gap:6px}
 .blog-detail{max-width:800px;margin:0 auto;background:#fff;border-radius:20px;padding:40px;box-shadow:0 8px 32px rgba(0,0,0,.06);border:1px solid #f0f0f0}
 .blog-detail img.hero{width:100%;height:420px;object-fit:cover;border-radius:16px;margin:20px 0}
 .blog-detail h1{font-size:36px;color:#1a1a2e;line-height:1.25;margin:10px 0 16px}
-.blog-detail .meta{color:#888;font-size:14px;margin-bottom:20px;display:flex;gap:12px;align-items:center}
-.blog-detail .content{font-size:17px;line-height:1.9;color:#333}
-.blog-detail .content h2{color:#842135;margin:32px 0 12px;font-size:26px}
-.blog-detail .content h3{color:#333;margin:24px 0 10px;font-size:20px}
-.blog-detail .content img{max-width:100%;border-radius:12px;margin:20px 0}
-.blog-detail .content blockquote{border-left:4px solid #842135;padding-left:20px;color:#666;font-style:italic;margin:20px 0}
+.blog-detail.content{font-size:17px;line-height:1.9;color:#333}
+.blog-detail.content h2{color:#842135;margin:32px 0 12px;font-size:26px}
 .back-link{display:inline-flex;align-items:center;gap:6px;color:#842135;font-weight:600;margin-bottom:20px;text-decoration:none}
-.back-link:hover{gap:10px}
-
-/* BEST FINAL NAVBAR - Same as Home/About/Audit - No confusion */
-.navbar .logo img{width:90px!important;max-width:90px!important;height:auto!important}
-.footer-grid img[src*="logo-trim-light"]{width:90px!important;max-width:90px!important;height:auto!important}
-.navbar .dropdown { position: relative; }
-.navbar .dropdown .mega {
-  position: absolute; left: 50% !important; transform: translateX(-50%) !important; top: 100% !important;
-  min-width: 700px; max-width: 85vw; margin-top: 10px; background: #ffffff !important; opacity: 1 !important;
-  backdrop-filter: none !important; border: 1px solid #e2e8f0 !important; border-radius: 16px;
-  box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25), 0 0 0 1px rgba(0,0,0,0.05) !important;
-  padding: 16px; grid-template-columns: repeat(2, 1fr); gap: 4px; z-index: 9999; display: none;
-}
-.navbar .dropdown:hover .mega { display: grid !important; }
-.navbar .dropdown .mega a {
-  background: #ffffff !important; color: #1e293b !important; padding: 12px 14px !important; border-radius: 10px;
-  font-weight: 600 !important; font-size: 14px !important; border: 1px solid transparent;
-  display: flex !important; align-items: center; gap: 10px; text-decoration: none !important;
-}
-.navbar .dropdown .mega a i { color: #0e3a8a !important; font-size: 14px; width: 20px; text-align: center; }
-.navbar .dropdown .mega a:hover { background: #f1f5f9 !important; color: #0e3a8a !important; border-color: #e2e8f0 !important; transform: translateX(2px); }
-.navbar .dropdown .mega a:hover i { color: #842135 !important; }
-.navbar .dropdown::before { content: ''; position: absolute; left: 0; right: 0; top: 100%; height: 12px; }
-.free-tools-dropdown { position: relative; }
-.free-tools-dropdown .mega.tools-mega {
-  min-width: 360px !important; grid-template-columns: 1fr !important; left: 50% !important;
-  transform: translateX(-50%) !important; padding: 12px !important; background: #ffffff !important; opacity: 1 !important;
-}
-.tools-mega a { display: flex !important; align-items: center; gap: 12px; padding: 14px 16px !important; border-radius: 12px; text-decoration: none; border: 1px solid transparent; transition: all 0.2s; }
-.tools-mega a:hover { transform: translateY(-1px); filter: brightness(1.1); }
-.tools-mega a.bill-defender { background: #842135 !important; color: white !important; border-color: #842135 !important; }
-.tools-mega a.bill-defender small { color: rgba(255,255,255,0.85) !important; }
-.tools-mega a.rcm-portal { background: #0e3a8a !important; color: white !important; border-color: #0e3a8a !important; }
-.tools-mega a.rcm-portal small { color: rgba(255,255,255,0.85) !important; }
-.tools-mega a .tool-icon { width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
-.bill-defender .tool-icon { background: white !important; color: #842135 !important; }
-.rcm-portal .tool-icon { background: white !important; color: #0e3a8a !important; }
-.badge-new { font-size: 9px; font-weight: 800; padding: 3px 7px; border-radius: 20px; background: white; color: #842135; margin-left: auto; letter-spacing: 0.5px; }
-.rcm-portal .badge-new { background: white; color: #0e3a8a; }
-.bill-defender .badge-new { background: white; color: #842135; }
-.free-tools-btn { display: inline-flex; align-items: center; gap: 6px; background: linear-gradient(135deg, #842135, #0e3a8a); color: white !important; padding: 8px 16px !important; border-radius: 20px; font-weight: 700; font-size: 13px; }
-.free-tools-btn .badge-new { background: white; color: #842135; }
+.navbar.logo img{width:90px!important;max-width:90px!important;height:auto!important}
 @media(max-width:900px){.blog-grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:600px){.blog-grid{grid-template-columns:1fr}}
-@media(max-width:1200px){
-  .navbar .dropdown .mega { left: 0 !important; transform: none !important; min-width: 600px; }
-  .free-tools-dropdown .mega.tools-mega { left: 0 !important; transform: none !important; }
-}
+@media(max-width:600px){.blog-grid{grid-template-columns:1fr}.blog-detail{padding:20px}}
 </style>
+
+<!-- BLOG LIST SCHEMA -->
+<script type="application/ld+json" id="blogSchema">
+{
+  "@context": "https://schema.org",
+  "@type": "Blog",
+  "name": "Hima Tech RCM Blog",
+  "url": "https://www.himatechrcm.com/blog",
+  "description": "Expert insights on medical billing, RCM and credentialing for US providers."
+}
+</script>
 </head>
 <body style="overflow-x:hidden">
 <div class="topbar"><div class="container"><span>Healthcare Revenue Cycle & Credentialing Services</span><span><a href="mailto:info@himatechrcm.com">info@himatechrcm.com</a><a href="tel:+12146138150">+1 (214) 613-8150</a></span></div></div>
 
-<!-- BEST UNIVERSAL HEADER - Same as Home/About/Audit -->
 <header class="navbar">
   <div class="container nav">
-    <a href="/" class="logo"><img src="/assets/images/logo-trim.png" alt="Hima Tech RCM"></a>
+    <a href="/" class="logo"><img src="/assets/images/logo-trim.png" alt="Hima Tech RCM - Medical Billing Blog" width="90" height="90"></a>
     <nav class="navlinks">
       <a href="/">Home</a>
       <a href="/about">About</a>
-      <div class="dropdown">
-        <button>Services <i class="fa-solid fa-chevron-down"></i></button>
+      <div class="dropdown"><button>Services <i class="fa-solid fa-chevron-down"></i></button>
         <div class="mega">
-          <a href="/services/medical-billing"><i class="fa-solid fa-file-invoice-dollar"></i><span>Medical Billing</span></a>
-          <a href="/services/revenue-cycle-management"><i class="fa-solid fa-chart-line"></i><span>Revenue Cycle Management</span></a>
-          <a href="/services/medical-coding"><i class="fa-solid fa-code"></i><span>Medical Coding</span></a>
-          <a href="/services/provider-credentialing"><i class="fa-solid fa-id-badge"></i><span>Provider Credentialing</span></a>
-          <a href="/services/payer-enrollment"><i class="fa-solid fa-network-wired"></i><span>Payer Enrollment</span></a>
-          <a href="/services/caqh-management"><i class="fa-solid fa-database"></i><span>CAQH Management</span></a>
-          <a href="/services/medicare-pecos"><i class="fa-solid fa-hospital-user"></i><span>Medicare & PECOS Enrollment</span></a>
-          <a href="/services/medicaid-enrollment"><i class="fa-solid fa-file-medical"></i><span>Medicaid Enrollment</span></a>
-          <a href="/services/eligibility-verification"><i class="fa-solid fa-shield-halved"></i><span>Eligibility & Benefits Verification</span></a>
-          <a href="/services/claims-management"><i class="fa-solid fa-file-circle-check"></i><span>Claims Management</span></a>
-          <a href="/services/denial-management"><i class="fa-solid fa-ban"></i><span>Denial Management</span></a>
-          <a href="/services/prior-authorization"><i class="fa-solid fa-clipboard-check"></i><span>Prior Authorization</span></a>
-          <a href="/services/hospital-privileging"><i class="fa-solid fa-building-columns"></i><span>Hospital Privileging</span></a>
-          <a href="/services/credentialing-tracking"><i class="fa-solid fa-calendar-check"></i><span>Credentialing & Expiration Tracking</span></a>
+          <a href="/services/medical-billing">Medical Billing</a>
+          <a href="/services/revenue-cycle-management">Revenue Cycle Management</a>
+          <a href="/services/medical-coding">Medical Coding</a>
+          <a href="/services/provider-credentialing">Provider Credentialing</a>
+          <a href="/services/payer-enrollment">Payer Enrollment</a>
+          <a href="/services/denial-management">Denial Management</a>
         </div>
       </div>
-      <a href="/specialties">Specialties</a>
       <a href="/blog" style="color:#842135; font-weight:700;">Blog</a>
-      <div class="dropdown free-tools-dropdown">
-        <button class="free-tools-btn">Free Tools <span class="badge-new">NEW</span> <i class="fa-solid fa-chevron-down" style="font-size:10px; margin-left:2px;"></i></button>
-        <div class="mega tools-mega">
-          <a href="/tools/patient-bill-defender" class="bill-defender">
-            <span class="tool-icon"><i class="fa-solid fa-shield-heart"></i></span>
-            <span><strong>Patient Bill Defender</strong><br><small>Protect patients from billing errors</small></span>
-            <span class="badge-new">NEW</span>
-          </a>
-          <a href="/tools/doctor-rcm-portal" class="rcm-portal">
-            <span class="tool-icon"><i class="fa-solid fa-user-doctor"></i></span>
-            <span><strong>Doctor RCM Portal</strong><br><small>Provider revenue dashboard</small></span>
-            <span class="badge-new">NEW</span>
-          </a>
-        </div>
-      </div>
       <a href="/audit" style="font-weight:700; color:#842135;">Free RCM Audit</a>
       <a class="navcta" href="/contact">Request a Consultation</a>
     </nav>
     <button class="menu" aria-label="Open menu"><i class="fa-solid fa-bars"></i></button>
   </div>
   <div class="mobile-menu">
-    <a href="/">Home</a>
-    <a href="/about">About</a>
-    <a href="/specialties">Specialties</a>
-    <a href="/blog" style="color:#842135; font-weight:700;">Blog</a>
-    <hr>
-    <strong>Services</strong>
-    <a href="/services/medical-billing"><i class="fa-solid fa-file-invoice-dollar"></i><span>Medical Billing</span></a>
-    <a href="/services/revenue-cycle-management"><i class="fa-solid fa-chart-line"></i><span>Revenue Cycle Management</span></a>
-    <a href="/services/medical-coding"><i class="fa-solid fa-code"></i><span>Medical Coding</span></a>
-    <a href="/services/provider-credentialing"><i class="fa-solid fa-id-badge"></i><span>Provider Credentialing</span></a>
-    <a href="/services/payer-enrollment"><i class="fa-solid fa-network-wired"></i><span>Payer Enrollment</span></a>
-    <a href="/services/caqh-management"><i class="fa-solid fa-database"></i><span>CAQH Management</span></a>
-    <a href="/services/medicare-pecos"><i class="fa-solid fa-hospital-user"></i><span>Medicare & PECOS Enrollment</span></a>
-    <a href="/services/medicaid-enrollment"><i class="fa-solid fa-file-medical"></i><span>Medicaid Enrollment</span></a>
-    <a href="/services/eligibility-verification"><i class="fa-solid fa-shield-halved"></i><span>Eligibility & Benefits Verification</span></a>
-    <a href="/services/claims-management"><i class="fa-solid fa-file-circle-check"></i><span>Claims Management</span></a>
-    <a href="/services/denial-management"><i class="fa-solid fa-ban"></i><span>Denial Management</span></a>
-    <a href="/services/prior-authorization"><i class="fa-solid fa-clipboard-check"></i><span>Prior Authorization</span></a>
-    <a href="/services/hospital-privileging"><i class="fa-solid fa-building-columns"></i><span>Hospital Privileging</span></a>
-    <a href="/services/credentialing-tracking"><i class="fa-solid fa-calendar-check"></i><span>Credentialing & Expiration Tracking</span></a>
-    <hr>
-    <strong style="color:#842135;">Free Tools <small style="background:#842135;color:white;padding:2px 6px;border-radius:10px;font-size:9px;">NEW</small></strong>
-    <a href="/tools/patient-bill-defender" style="background:#842135; border-radius:12px; padding:14px; display:flex; gap:10px; align-items:center;">
-      <i class="fa-solid fa-shield-heart" style="background:white; color:#842135; width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center;"></i><span style="font-weight:700; color:white;">Patient Bill Defender</span><small style="margin-left:auto; background:white; color:#842135; padding:3px 8px; border-radius:10px; font-size:9px; font-weight:800;">NEW</small>
-    </a>
-    <a href="/tools/doctor-rcm-portal" style="background:#0e3a8a; border-radius:12px; padding:14px; display:flex; gap:10px; align-items:center; margin-top:8px;">
-      <i class="fa-solid fa-user-doctor" style="background:white; color:#0e3a8a; width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center;"></i><span style="font-weight:700; color:white;">Doctor RCM Portal</span><small style="margin-left:auto; background:white; color:#0e3a8a; padding:3px 8px; border-radius:10px; font-size:9px; font-weight:800;">NEW</small>
-    </a>
-    <hr>
-    <a href="/audit" style="font-weight:700; color:#842135;">Free RCM Audit</a>
-    <a href="/contact" style="background:#0e3a8a; color:white; text-align:center; border-radius:10px; padding:12px; margin-top:8px; font-weight:700;">Request a Consultation</a>
+    <a href="/">Home</a><a href="/about">About</a><a href="/blog" style="color:#842135;">Blog</a><a href="/audit">Free RCM Audit</a>
   </div>
 </header>
 
-<section class="blog-hero" id="heroSection" style="background:linear-gradient(rgba(26,10,10,.82),rgba(26,10,10,.82)),url('https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=1400&h=600&fit=crop') center/cover no-repeat">
+<section class="blog-hero" id="heroSection">
   <div class="container" id="heroContent">
     <h1>Medical Billing & RCM Blog</h1>
     <p>Expert insights, practical strategies, and industry updates to help healthcare providers improve billing, coding, credentialing, and revenue cycle performance.</p>
@@ -187,80 +99,30 @@
 
 <section class="section">
   <div class="container" id="mainContainer">
-    <div class="blog-section-head" id="sectionHead">
-      <div class="kicker"><i class="fa-solid fa-newspaper" style="margin-right:6px"></i>BLOG</div>
-      <h2>Latest Articles</h2>
-      <p class="lead">Practical insights for healthcare providers and medical practices.</p>
-    </div>
-    <div class="blog-grid" id="blogGrid">
-      <p style="color:#888;text-align:center;grid-column:1/-1">Loading posts...</p>
-    </div>
+    <div id="sectionHead"><div class="kicker">BLOG</div><h2>Latest Articles</h2><p class="lead">Practical insights for healthcare providers.</p></div>
+    <div class="blog-grid" id="blogGrid"><p style="color:#888;text-align:center;grid-column:1/-1">Loading posts...</p></div>
     <div id="blogDetail" style="display:none"></div>
   </div>
 </section>
 
 <footer class="footer">
   <div class="container footer-grid" style="grid-template-columns: 1.5fr 0.9fr 1.1fr 0.8fr 0.9fr; gap: 20px;">
-    <div>
-      <img src="/assets/images/logo-trim-light.png" alt="Hima Tech RCM">
+    <div><img src="/assets/images/logo-trim-light.png" alt="Hima Tech RCM" width="180" height="60" loading="lazy">
       <p>Healthcare revenue cycle, credentialing, enrollment and billing support for U.S. providers.</p>
-      <p style="margin-top:12px">
-        <a href="mailto:info@himatechrcm.com" style="display:block;margin:6px 0"><i class="fa-solid fa-envelope" style="margin-right:6px"></i>info@himatechrcm.com</a>
-        <a href="tel:+12146138150" style="display:block;margin:6px 0"><i class="fa-solid fa-phone" style="margin-right:6px"></i>+1 (214) 613-8150</a>
-      </p>
     </div>
-    <div>
-      <h4>Solutions</h4>
-      <a href="/services/medical-billing">Medical Billing</a>
-      <a href="/services/revenue-cycle-management">Revenue Cycle Management</a>
-      <a href="/services/medical-coding">Medical Coding</a>
-      <a href="/services/provider-credentialing">Provider Credentialing</a>
-      <a href="/services/payer-enrollment">Payer Enrollment</a>
-    </div>
-    <div>
-      <h4>More Services</h4>
-      <a href="/services/caqh-management">CAQH Management</a>
-      <a href="/services/medicare-pecos">Medicare & PECOS Enrollment</a>
-      <a href="/services/medicaid-enrollment">Medicaid Enrollment</a>
-      <a href="/services/eligibility-verification">Eligibility & Benefits Verification</a>
-      <a href="/services/claims-management">Claims Management</a>
-    </div>
-    <div>
-      <h4>Company</h4>
-      <a href="/about">About Us</a>
-      <a href="/specialties">Specialties</a>
-      <a href="/free-rcm-audit">Free RCM Audit</a>
-      <a href="/free-consultation">Free Consultation</a>
-    </div>
-    <div>
-      <h4>Free Tools <span style="background:#dc2626; color:white; font-size:9px; padding:2px 6px; border-radius:10px; vertical-align:middle; margin-left:4px;">NEW</span></h4>
-      <a href="/tools/patient-bill-defender">Patient Bill Defender</a>
-      <a href="/tools/doctor-rcm-portal">Doctor RCM Portal</a>
-    </div>
+    <div><h4>Solutions</h4><a href="/services/medical-billing">Medical Billing</a><a href="/services/revenue-cycle-management">RCM</a></div>
+    <div><h4>Company</h4><a href="/about">About Us</a><a href="/audit">Free RCM Audit</a><a href="/contact">Free Consultation</a></div>
   </div>
- <div class="footer-bottom" style="border-top:1px solid rgba(255,255,255,0.1); margin-top:30px; padding:15px 30px; display:flex; justify-content:space-between; flex-wrap:wrap; font-size:13px; opacity:0.8; max-width:1200px; margin-left:auto; margin-right:auto;">
-    <div>© 2026 Hima Tech RCM. All rights reserved.</div>
-    <div style="display:flex; gap:15px;">
-      <a href="/privacy">Privacy</a>
-      <a href="/terms">Terms</a>
-      <a href="/hipaa">HIPAA</a>
-    </div>
-  </div>
+  <div class="footer-bottom"><div>© 2026 Hima Tech RCM. All rights reserved.</div><div><a href="/privacy">Privacy</a> <a href="/terms">Terms</a> <a href="/hipaa">HIPAA</a></div></div>
 </footer>
-<script src="/assets/js/site.js"></script>
+
+<script src="/assets/js/site.js" defer></script>
 <script>
-// No stuck fix + Blog logic
-document.addEventListener('DOMContentLoaded', function() {
-  document.querySelectorAll('.navbar .dropdown button').forEach(btn => {
-    btn.addEventListener('click', function(e) {
-      e.preventDefault();
-      setTimeout(() => { this.blur(); document.activeElement.blur(); }, 10);
-    });
-    btn.addEventListener('focus', function() {
-      setTimeout(() => this.blur(), 50);
-    });
-  });
-});
+const SHORT_URL_MAP = {
+  "when-do-fy-2027-icd-10-pcs-updates-go-into-effect-effective": "fy-2027-pcs-effective-date",
+  "icd-10-changes-2027-complete-list-of-new-deleted-revised": "icd-10-changes-2027",
+  "medicaid-income-rules-2026-caregiving-self-employment-work": "medicaid-income-rules-2026"
+};
 
 async function loadPostsData(){
   try{
@@ -281,65 +143,48 @@ function getSlugFromUrl(){
   if(parts.length >= 2 && parts[0] === 'blog') return parts[1];
   return null;
 }
+function updateSEO(post){
+  // SEO FIX: Dynamic Title, Description, Canonical
+  const title = post.seoTitle || `${post.title} | Hima Tech RCM Blog`;
+  const desc = post.seoDescription || post.excerpt?.substring(0,155) || '';
+  const url = `https://www.himatechrcm.com/blog/${post.slug}`;
+
+  document.title = title;
+  document.querySelector('meta[name="description"]').setAttribute('content', desc);
+  document.getElementById('canonicalTag').setAttribute('href', url);
+  document.getElementById('ogUrl').setAttribute('content', url);
+  document.getElementById('ogTitle').setAttribute('content', title);
+  document.getElementById('ogDesc').setAttribute('content', desc);
+
+  // SEO FIX: BlogPosting Schema
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": post.title,
+    "description": desc,
+    "image": post.image,
+    "author": {"@type": "Organization","name": "Hima Tech RCM"},
+    "publisher": {"@type": "Organization","name": "Hima Tech RCM","logo": {"@type": "ImageObject","url": "https://www.himatechrcm.com/assets/images/logo-trim.png"}},
+    "datePublished": post.date,
+    "dateModified": post.lastModified || post.date,
+    "mainEntityOfPage": url
+  };
+  document.getElementById('blogSchema').textContent = JSON.stringify(schema);
+}
 function renderList(posts){
   const grid = document.getElementById('blogGrid');
   document.getElementById('blogDetail').style.display='none';
   grid.style.display='grid';
   document.getElementById('sectionHead').style.display='block';
-  document.getElementById('heroContent').innerHTML='<h1>Medical Billing & RCM Blog</h1><p>Expert insights, practical strategies, and industry updates to help healthcare providers improve billing, coding, credentialing, and revenue cycle performance.</p>';
+  document.title = 'Medical Billing & RCM Blog | Expert Insights for US Providers | Hima Tech RCM';
+  document.getElementById('canonicalTag').setAttribute('href','https://www.himatechrcm.com/blog');
   if(!posts.length){
     grid.innerHTML='<p style="color:#888;text-align:center;grid-column:1/-1">No posts available yet.</p>';
     return;
   }
-  grid.innerHTML=posts.map((p,i)=>`
+  grid.innerHTML=posts.map(p=>`
     <article class="blog-card">
-      ${i===0?'<span class="blog-badge">Featured</span>':''}
-      <div class="blog-img" style="background:url('${p.image}') center/cover no-repeat"><div style="position:absolute;inset:0;background:rgba(139,26,26,.15)"></div></div>
+      <div class="blog-img" style="background:url('${p.image}') center/cover no-repeat"></div>
       <div class="blog-body">
         <div class="blog-meta">
-          <span class="blog-date"><i class="fa-solid fa-calendar-days" style="margin-right:4px"></i> ${new Date(p.date).toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'})}</span>
-          <span class="blog-cat">${p.category}</span>
-        </div>
-        <h3>${p.title}</h3>
-        <p>${p.excerpt}</p>
-        <a href="/blog/${p.slug}" class="blog-link">Read Article <i class="fa-solid fa-arrow-right"></i></a>
-      </div>
-    </article>
-  `).join('');
-}
-function renderDetail(post){
-  const grid = document.getElementById('blogGrid');
-  const detail = document.getElementById('blogDetail');
-  const sectionHead = document.getElementById('sectionHead');
-  grid.style.display='none';
-  sectionHead.style.display='none';
-  detail.style.display='block';
-  document.title = post.title + ' | Hima Tech RCM';
-  document.getElementById('heroContent').innerHTML=`<h1 style="font-size:32px;max-width:800px;margin:0 auto">${post.title}</h1><p style="margin-top:12px">${post.category} • ${new Date(post.date).toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'})}</p>`;
-  detail.innerHTML=`
-    <a href="/blog" class="back-link"><i class="fa-solid fa-arrow-left"></i> Back to All Articles</a>
-    <div class="blog-detail">
-      <div class="meta"><span class="blog-cat">${post.category}</span><span>${new Date(post.date).toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'})}</span></div>
-      <h1>${post.title}</h1>
-      <p style="color:#666;font-size:18px;line-height:1.6;margin-bottom:16px">${post.excerpt}</p>
-      <img class="hero" src="${post.image}" alt="${post.title}" onerror="this.style.display='none'">
-      <div class="content">${post.content}</div>
-      <hr style="margin:40px 0;border:none;border-top:1px solid #eee">
-      <a href="/blog" class="back-link"><i class="fa-solid fa-arrow-left"></i> Back to All Articles</a>
-    </div>
-  `;
-  window.scrollTo({top:0,behavior:'smooth'});
-}
-(async function init(){
-  const posts = await loadPostsData();
-  const slug = getSlugFromUrl();
-  if(slug){
-    const post = posts.find(p=>p.slug===slug) || posts.find(p=>String(p.id)===slug) || posts.find(p=>p.slug && slug.includes(p.slug)) || posts.find(p=>p.slug && p.slug.includes(slug));
-    if(post){ renderDetail(post); } else {
-      document.getElementById('blogGrid').innerHTML=`<div style="grid-column:1/-1;text-align:center;padding:60px"><h2 style="color:#842135">Article not found</h2><p style="color:#888">The article "${slug}" does not exist.</p><a href="/blog" style="color:#842135;font-weight:600">← Back to Blog</a></div>`;
-    }
-  } else { renderList(posts); }
-})();
-</script>
-</body>
-</html>
+          <span class="blog-date">${new Date(p.date).toLocaleDate
