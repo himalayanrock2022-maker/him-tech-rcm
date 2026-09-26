@@ -1,3 +1,14 @@
+// UNIVERSAL HEADER FOOTER LOADER
+async function loadComponent(id, url){
+  try{
+    const res = await fetch(url + '?v=' + Date.now());
+    if(res.ok) document.getElementById(id).innerHTML = await res.text();
+  }catch(e){}
+}
+document.addEventListener('DOMContentLoaded', ()=>{
+  loadComponent('site-header','/assets/components/header.html');
+  loadComponent('site-footer','/assets/components/footer.html');
+});
 document.addEventListener('DOMContentLoaded', () => {
   const menuBtn = document.querySelector('.menu');
   const mobileMenu = document.querySelector('.mobile-menu');
