@@ -1,4 +1,24 @@
 User-agent: *
 Allow: /
 
+# Block Admin & Private Pages - Kabhi index nahi hone chahiye
+Disallow: /blog-builder
+Disallow: /admin
+Disallow: /api/
+Disallow: /*?*
+Disallow: /hima-final/
+
+# Allow important assets
+Allow: /assets/
+Allow: /*.css
+Allow: /*.js
+Allow: /*.png
+Allow: /*.jpg
+Allow: /*.jpeg
+Allow: /*.webp
+
+# Sitemap
 Sitemap: https://www.himatechrcm.com/sitemap.xml
+
+# Host
+Host: https://www.himatechrcm.com
