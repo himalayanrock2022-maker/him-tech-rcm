@@ -22,175 +22,204 @@
   font-family: "Optimistic Mono", ui-monospace, monospace;
 }
 </style>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Blog Builder | Hima Tech RCM - AI Stylish FINAL</title>
-  <meta name="robots" content="noindex, nofollow, noarchive">
-  <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <style>
-    *{margin:0;padding:0;box-sizing:border-box}body{font-family:'Inter',system-ui,sans-serif;background:#f8f9fb;color:#1a1a2e;min-height:100vh}
-    .login-overlay{position:fixed;inset:0;background:linear-gradient(135deg,#1a0a10 0%,#3a0f1f 40%,#842135 100%);z-index:9999;display:flex;align-items:center;justify-content:center}
-    .login-overlay.hidden{display:none}.login-card{background:#fff;border-radius:20px;padding:40px;width:100%;max-width:400px;box-shadow:0 25px 60px rgba(0,0,0,.3);text-align:center}
-    .login-input{width:100%;padding:14px 18px;border:2px solid #e8e8e8;border-radius:12px;font-size:1rem;background:#f8f9fb}
-    .login-btn{width:100%;padding:14px;background:linear-gradient(135deg,#842135,#a03050);color:#fff;border:none;border-radius:12px;font-weight:700;cursor:pointer;margin-top:16px}
-    .login-error{color:#dc3545;font-size:.85rem;margin-top:12px;display:none}
-    .admin-header{background:linear-gradient(135deg,#1a0a10 0%,#3a0f1f 50%,#842135 100%);color:#fff;position:sticky;top:0;z-index:100}
-    .header-inner{max-width:1100px;margin:0 auto;padding:14px 30px;display:flex;justify-content:space-between;align-items:center}
-    .container{max-width:1100px;margin:0 auto;padding:20px}
-    .card{background:#fff;border-radius:16px;padding:24px;box-shadow:0 1px 8px rgba(0,0,0,.05);margin-bottom:18px;border:1px solid #f0f0f0}
-    .card-header{display:flex;align-items:center;gap:10px;margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid #f5f5f5}
-    .card-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;background:#842135;color:#fff}
-    .form-group{margin-bottom:14px}.form-group label{display:block;font-weight:600;margin-bottom:5px;font-size:.8rem;color:#555;text-transform:uppercase}
-    .form-group input,.form-group select,.form-group textarea{width:100%;padding:11px 14px;border:1.5px solid #e4e4e4;border-radius:10px;font-size:.9rem;background:#fafbfc}
-    .featured-image{border:2px dashed #d5d5d5;border-radius:14px;padding:30px;text-align:center;cursor:pointer;min-height:160px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#fafbfc}
-    .featured-image.has-image{padding:0;border-style:solid;border-color:#842135}
-    .featured-image img{width:100%;height:180px;object-fit:cover;display:block}
-    .editor-wrapper{border:1.5px solid #e4e4e4;border-radius:12px;overflow:hidden}
-    .ql-container{border:none!important;min-height:350px}.ql-editor{min-height:350px;padding:20px;line-height:1.8;font-size:14px}
-    .btn{padding:10px 20px;border:none;border-radius:9px;font-size:.85rem;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
-    .btn-primary{background:linear-gradient(135deg,#842135,#a03050);color:#fff}.btn-ai{background:#111;color:#fff}.btn-outline{background:#fff;color:#842135;border:1.5px solid #842135}.btn-danger{background:#dc3545;color:#fff}.btn-sm{padding:6px 12px;font-size:.75rem}
-    .status-bar{padding:12px 16px;border-radius:8px;margin-top:14px;display:none;font-size:.85rem}
-    .status-bar.success{background:#d4edda;color:#155724;display:flex}.status-bar.error{background:#f8d7da;color:#721c24;display:flex}
-    .post-item{display:flex;justify-content:space-between;align-items:center;padding:14px;border:1px solid #f0f0f0;border-radius:10px;margin-bottom:8px}
-    .tabs{display:flex;gap:4px;margin-bottom:16px;background:#fff;border-radius:12px;padding:4px;border:1px solid #eee}.tab{flex:1;padding:10px;text-align:center;border-radius:8px;cursor:pointer;font-weight:600;font-size:.85rem;color:#777}.tab.active{background:#842135;color:#fff}
-  </style>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Token Publisher - Hima Tech RCM - FINAL</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:Inter,system-ui;background:#faf7f8;color:#111;min-height:100vh}
+.top{background:linear-gradient(90deg,#1a0a10,#842135);color:#fff;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:10}
+.card{background:#fff;border:1px solid #eee;border-radius:14px;padding:16px;margin:12px;box-shadow:0 2px 10px rgba(0,0,0,.04)}
+input,select,textarea{width:100%;padding:12px;border:1.5px solid #e5d7d9;border-radius:10px;margin-top:6px;font-size:14px}
+label{font-size:10px;font-weight:800;color:#666;text-transform:uppercase;letter-spacing:.6px;margin-top:10px;display:block}
+.btn{padding:12px 18px;border:none;border-radius:10px;font-weight:800;cursor:pointer;font-size:13px}
+.btn-primary{background:linear-gradient(135deg,#842135,#c43a52);color:#fff}
+.btn-dark{background:#111;color:#fff}
+.log{background:#0f0f0f;color:#00ff88;font-family:monospace;font-size:11px;padding:12px;border-radius:10px;white-space:pre-wrap;max-height:280px;overflow:auto;margin-top:10px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:700px){.grid{grid-template-columns:1fr}}
+.article{line-height:1.7;font-size:14px}
+.article h2{font-size:17px;font-weight:800;margin:18px 0 8px;padding-left:12px;position:relative}
+.article h2:before{content:'';position:absolute;left:0;top:3px;bottom:3px;width:3px;background:#842135;border-radius:2px}
+</style>
 </head>
 <body>
-<div class="login-overlay" id="loginOverlay">
-  <div class="login-card">
-    <div style="width:140px;height:100px;margin:0 auto 16px;background:#f0f0f0;border-radius:12px;display:flex;align-items:center;justify-content:center"><img src="/assets/images/logo-trim-light.png" style="width:90%;height:90%;object-fit:contain" alt="Hima"></div>
-    <h2>Blog Builder</h2><p style="color:#666;font-size:.9rem;margin:8px 0 16px">Enter password</p>
-    <input type="password" class="login-input" id="loginPassword" placeholder="Password..." onkeydown="if(event.key==='Enter')checkLogin()">
-    <button class="login-btn" onclick="checkLogin()">Sign In</button>
-    <p class="login-error" id="loginError">Incorrect password.</p>
-  </div>
+<div class="top"><div style="display:flex;gap:8px;align-items:center"><div style="background:#fff;border-radius:8px;padding:4px 8px;color:#842135;font-weight:800">HIMA</div><div>Token Publisher - FINAL</div></div><a href="/blog" style="color:#fff;text-decoration:none;font-size:12px">View Blog</a></div>
+
+<div class="card" style="border:2px solid #111">
+<h2 style="font-size:18px">🔑 Token Wala - Direct GitHub Push (No Vercel, No 401)</h2>
+<p style="font-size:12px;color:#666;margin:6px 0">No em dash, short 500-600 words, stylish boxes, human tone. Token local me save hoga.</p>
+
+<label>Blog Title *</label><input id="title" placeholder="How to Reduce AR Days in 2026" value="How to Reduce AR Days in 2026">
+
+<div class="grid" style="margin-top:8px">
+<div><label>Category</label><select id="cat"><option>Revenue Cycle Management</option><option>Medical Billing</option><option>Medical Coding</option><option>Credentialing</option><option>Compliance</option><option>Industry News</option></select></div>
+<div><label>GitHub Token (ghp_...)</label><input id="tok" type="text" placeholder="ghp_xxxxxxxxxxxx" autocomplete="off"></div>
 </div>
-<div class="admin-header" id="adminHeader" style="display:none"><div class="header-inner"><div><img src="/assets/images/logo-trim-light.png" style="height:32px;background:#fff;border-radius:6px;padding:3px 6px"></div><div><a href="/blog" style="color:#fff;text-decoration:none;margin-right:12px;font-size:.85rem">View Blog</a><button onclick="logout()" style="background:rgba(0,0,0,.3);color:#fff;border:1px solid #fff3;padding:5px 12px;border-radius:6px;cursor:pointer;font-size:.8rem">Logout</button></div></div></div>
-<div class="container" id="mainContent" style="display:none">
-  <div class="tabs"><div class="tab active" onclick="switchTab('editor')">Write Post</div><div class="tab" onclick="switchTab('posts')">All Posts <span id="postCount">0</span></div></div>
-  <div id="tab-editor">
-    <div class="card" style="border:2px solid #111;background:#fffafa">
-      <div class="card-header"><div class="card-icon" style="background:#111"><i class="fa-solid fa-wand-magic-sparkles"></i></div><div><h3>AI Auto Generator - Stylish Short - No AI Signs</h3><p style="font-size:.8rem;color:#666">Tumhara working /api/blog code + AI stylish generator - direct blog page me push hoga</p></div></div>
-      <div style="display:flex;gap:8px;flex-wrap:wrap"><input type="text" id="aiTitle" placeholder="e.g. How to Reduce AR Days in 2026" style="flex:1;min-width:200px;font-weight:600;padding:12px;border-radius:10px;border:1.5px solid #111"><button class="btn btn-ai" onclick="aiGenerate()">✨ Generate Stylish Article</button></div>
-      <div style="font-size:10px;color:#888;margin-top:6px">✓ No — ✓ 500-600 words ✓ Stylish boxes ✓ Human tone ✓ /api/blog se direct push - no 404</div>
-    </div>
-    <div class="card"><div class="card-header"><div class="card-icon"><i class="fa-solid fa-heading"></i></div><div><h3>Post Details</h3></div></div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px"><div class="form-group"><label>Post Title *</label><input type="text" id="title" placeholder="Title" oninput="generateSEO()"></div><div class="form-group"><label>Category</label><select id="category"><option>Revenue Cycle Management</option><option>Medical Billing</option><option>Medical Coding</option><option>Credentialing</option><option>Compliance</option><option>Industry News</option></select></div></div>
-      <div class="form-group"><label>Excerpt *</label><textarea id="excerpt" maxlength="160" oninput="checkExcerpt()"></textarea><div id="excerptScore" style="font-size:.75rem;margin-top:4px"></div></div>
-    </div>
-    <div class="card" style="border:2px solid #842135"><div class="card-header"><div class="card-icon"><i class="fa-solid fa-magnifying-glass"></i></div><div><h3>SEO Settings</h3></div></div>
-      <div class="form-group"><label>SEO Title (60 chars)</label><input type="text" id="seoTitle" maxlength="60"><div id="seoTitleScore" style="font-size:.75rem"></div></div>
-      <div class="form-group"><label>SEO Description (160 chars)</label><textarea id="seoDescription" maxlength="160"></textarea></div>
-      <div class="form-group"><label>Slug</label><input type="text" id="slugPreview" readonly style="background:#f0f0f0;color:#842135;font-weight:600"><small style="color:#888">/blog/<span id="finalUrl">...</span></small></div>
-    </div>
-    <div class="card"><div class="card-header"><div class="card-icon"><i class="fa-solid fa-image"></i></div><div><h3>Featured Image</h3></div></div>
-      <div class="featured-image" id="featuredImageArea" onclick="document.getElementById('featuredFile').click()"><div id="imagePlaceholder"><i class="fa-solid fa-cloud-arrow-up"></i><br><strong>Click to upload</strong></div><img id="imagePreview" style="display:none"><input type="file" id="featuredFile" accept="image/*" style="display:none" onchange="handleFeaturedImage(event)"></div>
-      <div class="form-group" style="margin-top:10px"><label>Or image URL</label><input type="url" id="imageUrl" oninput="handleImageUrl()"></div>
-      <div class="form-group"><label>Alt Text</label><input type="text" id="imageAlt"></div>
-    </div>
-    <div class="card"><div class="card-header"><div class="card-icon"><i class="fa-solid fa-align-left"></i></div><div><h3>Blog Content</h3></div></div><div class="editor-wrapper"><div id="editor"></div></div><div style="text-align:right;font-size:.75rem;color:#aaa;margin-top:4px" id="wordCount">0 words</div></div>
-    <div style="display:flex;gap:8px;margin-top:16px;flex-wrap:wrap"><button class="btn btn-primary" onclick="publishPost()">🚀 Publish to Blog Page</button><button class="btn btn-outline" onclick="previewPost()">Preview</button><button class="btn btn-danger" onclick="clearForm()">Clear</button></div>
-    <div id="status" class="status-bar"></div>
-  </div>
-  <div id="tab-posts" style="display:none"><div class="card"><div id="postList">No posts yet.</div></div></div>
+
+<div class="grid" style="margin-top:8px">
+<div><label>Owner</label><input id="owner" value="him-tech-rcm"></div>
+<div><label>Repo</label><input id="repo" value="hima-final"></div>
 </div>
-<script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
+
+<div class="grid" style="margin-top:8px">
+<div><label>File Path (IMPORTANT: sirf posts.json)</label><input id="path" value="posts.json"></div>
+<div><label>Branch</label><select id="branch"><option>main</option><option>master</option></select></div>
+</div>
+
+<div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap">
+<button class="btn btn-primary" onclick="gen()">✨ 1. Generate Stylish Article</button>
+<button class="btn btn-dark" onclick="checkRepo()">2. Check Repo</button>
+<button class="btn btn-primary" style="background:#111" onclick="publish()">🚀 3. Publish Now</button>
+</div>
+<div style="font-size:11px;color:#666;margin-top:8px">✓ File exist nahi karti to khud ban jayegi. OWNER aur REPO exact lowercase me likho. Agar 404 aaye to FILE PATH ko posts.json rakho, blog/posts.json nahi.</div>
+</div>
+
+<div id="out" style="display:none">
+<div class="grid">
+<div><div class="card"><label>SEO Title</label><input id="seoT"><label>SEO Desc</label><textarea id="seoD" maxlength="160"></textarea><label>Slug</label><input id="slug"><label>Excerpt</label><textarea id="ex"></textarea></div></div>
+<div><div class="card"><div id="art" class="article" contenteditable="true" style="border:1px solid #eee;border-radius:10px;padding:12px;min-height:380px;background:#fcfbfc"></div><div id="wc" style="font-size:11px;color:#999;margin-top:6px"></div></div></div>
+</div>
+</div>
+
+<div class="card"><div id="log" class="log">Log: Ready... Token dalo, Generate pe click karo, phir Check Repo, phir Publish.</div></div>
+
 <script>
-const ADMIN_PASSWORD='himatech2026';
-function checkLogin(){if(document.getElementById('loginPassword').value===ADMIN_PASSWORD){document.getElementById('loginOverlay').classList.add('hidden');document.getElementById('adminHeader').style.display='block';document.getElementById('mainContent').style.display='block';sessionStorage.setItem('himatech_admin_auth','true');}else{document.getElementById('loginError').style.display='block';}}
-function logout(){sessionStorage.removeItem('himatech_admin_auth');location.reload();}
-if(sessionStorage.getItem('himatech_admin_auth')==='true'){document.getElementById('loginOverlay').classList.add('hidden');document.getElementById('adminHeader').style.display='block';document.getElementById('mainContent').style.display='block';}
-const quill=new Quill('#editor',{theme:'snow',placeholder:'Start writing...',modules:{toolbar:[[{header:[2,3,false]}],['bold','italic','underline'],['blockquote','code-block'],[{list:'ordered'},{list:'bullet'}],['link','image'],['clean']]}});
-quill.on('text-change',()=>{const t=quill.getText().trim();document.getElementById('wordCount').textContent=(t?t.split(/\\s+/).length:0)+' words';});
-let posts=[];let featuredImageBase64='';let editingId=null;
-async function loadPosts(){try{const r=await fetch('/api/blog');if(r.ok)posts=await r.json();}catch(e){} renderPosts();}
-async function saveToGitHub(a,p,pid){try{const b={action:a};if(a==='delete')b.postId=pid;else if(a==='update'){b.posts=[p];b.postId=pid;}else b.posts=[p];const r=await fetch('/api/blog',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(b)});const d=await r.json();if(!r.ok)throw new Error(d.error||d.message||'Failed');return true;}catch(e){showStatus('Failed: '+e.message,'error');return false;}}
-function renderPosts(){document.getElementById('postCount').textContent=posts.length;document.getElementById('postList').innerHTML=posts.map(p=>`<div class="post-item"><div><strong>${p.title}</strong><br><small>${p.category} - ${p.date}</small></div><div><button class="btn btn-outline btn-sm" onclick="editPost(${p.id})">Edit</button><button class="btn btn-danger btn-sm" onclick="deletePost(${p.id})">Delete</button></div></div>`).join('')||'No posts';}
-function switchTab(t){document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));document.querySelectorAll('[id^="tab-"]').forEach(x=>x.style.display='none');if(t==='editor'){document.querySelectorAll('.tab')[0].classList.add('active');document.getElementById('tab-editor').style.display='block';}else{document.querySelectorAll('.tab')[1].classList.add('active');document.getElementById('tab-posts').style.display='block';}}
-function handleFeaturedImage(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>{featuredImageBase64=ev.target.result;document.getElementById('imagePreview').src=ev.target.result;document.getElementById('imagePreview').style.display='block';document.getElementById('imagePlaceholder').style.display='none';document.getElementById('featuredImageArea').classList.add('has-image');};r.readAsDataURL(f);}
-function handleImageUrl(){const u=document.getElementById('imageUrl').value.trim();if(u){featuredImageBase64='';document.getElementById('imagePreview').src=u;document.getElementById('imagePreview').style.display='block';document.getElementById('imagePlaceholder').style.display='none';document.getElementById('featuredImageArea').classList.add('has-image');}}
-function showStatus(m,t){const s=document.getElementById('status');s.textContent=m;s.className='status-bar '+(t==='error'?'error':'success');s.style.display='flex';setTimeout(()=>s.style.display='none',6000);}
-function generateSEO(){const title=document.getElementById('title').value.trim();if(!title)return;let rawSlug=title.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');let slug=rawSlug;if(rawSlug.length>60){let cut=rawSlug.substring(0,60);let lh=cut.lastIndexOf('-');slug=lh>30?cut.substring(0,lh):cut;}document.getElementById('slugPreview').value=slug;document.getElementById('finalUrl').textContent=slug;const seoTitle=document.getElementById('seoTitle');if(!seoTitle.dataset.manual){seoTitle.value=(title.substring(0,55)+' | Hima Tech RCM').substring(0,60);checkSeoTitle();}const alt=document.getElementById('imageAlt');if(!alt.value)alt.value=title;}
-function checkExcerpt(){const ex=document.getElementById('excerpt').value;const score=document.getElementById('excerptScore');const seoDesc=document.getElementById('seoDescription');if(!seoDesc.dataset.manual)seoDesc.value=ex.substring(0,160);if(ex.length>0){if(ex.length>=120&&ex.length<=160){score.textContent='✓ Perfect ('+ex.length+' chars)';score.style.color='#155724';}else{score.textContent=(ex.length<120?'Too short':'Too long')+' ('+ex.length+')';score.style.color='#721c24';}}}
-function checkSeoTitle(){const t=document.getElementById('seoTitle').value;const s=document.getElementById('seoTitleScore');if(t.length>0){if(t.length>=45&&t.length<=60){s.textContent='✓ Perfect ('+t.length+'/60)';s.style.color='#155724';}else{s.textContent='Length '+t.length+'/60';s.style.color='#721c24';}}}
-document.getElementById('seoTitle').addEventListener('input',function(){this.dataset.manual='true';checkSeoTitle();});
-document.getElementById('seoDescription').addEventListener('input',function(){this.dataset.manual='true';});
-function aiGenerate(){
-  let inputTitle=document.getElementById('aiTitle').value.trim()||document.getElementById('title').value.trim();
-  if(!inputTitle){showStatus('Title likho!','error');return}
-  document.getElementById('title').value=inputTitle;
-  let category=document.getElementById('category').value;
-  let slug=inputTitle.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').substring(0,60);
-  let seoTitle=(inputTitle.substring(0,52)+' | Hima Tech RCM').substring(0,60);
-  let excerpt=`Learn ${inputTitle.toLowerCase()} with practical 2026 strategies. Cut denials, speed up cash flow and improve patient experience.`;
-  document.getElementById('excerpt').value=excerpt;
-  document.getElementById('seoTitle').value=seoTitle;
-  document.getElementById('seoDescription').value=excerpt.substring(0,155);
-  document.getElementById('slugPreview').value=slug;
-  document.getElementById('finalUrl').textContent=slug;
-  document.getElementById('imageAlt').value=inputTitle+' - Hima Tech RCM';
-  checkExcerpt();checkSeoTitle();
-  let articleHTML=`
-<h2>Denial rates just hit 9 percent in 2026</h2>
-<p>If your team still chases claims manually, AR days will keep climbing. <strong>${inputTitle}</strong> is now a must have focus for stable cash flow. Practices that moved to prevention first saw real gains in 90 days.</p>
+function log(m){let el=document.getElementById('log'); el.textContent+="\n"+m; el.scrollTop=el.scrollHeight; console.log(m)}
+function slog(m){document.getElementById('log').textContent=m}
+function slugify(t){return t.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').substring(0,60)}
+let lastPost=null;
+
+function gen(){
+let title=document.getElementById('title').value.trim();
+if(!title){log('Title likho pehle');return}
+let cat=document.getElementById('cat').value;
+let slug=slugify(title);
+let seoT=(title.substring(0,52)+' | Hima Tech RCM').substring(0,60);
+let ex=`Learn ${title.toLowerCase()} with practical 2026 strategies. Cut denials, speed up cash flow and improve patient experience.`;
+let seoD=ex.substring(0,155);
+let clean=title.replace(/How to|What is|Why/gi,'').trim();
+
+let html=`
+<p>Denial rates just hit 9 percent in early 2026. If your team still chases claims manually, AR days will keep climbing. <strong>${title}</strong> is now a must have focus for stable cash flow and cleaner operations.</p>
 <div style="border-left:4px solid #842135;background:#fff1f3;padding:12px 16px;border-radius:0 12px 12px 0;margin:16px 0">
-<strong style="color:#842135">Key stat:</strong> Teams using predictive prevention see 30 percent fewer denials and 40 percent faster claim cycles. 71 percent of RCM leaders now rank patient financial experience as top priority.
+<strong style="color:#842135">Key stat:</strong> Teams using predictive prevention see 30 percent fewer denials and 40 percent faster claim cycles. 71 percent of RCM leaders now rank patient financial experience as top priority in 2026.
 </div>
 <h2>Why this matters now</h2>
-<p>Margins are tight and payer rules change often. Small front end errors create big back end work. Fixing the front end is faster and cheaper than fixing denials later.</p>
+<p>Margins are tight and payer rules change often. Small front end errors create big back end work. When eligibility and auth are missed, denials follow. Fixing the front end is faster and cheaper than fixing denials later.</p>
 <h2>Three trends to watch in 2026</h2>
-<h3>1. Touchless workflows</h3>
-<p>Eligibility checks, scrubbing and posting run without manual touches. Staff handles exceptions only.</p>
-<h3>2. Predictive denial prevention</h3>
-<p>Models flag risky claims before you bill. Clean claims go out on first pass.</p>
-<h3>3. Patient experience as revenue driver</h3>
-<p>Clear estimates and flexible options help patients pay on time.</p>
+<h3>1. Touchless workflows</h3><p>Eligibility checks, claim scrubbing and payment posting run without manual touches. Staff handles exceptions only.</p>
+<h3>2. Predictive denial prevention</h3><p>Models flag risky claims before you bill. Clean claims go out on first pass and come back faster.</p>
+<h3>3. Patient experience as revenue driver</h3><p>Clear estimates and flexible payment options help patients pay on time. Simple language and proactive updates reduce confusion.</p>
 <h2>Quick wins you can do this week</h2>
 <ul>
-<li><strong>Review 30 days of denials by root cause.</strong> Most denials in 2026 still come from eligibility, auth and demographics.</li>
+<li><strong>Review 30 days of denials by root cause.</strong> Most denials still come from eligibility, auth and demographics.</li>
 <li><strong>Turn on real time eligibility in scheduling.</strong> Aim for under 12 seconds per check.</li>
-<li><strong>Add a risk score to each claim before billing.</strong> Hold high risk claims for review.</li>
+<li><strong>Add a risk score to each claim before billing.</strong> Hold high risk claims for quick human review.</li>
 </ul>
 <div style="background:#faf7f8;border:1px solid #edd;border-radius:12px;padding:14px;margin:16px 0">
-<strong>Pro tip:</strong> Start with one payer that causes most denials. Fix that workflow first, then expand.
+<strong>Pro tip:</strong> Start with one payer that causes most denials. Fix that workflow first, measure results for two weeks, then expand to next payer.
 </div>
-<h2>How Hima Tech RCM helps</h2>
-<p>We combine certified coders with AI scrubbing for ${category.toLowerCase()}. For ${inputTitle.toLowerCase()}, our team audits your current flow and tracks denial rate weekly.</p>
-<p><strong>Want to cut AR days this quarter?</strong> Book a free 15 minute RCM review.</p>
+<h2>How Hima Tech RCM helps with ${clean}</h2>
+<p>We combine certified coders with AI scrubbing for ${cat.toLowerCase()}. For ${title.toLowerCase()}, our team audits your current flow, sets up touchless checks and tracks denial rate weekly. Clients usually see fewer denials in 90 days and faster collections without adding headcount.</p>
+<p><strong>Want to cut AR days this quarter?</strong> Book a free 15 minute RCM review. We will show you where denials start and how to stop them early.</p>
 <h2>FAQ</h2>
-<h3>What is average denial rate in 2026?</h3>
-<p>About 9 percent nationally. Strong teams reach 3 to 4 percent.</p>
-<h3>How fast is AI eligibility now?</h3>
-<p>Under 12 seconds in most connections.</p>
+<h3>What is average denial rate in 2026?</h3><p>About 9 percent nationally. Strong teams reach 3 to 4 percent with prevention first workflows.</p>
+<h3>How fast is AI eligibility now?</h3><p>Under 12 seconds in most payer connections. Auth varies by payer but automation cuts wait time by 40 percent.</p>
 `;
-  quill.root.innerHTML=articleHTML;
-  showStatus('✨ Stylish article generated! No em dash, short & human. Ab Publish pe click karo!','success');
+
+document.getElementById('seoT').value=seoT;
+document.getElementById('seoD').value=seoD;
+document.getElementById('slug').value=slug;
+document.getElementById('ex').value=ex;
+document.getElementById('art').innerHTML=html;
+document.getElementById('wc').textContent=document.getElementById('art').innerText.split(/\s+/).length+' words - short & stylish, no em dash';
+document.getElementById('out').style.display='block';
+lastPost={id:Date.now(),title,category:cat,excerpt:ex,seoTitle:seoT,seoDescription:seoD,slug,image:'',imageAlt:title,content:html,date:new Date().toISOString().split('T')[0]};
+slog('Generated: '+title+' | '+lastPost.content.length+' chars | Ready to publish');
+localStorage.setItem('hima_title',title);
 }
-async function publishPost(){
-  const title=document.getElementById('title').value.trim();
-  const category=document.getElementById('category').value;
-  const excerpt=document.getElementById('excerpt').value.trim();
-  const seoTitle=document.getElementById('seoTitle').value.trim();
-  const seoDescription=document.getElementById('seoDescription').value.trim();
-  const slug=document.getElementById('slugPreview').value.trim();
-  const imageAlt=document.getElementById('imageAlt').value.trim();
-  const imageUrlInput=document.getElementById('imageUrl').value.trim();
-  const content=quill.root.innerHTML;
-  if(!title||!excerpt||quill.getText().trim().length<20){showStatus('Title, Excerpt and Content required (min 20 words)','error');return}
-  let finalImage=featuredImageBase64||imageUrlInput||document.getElementById('imagePreview').src;
-  if(finalImage&&finalImage.includes('logo-trim')) finalImage='';
-  const post={id:editingId||Date.now(),title,category,excerpt,seoTitle:seoTitle||title.substring(0,60),seoDescription:seoDescription||excerpt.substring(0,160),slug:slug||title.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,''),image:finalImage,imageAlt:imageAlt||title,content:content,date:new Date().toISOString().split('T')[0]};
-  showStatus('Publishing via /api/blog...','success');
-  const ok=await saveToGitHub(editingId?'update':'create',post,post.id);
-  if(ok){showStatus('✅ Published! Blog page pe live ho gaya!','success');posts.unshift(post);renderPosts();}
+
+async function checkRepo(){
+let o=document.getElementById('owner').value.trim().toLowerCase();
+let r=document.getElementById('repo').value.trim();
+let tok=document.getElementById('tok').value.trim();
+if(!tok){log('Token dalo');return}
+log(`Checking repo ${o}/${r} ...`);
+try{
+let res=await fetch(`https://api.github.com/repos/${o}/${r}`,{headers:{Authorization:`token ${tok}`,Accept:'application/vnd.github.v3+json'}});
+let txt=await res.text();
+if(res.ok){
+let j=JSON.parse(txt);
+log(`✅ Repo found! Default branch: ${j.default_branch}, private: ${j.private}, full_name: ${j.full_name}`);
+document.getElementById('branch').value=j.default_branch;
+localStorage.setItem('gh_token',tok);
+}else{
+log(`❌ Repo check failed ${res.status}: ${txt.substring(0,500)}\nFix: owner/repo exact lowercase likho. Example: him-tech-rcm / hima-final`);
 }
-function editPost(id){const p=posts.find(x=>x.id==id);if(!p)return;editingId=p.id;document.getElementById('title').value=p.title;document.getElementById('aiTitle').value=p.title;document.getElementById('category').value=p.category;document.getElementById('excerpt').value=p.excerpt;document.getElementById('seoTitle').value=p.seoTitle||'';document.getElementById('seoDescription').value=p.seoDescription||'';document.getElementById('slugPreview').value=p.slug;document.getElementById('finalUrl').textContent=p.slug;document.getElementById('imageAlt').value=p.imageAlt||'';if(p.image){document.getElementById('imagePreview').src=p.image;document.getElementById('imagePreview').style.display='block';document.getElementById('imagePlaceholder').style.display='none';document.getElementById('featuredImageArea').classList.add('has-image');if(p.image.startsWith('http'))document.getElementById('imageUrl').value=p.image;else featuredImageBase64=p.image;}quill.root.innerHTML=p.content;switchTab('editor');window.scrollTo(0,0);}
-async function deletePost(id){if(!confirm('Delete?'))return;const ok=await saveToGitHub('delete',null,id);if(ok){posts=posts.filter(x=>x.id!=id);renderPosts();showStatus('Deleted','success');}}
-function previewPost(){const title=document.getElementById('title').value;const content=quill.root.innerHTML;const w=window.open();w.document.write(`<html><head><style>body{font-family:Inter,system-ui;max-width:800px;margin:40px auto;padding:20px;line-height:1.7}</style></head><body><h1>${title}</h1><hr>${content}</body></html>`);}
-function clearForm(){editingId=null;document.getElementById('title').value='';document.getElementById('aiTitle').value='';document.getElementById('excerpt').value='';document.getElementById('seoTitle').value='';document.getElementById('seoDescription').value='';document.getElementById('slugPreview').value='';document.getElementById('finalUrl').textContent='...';document.getElementById('imageUrl').value='';document.getElementById('imageAlt').value='';document.getElementById('imagePreview').style.display='none';document.getElementById('imagePlaceholder').style.display='block';document.getElementById('featuredImageArea').classList.remove('has-image');featuredImageBase64='';quill.setText('');}
-loadPosts();
+}catch(e){log('Error: '+e.message)}
+}
+
+async function publish(){
+if(!lastPost){gen(); if(!lastPost) return}
+let o=document.getElementById('owner').value.trim().toLowerCase();
+let r=document.getElementById('repo').value.trim();
+let path=document.getElementById('path').value.trim()||'posts.json';
+let branch=document.getElementById('branch').value.trim()||'main';
+let tok=document.getElementById('tok').value.trim()||localStorage.getItem('gh_token');
+if(!tok){log('Token dalo');return}
+localStorage.setItem('gh_token',tok);
+log(`Publishing to ${o}/${r}/${path} on branch ${branch}...`);
+
+try{
+// GET file
+let getUrl=`https://api.github.com/repos/${o}/${r}/contents/${encodeURIComponent(path)}?ref=${branch}`;
+let getRes=await fetch(getUrl,{headers:{Authorization:`token ${tok}`,Accept:'application/vnd.github.v3+json'}});
+let sha=null; let existing=[];
+if(getRes.ok){
+let data=await getRes.json(); sha=data.sha;
+let content=atob(data.content.replace(/\n/g,''));
+try{let parsed=JSON.parse(content); existing=Array.isArray(parsed)?parsed:(parsed.posts||[]);}catch{existing=[]}
+log(`File exists, ${existing.length} posts already, sha ${sha.substring(0,7)}`);
+}else if(getRes.status===404){
+log(`File not found at ${path}, creating new file...`);
+existing=[]; sha=null;
+}else{
+let err=await getRes.text(); throw new Error(`GET file failed ${getRes.status}: ${err.substring(0,400)}`);
+}
+
+// Prepare new array
+let updatedPost={...lastPost,
+title:document.getElementById('title').value.trim(),
+category:document.getElementById('cat').value,
+excerpt:document.getElementById('ex').value,
+seoTitle:document.getElementById('seoT').value,
+seoDescription:document.getElementById('seoD').value,
+slug:document.getElementById('slug').value,
+content:document.getElementById('art').innerHTML
+};
+let updated=[updatedPost, ...existing];
+let jsonStr=JSON.stringify(updated,null,2);
+let b64=btoa(unescape(encodeURIComponent(jsonStr)));
+let body={message:`Add blog: ${updatedPost.title}`,content:b64,branch:branch};
+if(sha) body.sha=sha;
+
+let putRes=await fetch(`https://api.github.com/repos/${o}/${r}/contents/${encodeURIComponent(path)}`,{method:'PUT',headers:{Authorization:`token ${tok}`,Accept:'application/vnd.github.v3+json','Content-Type':'application/json'},body:JSON.stringify(body)});
+let putTxt=await putRes.text();
+if(!putRes.ok){
+log(`❌ PUT failed ${putRes.status}: ${putTxt.substring(0,1000)}`);
+if(putRes.status===404){
+log(`\nFIX:\n1. GitHub pe jao, repo ${o}/${r} me Add file > Create new file > Name: ${path} > Content: [] > Commit\n2. Phir dubara Publish karo\n3. Ya FILE PATH ko sirf posts.json rakho`);
+}
+return;
+}
+let resData=JSON.parse(putTxt);
+log(`\n✅ SUCCESS! Published!\nFile: ${path}\nCommit: ${resData.commit.sha.substring(0,7)}\nView: https://github.com/${o}/${r}/blob/${branch}/${path}\nBlog me 1-2 min me dikhega agar blog page posts.json se padhta hai.`);
+}catch(e){log('❌ FAIL: '+e.message)}
+}
+
+// load saved
+let saved=localStorage.getItem('gh_token'); if(saved) document.getElementById('tok').value=saved;
+let savedTitle=localStorage.getItem('hima_title'); if(savedTitle) document.getElementById('title').value=savedTitle;
 </script>
 <script>(function(){var loc=location.href.replace(/#.*$/,"");var ATTR_NAMES=["data-product-id","data-productid","data-product_id","product-id","productid","product_id","data-source-entity-id","source-entity-id","source_entity_id","data-product","data-metadata","data-meta"];var DATASET_KEYS=["productId","productid","product_id","sourceEntityId","sourceentityid","source_entity_id","product","metadata","meta"];function readProductId(value){if(typeof value!=="string"||value.length===0)return null;if(/^[0-9]{6,}$/.test(value))return value;var match=value.match(/(?:product(?:_|-)?id|source(?:_|-)?entity(?:_|-)?id)["'=:\s]+([0-9]{6,})/i);return match?match[1]:null}function extractProductId(start){for(var node=start;node&&node!==document.body;node=node.parentElement){for(var i=0;i<ATTR_NAMES.length;i++){var attrValue=node.getAttribute&&node.getAttribute(ATTR_NAMES[i]);var attrProductId=readProductId(attrValue);if(attrProductId)return attrProductId}var dataset=node.dataset||null;if(dataset){for(var j=0;j<DATASET_KEYS.length;j++){var dataValue=dataset[DATASET_KEYS[j]];var dataProductId=readProductId(dataValue);if(dataProductId)return dataProductId}}}return null}function isInlineMediaSlotElement(node){return !!(node&&node.getAttribute&&node.getAttribute("data-clippy-inline-media-slot")!==null)}function findInlineMediaSlot(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(isInlineMediaSlotElement(node))return node}return null}function readInlineMediaUrl(node){if(!node)return null;return node.getAttribute&&((node.getAttribute("data-clippy-inline-media-url")||node.getAttribute("data-url")||node.getAttribute("data_url")))||node.href||null}function stripHash(url){return String(url).replace(/#.*$/,"")}function urlsMatch(a,b){if(!a||!b)return false;try{return stripHash(new URL(a,loc).href)===stripHash(new URL(b,loc).href)}catch(_){return stripHash(a)===stripHash(b)}}function isFirstPartyReelUrl(value){try{var url=new URL(value,loc);if(url.protocol!=="https:")return false;var host=url.hostname.toLowerCase();var supported=host==="instagram.com"||host.endsWith(".instagram.com")||host==="facebook.com"||host.endsWith(".facebook.com");return supported&&/\/reels?\//i.test(url.pathname)}catch(_){return false}}function isInlineMediaUrlClick(node,href){var slot=findInlineMediaSlot(node);if(!slot)return false;var slotUrl=readInlineMediaUrl(slot);if(slotUrl)return urlsMatch(href,slotUrl);return isFirstPartyReelUrl(href)}function findDataHref(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(node.getAttribute){var href=node.getAttribute("data-href")||node.getAttribute("data-url");if(href)return{href:href,node:node}}}return null}var nativeOpen=window.open;window.open=function(url){if(parent!==window&&typeof url==="string"&&/^https?:\/\//.test(url)){parent.postMessage({type:"ecto:usercontent-link-click",href:url},"*");return null}return nativeOpen?nativeOpen.apply(window,arguments):null};document.addEventListener("click",function(e){var target=e.target instanceof Element?e.target:null;if(!target)return;if(parent===window)return;var a=target.closest?target.closest("a[href]"):null;if(a&&a.href&&/^https?:\/\//.test(a.href)&&a.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(a,a.href))return;var productId=extractProductId(target)||extractProductId(a);if(productId){e.preventDefault();parent.postMessage({type:"ecto-artifact-link-click",productId:productId},"*");return}e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:a.href},"*");return}var dataHref=findDataHref(target);if(dataHref&&/^https?:\/\//.test(dataHref.href)&&dataHref.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(dataHref.node,dataHref.href))return;e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:dataHref.href},"*")}},true)})();</script><script>(function(){var FOCUS_TYPE="ecto:artifact-focus-request";var CLOSE_TYPE="ecto:artifact-close-request";function focusArtifactDocument(){var body=document.body;if(!body)return;try{window.focus();}catch(e){}if(!body.hasAttribute("tabindex"))body.setAttribute("tabindex","-1");try{body.focus({preventScroll:true});}catch(e){try{body.focus();}catch(e2){}}}window.addEventListener("message",function(event){if(event.source!==window.parent)return;var data=event.data;if(!data||typeof data!=="object"||data.type!==FOCUS_TYPE)return;if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",focusArtifactDocument,{once:true});return;}focusArtifactDocument();});window.addEventListener("keydown",function(event){if(event.key!=="Escape")return;window.setTimeout(function(){if(event.defaultPrevented)return;window.parent.postMessage({type:CLOSE_TYPE},"*");},0);});})();</script></body>
 </html>
