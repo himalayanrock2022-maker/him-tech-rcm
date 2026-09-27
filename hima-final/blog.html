@@ -340,27 +340,6 @@ function renderDetail(post){
     }
   } else { renderList(posts); }
 })();
-// === ADMIN BUTTON - SECRET ACCESS ===
-  // Logo pe 5 baar click ya Ctrl+Shift+A se admin khulega
-  let adminClicks = 0;
-  setTimeout(() => {
-    const logo = document.querySelector('header img, .logo, img[alt*="Hima"]');
-    if(logo){
-      logo.style.cursor = 'pointer';
-      logo.addEventListener('click', () => {
-        adminClicks++;
-        if(adminClicks >= 5){ window.location.href = '/admin.html'; }
-        setTimeout(()=> adminClicks = 0, 2000);
-      });
-    }
-  }, 1000);
-  
-  document.addEventListener('keydown', (e) => {
-    if(e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'a'){
-      window.location.href = '/admin.html';
-    }
-  });
-  // === END ADMIN BUTTON ===
-  </script>
+ </script>
 </body>
 </html>
