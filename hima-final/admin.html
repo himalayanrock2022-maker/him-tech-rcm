@@ -207,35 +207,48 @@ function showStatus(msg, type){
 }
 
 async function saveToGitHub(a,p,pid){
-  try{
-    const b = { action: a };
-    if(a === 'delete'){
-      b.postId = pid;
+async function saveToGitHub(p, a = 'create', pid = null) {
+  try {
+    if (!p && a !== 'delete') throw new Error('Post data missing');
+    
+    // ID ensure karo
+    const finalId = pid || p?.id || Date.now();
+    if (p) p.id = finalId;
+
+    const body = { action: a };
+    
+    if (a === 'delete') {
+      body.postId = String(finalId);
     } else {
-      b.post = p;
-      b.postId = pid || p.id;
+      body.post = p;
+      body.postId = String(finalId); // update ke liye chahiye
     }
 
-    const r = await fetch('/api/blog?t='+Date.now(),{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body: JSON.stringify(b)
+    const r = await fetch('/api/blog?t=' + Date.now(), {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      cache: 'no-store',
+      body: JSON.stringify(body)
     });
-    
-    const d = await r.json().catch(()=>({error:'Invalid JSON response'}));
-    
-    if(!r.ok){
-      if(r.status===401 || JSON.stringify(d).includes('401')){
-        throw new Error('GitHub Token Expire! Vercel > Settings > Environment Variables > GITHUB_TOKEN update karo + Redeploy karo');
+
+    const d = await r.json().catch(() => ({ error: 'Invalid JSON response from API' }));
+
+    if (!r.ok) {
+      const msg = JSON.stringify(d);
+      if (r.status === 401 || msg.includes('401') || msg.includes('Bad credentials')) {
+        throw new Error('GitHub Token Expire! Vercel > Settings > Env Vars > GITHUB_TOKEN update karo + Redeploy karo');
       }
-      throw new Error(d.error || d.message || 'Failed '+r.status);
+      if (msg.includes('empty but sha exists') || msg.includes('ABORT')) {
+        throw new Error('Safety Abort: GitHub file read fail hua, is liye save rok diya taake purane gaeb na hon. Dobara try karo.');
+      }
+      throw new Error(d.error || d.message || 'Failed ' + r.status);
     }
-    
-    showStatus('Saved to GitHub ✅','success');
+
+    showStatus(`Saved to GitHub ✅ Total: ${d.count} blogs`, 'success');
     return true;
-    
-  }catch(e){
-    showStatus('Failed: '+e.message,'error');
+
+  } catch (e) {
+    showStatus('Failed: ' + e.message, 'error');
     console.error('saveToGitHub error:', e);
     return false;
   }
