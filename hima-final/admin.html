@@ -203,22 +203,30 @@ function showStatus(msg, type){
 
 async function saveToGitHub(a,p,pid){
   try{
-    const b={action:a};
-    if(a==='delete') b.postId=pid;
-    else if(a==='update'){b.posts=[p];b.postId=pid;}
-    else b.posts=[p];
-    const r=await fetch('/api/blog',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(b)});
-    const d=await r.json().catch(()=>({error:'Invalid JSON response'}));
+    const b = { action: a };
+    if(a === 'delete'){
+      b.postId = pid;
+    } else {
+      b.post = p;
+      b.postId = pid || p.id;
+    }
+
+    const r = await fetch('/api/blog?t='+Date.now(),{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify(b)
+    });
+    const d = await r.json().catch(()=>({error:'Invalid JSON response'}));
     if(!r.ok){
-      // Better error for 401
-      if(r.status===401 || (d.error && d.error.includes('401'))){
-        throw new Error('GitHub Token 401 - Vercel me GITHUB_TOKEN expire ho gaya! Vercel > Settings > Env Variables > GITHUB_TOKEN update karo aur Redeploy karo. Error: '+(d.error||'401'));
+      if(r.status===401 || JSON.stringify(d).includes('401')){
+        throw new Error('GitHub Token Expire! Vercel > Settings > Env > GITHUB_TOKEN update karo + Redeploy karo');
       }
       throw new Error(d.error || d.message || 'Failed '+r.status);
     }
     return true;
   }catch(e){
     showStatus('Failed: '+e.message,'error');
+    console.error(e);
     return false;
   }
 }
