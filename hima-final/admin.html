@@ -1,545 +1,2701 @@
 <!DOCTYPE html>
 <html lang="en">
-<head><style>
-@font-face {
-  font-family: "Optimistic";
-  font-style: normal;
-  font-weight: 400 600;
-  font-display: swap;
-  src: url("/fonts/OptimisticAI_VF_Optimized.woff2") format("woff2");
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>Blog Builder | Hima Tech RCM</title>
+<meta name="robots" content="noindex,nofollow,noarchive">
+
+<link rel="icon" href="/assets/images/favicon.png">
+<link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box
 }
-@font-face {
-  font-family: "Optimistic Mono";
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url("/fonts/OptimisticMono_W_TextRegular.woff2") format("woff2");
+
+body{
+  font-family:Inter,system-ui,sans-serif;
+  background:#f7f8fa;
+  color:#191923;
+  min-height:100vh
 }
-:where(html) {
-  font-family: "Optimistic", system-ui, sans-serif;
+
+/* LOGIN */
+.login-overlay{
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(135deg,#18080e,#3a0f1f,#842135)
 }
-:where(code, pre, kbd, samp) {
-  font-family: "Optimistic Mono", ui-monospace, monospace;
+
+.login-overlay.hidden{
+  display:none
+}
+
+.login-card{
+  width:100%;
+  max-width:420px;
+  background:#fff;
+  border-radius:22px;
+  padding:42px 35px;
+  text-align:center;
+  box-shadow:0 25px 70px rgba(0,0,0,.35)
+}
+
+.login-logo{
+  width:180px;
+  height:110px;
+  margin:0 auto 22px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#f4f4f4;
+  border-radius:14px;
+  padding:15px
+}
+
+.login-logo img{
+  width:100%;
+  height:100%;
+  object-fit:contain
+}
+
+.login-card h1{
+  margin-bottom:8px
+}
+
+.login-card p{
+  color:#777;
+  margin-bottom:20px
+}
+
+.login-input{
+  width:100%;
+  padding:14px 16px;
+  border:1.5px solid #ddd;
+  border-radius:11px;
+  font-size:15px;
+  outline:none
+}
+
+.login-input:focus{
+  border-color:#842135;
+  box-shadow:0 0 0 4px rgba(132,33,53,.08)
+}
+
+.login-btn{
+  width:100%;
+  margin-top:14px;
+  padding:14px;
+  border:0;
+  border-radius:11px;
+  background:#842135;
+  color:#fff;
+  font-size:15px;
+  font-weight:700;
+  cursor:pointer
+}
+
+.login-error{
+  display:none;
+  color:#dc3545!important;
+  font-size:13px;
+  margin-top:12px
+}
+
+/* HEADER */
+.admin-header{
+  display:none;
+  position:sticky;
+  top:0;
+  z-index:100;
+  background:linear-gradient(135deg,#18080e,#3a0f1f,#842135);
+  color:#fff
+}
+
+.header-inner{
+  max-width:1100px;
+  margin:auto;
+  padding:13px 25px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between
+}
+
+.header-inner img{
+  height:38px
+}
+
+.header-actions{
+  display:flex;
+  align-items:center;
+  gap:10px
+}
+
+.header-link{
+  color:#fff;
+  text-decoration:none;
+  font-size:14px
+}
+
+.logout-btn{
+  border:1px solid rgba(255,255,255,.25);
+  background:rgba(255,255,255,.08);
+  color:#fff;
+  padding:7px 13px;
+  border-radius:8px;
+  cursor:pointer
+}
+
+/* MAIN */
+.container{
+  display:none;
+  max-width:1100px;
+  margin:auto;
+  padding:22px 18px 50px
+}
+
+.tabs{
+  display:flex;
+  gap:5px;
+  background:#fff;
+  border:1px solid #eee;
+  padding:5px;
+  border-radius:14px;
+  margin-bottom:20px
+}
+
+.tab{
+  flex:1;
+  text-align:center;
+  padding:13px;
+  border-radius:10px;
+  cursor:pointer;
+  color:#777;
+  font-weight:600;
+  font-size:14px
+}
+
+.tab.active{
+  background:#842135;
+  color:#fff
+}
+
+/* CARD */
+.card{
+  background:#fff;
+  border:1px solid #eee;
+  border-radius:16px;
+  padding:27px;
+  margin-bottom:20px;
+  box-shadow:0 2px 8px rgba(0,0,0,.035)
+}
+
+.card-header{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  margin-bottom:20px;
+  padding-bottom:15px;
+  border-bottom:1px solid #f0f0f0
+}
+
+.card-header h2{
+  font-size:20px
+}
+
+.card-header p{
+  color:#888;
+  font-size:13px;
+  margin-top:3px
+}
+
+.card-icon{
+  width:40px;
+  height:40px;
+  border-radius:10px;
+  background:#842135;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center
+}
+
+/* FORMS */
+.form-row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px
+}
+
+.form-group{
+  margin-bottom:16px
+}
+
+.form-group label{
+  display:block;
+  font-size:12px;
+  font-weight:700;
+  color:#555;
+  text-transform:uppercase;
+  letter-spacing:.4px;
+  margin-bottom:7px
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea{
+  width:100%;
+  padding:12px 14px;
+  border:1.5px solid #ddd;
+  border-radius:10px;
+  background:#fafbfc;
+  font-family:inherit;
+  font-size:14px;
+  outline:none
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus{
+  border-color:#842135;
+  background:#fff;
+  box-shadow:0 0 0 3px rgba(132,33,53,.07)
+}
+
+.form-group textarea{
+  min-height:90px;
+  resize:vertical
+}
+
+/* SEO */
+.seo-score{
+  display:none;
+  margin-top:6px;
+  padding:6px 9px;
+  border-radius:6px;
+  font-size:12px
+}
+
+.seo-score.good{
+  display:block;
+  background:#d4edda;
+  color:#155724
+}
+
+.seo-score.bad{
+  display:block;
+  background:#f8d7da;
+  color:#721c24
+}
+
+/* IMAGE */
+.featured-image{
+  min-height:200px;
+  border:2px dashed #d5d5d5;
+  border-radius:14px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  text-align:center;
+  padding:30px;
+  cursor:pointer;
+  background:#fafbfc
+}
+
+.featured-image.has-image{
+  padding:0;
+  overflow:hidden;
+  border-style:solid;
+  border-color:#842135
+}
+
+.featured-image img{
+  width:100%;
+  height:260px;
+  object-fit:cover
+}
+
+/* EDITOR */
+.editor-wrapper{
+  border:1.5px solid #ddd;
+  border-radius:12px;
+  overflow:hidden
+}
+
+.ql-container{
+  border:0!important
+}
+
+.ql-editor{
+  min-height:400px;
+  padding:24px;
+  line-height:1.8
+}
+
+/* BUTTONS */
+.btn{
+  padding:12px 22px;
+  border:0;
+  border-radius:10px;
+  cursor:pointer;
+  font-weight:700;
+  display:inline-flex;
+  align-items:center;
+  gap:7px
+}
+
+.btn-primary{
+  background:#842135;
+  color:#fff
+}
+
+.btn-dark{
+  background:#111;
+  color:#fff
+}
+
+.btn-outline{
+  background:#fff;
+  color:#842135;
+  border:1.5px solid #842135
+}
+
+.btn-danger{
+  background:#dc3545;
+  color:#fff
+}
+
+.btn-sm{
+  padding:7px 12px;
+  font-size:12px
+}
+
+/* STATUS */
+.status-bar{
+  display:none;
+  margin-top:16px;
+  padding:13px 16px;
+  border-radius:9px;
+  font-size:13px;
+  font-weight:600
+}
+
+.status-bar.success{
+  display:block;
+  background:#d4edda;
+  color:#155724
+}
+
+.status-bar.error{
+  display:block;
+  background:#f8d7da;
+  color:#721c24
+}
+
+/* POSTS */
+.post-item{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  border:1px solid #eee;
+  border-radius:11px;
+  padding:15px;
+  margin-bottom:10px
+}
+
+.post-title{
+  font-weight:700
+}
+
+.post-meta{
+  color:#888;
+  font-size:12px;
+  margin-top:4px
+}
+
+.post-actions{
+  display:flex;
+  gap:6px
+}
+
+.ai-box{
+  border:2px solid #111;
+  background:linear-gradient(135deg,#fff,#fff6f8)
+}
+
+.ai-row{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap
+}
+
+.ai-row input{
+  flex:1;
+  min-width:240px;
+  padding:13px 15px;
+  border:1.5px solid #111;
+  border-radius:10px
+}
+
+/* MOBILE */
+@media(max-width:650px){
+  .form-row{
+    grid-template-columns:1fr
+  }
+
+  .card{
+    padding:20px
+  }
+
+  .header-inner{
+    padding:12px 15px
+  }
+
+  .header-link{
+    display:none
+  }
+
+  .post-item{
+    flex-direction:column;
+    align-items:flex-start
+  }
+
+  .post-actions{
+    width:100%
+  }
+
+  .post-actions button{
+    flex:1
+  }
 }
 </style>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Blog Builder | Hima Tech RCM</title>
-  <meta name="robots" content="noindex, nofollow, noarchive">
-  <link rel="icon" href="/assets/images/favicon.png">
-  <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <style>
-    *{margin:0;padding:0;box-sizing:border-box}
-    body{font-family:'Inter',system-ui,sans-serif;background:#f8f9fb;color:#1a1a2e;min-height:100vh}
-   .login-overlay{position:fixed;inset:0;background:linear-gradient(135deg,#1a0a10 0%,#3a0f1f 40%,#842135 100%);z-index:9999;display:flex;align-items:center;justify-content:center}
-   .login-overlay.hidden{display:none}
-   .login-card{background:#fff;border-radius:20px;padding:48px 40px;width:100%;max-width:420px;box-shadow:0 25px 60px rgba(0,0,0,.3);text-align:center}
-   .login-logo{width:180px;height:130px;margin:0 auto 20px;display:flex;align-items:center;justify-content:center;background:#f0f0f0;border-radius:16px;padding:16px}
-   .login-logo img{width:100%;height:100%;object-fit:contain}
-   .login-input{width:100%;padding:14px 18px;border:2px solid #e8e8e8;border-radius:12px;font-size:1rem;transition:all.2s;background:#f8f9fb}
-   .login-input:focus{border-color:#842135;outline:none;background:#fff;box-shadow:0 0 0 4px rgba(132,33,53,.1)}
-   .login-btn{width:100%;padding:14px;background:linear-gradient(135deg,#842135,#a03050);color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:16px}
-   .login-error{color:#dc3545;font-size:.85rem;margin-top:12px;display:none}
-   .admin-header{background:linear-gradient(135deg,#1a0a10 0%,#3a0f1f 50%,#842135 100%);color:#fff;position:sticky;top:0;z-index:100}
-   .header-inner{max-width:1100px;margin:0 auto;padding:14px 30px;display:flex;justify-content:space-between;align-items:center}
-   .container{max-width:1100px;margin:0 auto;padding:20px}
-   .tabs{display:flex;gap:4px;margin-bottom:20px;background:#fff;border-radius:14px;padding:5px;box-shadow:0 1px 6px rgba(0,0,0,.05);border:1px solid #eee}
-   .tab{flex:1;padding:14px;text-align:center;border-radius:10px;cursor:pointer;font-weight:600;font-size:.88rem;transition:all.2s;color:#777}
-   .tab.active{background:linear-gradient(135deg,#842135,#a03050);color:#fff}
-   .card{background:#fff;border-radius:16px;padding:30px;box-shadow:0 1px 8px rgba(0,0,0,.05);margin-bottom:20px;border:1px solid #f0f0f0}
-   .card-header{display:flex;align-items:center;gap:10px;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid #f5f5f5}
-   .card-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#842135,#a03050);color:#fff}
-   .form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-   .form-group{margin-bottom:16px}
-   .form-group label{display:block;font-weight:600;margin-bottom:6px;font-size:.82rem;color:#555;text-transform:uppercase;letter-spacing:.5px}
-   .form-group input,.form-group select,.form-group textarea{width:100%;padding:12px 16px;border:1.5px solid #e4e4e4;border-radius:10px;font-size:.92rem;font-family:inherit;transition:all.2s;background:#fafbfc}
-   .form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:#842135;outline:none;background:#fff;box-shadow:0 0 0 3px rgba(132,33,53,.08)}
-   .form-group textarea{min-height:80px;resize:vertical}
-   .seo-score{font-size:.78rem;margin-top:6px;padding:6px 10px;border-radius:6px;display:none}
-   .seo-score.good{background:#d4edda;color:#155724;display:block}
-   .seo-score.bad{background:#f8d7da;color:#721c24;display:block}
-   .featured-image{border:2px dashed #d5d5d5;border-radius:14px;padding:40px;text-align:center;cursor:pointer;transition:all.3s;min-height:200px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#fafbfc}
-   .featured-image.has-image{padding:0;border-style:solid;border-color:#842135}
-   .featured-image img{width:100%;height:220px;object-fit:cover;display:block}
-   .featured-image.placeholder{color:#999}
-   .editor-wrapper{border:1.5px solid #e4e4e4;border-radius:12px;overflow:hidden}
-   .ql-container{border:none!important;min-height:400px}
-   .ql-editor{min-height:400px;padding:24px;line-height:1.8}
-   .btn{padding:12px 26px;border:none;border-radius:10px;font-size:.9rem;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:7px}
-   .btn-primary{background:linear-gradient(135deg,#842135,#a03050);color:#fff}
-   .btn-danger{background:#dc3545;color:#fff}
-   .btn-outline{background:#fff;color:#842135;border:1.5px solid #842135}
-   .btn-sm{padding:8px 14px;font-size:.78rem}
-   .status-bar{padding:14px 18px;border-radius:10px;margin-top:16px;display:none;font-weight:500;font-size:.88rem}
-   .status-bar.success{background:#d4edda;color:#155724;display:flex}
-   .status-bar.error{background:#f8d7da;color:#721c24;display:flex}
-   .post-item{display:flex;justify-content:space-between;align-items:center;padding:16px;border:1px solid #f0f0f0;border-radius:12px;margin-bottom:10px}
-   .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:1000;display:none;align-items:center;justify-content:center;padding:20px}
-   .modal-overlay.show{display:flex}
-   .modal{background:#fff;border-radius:20px;max-width:750px;width:100%;max-height:85vh;overflow-y:auto;padding:36px}
-    @media(max-width:600px){.form-row{grid-template-columns:1fr}}
-  </style>
 </head>
+
 <body>
 
+<!-- LOGIN -->
 <div class="login-overlay" id="loginOverlay">
+
   <div class="login-card">
-    <div class="login-logo"><img src="/assets/images/logo-trim-light.png" alt="Hima Tech"></div>
-    <h1>Blog Builder</h1><p style="margin-bottom:16px;color:#666">Enter password to access</p>
-    <input type="password" class="login-input" id="loginPassword" placeholder="Enter password..." onkeydown="if(event.key==='Enter')checkLogin()">
-    <button class="login-btn" onclick="checkLogin()">Sign In</button>
-    <p class="login-error" id="loginError">Incorrect password. Correct: himatech2026</p>
+
+    <div class="login-logo">
+      <img src="/assets/images/logo-trim-light.png" alt="Hima Tech RCM">
+    </div>
+
+    <h1>Blog Builder</h1>
+    <p>Authorized access only</p>
+
+    <input
+      id="loginPassword"
+      class="login-input"
+      type="password"
+      autocomplete="current-password"
+      placeholder="Enter password"
+    >
+
+    <button class="login-btn" onclick="checkLogin()">
+      Sign In
+    </button>
+
+    <div id="loginError" class="login-error">
+      Incorrect password.
+    </div>
+
   </div>
+
 </div>
 
-<div class="admin-header" id="adminHeader" style="display:none">
+
+<!-- HEADER -->
+<header class="admin-header" id="adminHeader">
+
   <div class="header-inner">
-    <div><img src="/assets/images/logo-trim-light.png" alt="Hima Tech RCM" style="height:36px"></div>
-    <div><a href="/blog" style="color:#fff;text-decoration:none;margin-right:12px">View Blog</a><button onclick="logout()" style="background:rgba(220,53,69,.3);color:#fff;border:1px solid rgba(220,53,69,.3);padding:6px 14px;border-radius:8px;cursor:pointer">Logout</button></div>
-  </div>
-</div>
 
-<div class="container" id="mainContent" style="display:none">
+    <img
+      src="/assets/images/logo-trim-light.png"
+      alt="Hima Tech RCM"
+    >
+
+    <div class="header-actions">
+
+      <a
+        class="header-link"
+        href="/blog"
+        target="_blank"
+      >
+        View Blog
+      </a>
+
+      <button
+        class="logout-btn"
+        onclick="logout()"
+      >
+        Logout
+      </button>
+
+    </div>
+
+  </div>
+
+</header>
+
+
+<!-- MAIN -->
+<main class="container" id="mainContent">
+
   <div class="tabs">
-    <div class="tab active" onclick="switchTab('editor')">Write Post</div>
-    <div class="tab" onclick="switchTab('posts')">All Posts <span id="postCount">0</span></div>
-  </div>
 
-  <div id="tab-editor">
-    <!-- AI AUTO GENERATOR - NEW - SEO FRIENDLY -->
-    <div class="card" style="border:2px solid #111;background:linear-gradient(135deg,#ffffff,#fff7f8);">
-      <div class="card-header"><div class="card-icon" style="background:#111"><i class="fa-solid fa-wand-magic-sparkles"></i></div><div><h2>AI Auto Generator - SEO Friendly</h2><p>Sirf Title likho, pura article + SEO + Alt text auto ban jayega - No em dash</p></div></div>
-      <div style="display:flex;gap:10px;flex-wrap:wrap">
-        <input type="text" id="aiTitleInput" placeholder="e.g. How to Reduce AR Days in 2026" style="flex:1;min-width:240px;font-weight:600;border:1.5px solid #111">
-        <button class="btn" style="background:#111;color:#fff" onclick="aiGenerateFull()"><i class="fa-solid fa-wand-magic-sparkles"></i> Generate Stylish Article</button>
-      </div>
-      <div style="font-size:11px;color:#666;margin-top:8px">✓ No — em dash ✓ 500-600 words ✓ Stylish boxes ✓ SEO Title + Desc + Slug + Alt auto ✓ Image suggestion ✓ Direct /api/blog push</div>
+    <div
+      class="tab active"
+      id="editorTab"
+      onclick="switchTab('editor')"
+    >
+      Write Post
     </div>
 
+    <div
+      class="tab"
+      id="postsTab"
+      onclick="switchTab('posts')"
+    >
+      All Posts <span id="postCount">0</span>
+    </div>
+
+  </div>
+
+
+  <!-- EDITOR -->
+  <section id="tab-editor">
+
+
+    <!-- AI -->
+    <div class="card ai-box">
+
+      <div class="card-header">
+
+        <div
+          class="card-icon"
+          style="background:#111"
+        >
+          ✨
+        </div>
+
+        <div>
+
+          <h2>AI Article Generator</h2>
+
+          <p>
+            Title enter karein. Article, SEO fields aur alt text automatically generate hoga.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div class="ai-row">
+
+        <input
+          id="aiTitleInput"
+          type="text"
+          placeholder="Example: How to Reduce Medical Billing Denials in 2026"
+        >
+
+        <button
+          class="btn btn-dark"
+          onclick="aiGenerateFull()"
+        >
+          ✨ Generate Article
+        </button>
+
+      </div>
+
+      <small style="display:block;margin-top:9px;color:#777">
+        500-600 words • SEO title • description • slug • image alt text • no em dash
+      </small>
+
+    </div>
+
+
+    <!-- POST DETAILS -->
     <div class="card">
-      <div class="card-header"><div class="card-icon"><i class="fa-solid fa-heading"></i></div><div><h2>Post Details</h2><p>Title, category and excerpt</p></div></div>
+
+      <div class="card-header">
+
+        <div class="card-icon">H</div>
+
+        <div>
+          <h2>Post Details</h2>
+          <p>Title, category and excerpt</p>
+        </div>
+
+      </div>
+
+
       <div class="form-row">
-        <div class="form-group"><label>Post Title *</label><input type="text" id="title" placeholder="e.g. 5 Tips for Better Revenue Cycle Management" oninput="generateSEO()"></div>
-        <div class="form-group"><label>Category</label><select id="category"><option>Revenue Cycle Management</option><option>Medical Billing</option><option>Medical Coding</option><option>Credentialing</option><option>Compliance</option><option>Industry News</option></select></div>
+
+        <div class="form-group">
+
+          <label>Post Title *</label>
+
+          <input
+            id="title"
+            type="text"
+            placeholder="Example: 5 Tips for Better Revenue Cycle Management"
+            oninput="generateSEO()"
+          >
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label>Category</label>
+
+          <select id="category">
+
+            <option>Revenue Cycle Management</option>
+            <option>Medical Billing</option>
+            <option>Medical Coding</option>
+            <option>Credentialing</option>
+            <option>Compliance</option>
+            <option>Industry News</option>
+
+          </select>
+
+        </div>
+
       </div>
-      <div class="form-group"><label>Excerpt * (155 chars max for SEO)</label><textarea id="excerpt" placeholder="Brief summary for blog card and Google description..." maxlength="160" oninput="checkExcerpt()"></textarea><div class="seo-score" id="excerptScore"></div></div>
+
+
+      <div class="form-group">
+
+        <label>Excerpt *</label>
+
+        <textarea
+          id="excerpt"
+          maxlength="160"
+          placeholder="Short description for Google and blog card"
+          oninput="checkExcerpt()"
+        ></textarea>
+
+        <div
+          id="excerptScore"
+          class="seo-score"
+        ></div>
+
+      </div>
+
     </div>
 
-    <div class="card" style="border:2px solid #842135">
-      <div class="card-header"><div class="card-icon"><i class="fa-solid fa-magnifying-glass"></i></div><div><h2>SEO Settings (Important for Ranking)</h2><p>Auto-generated but editable</p></div></div>
-      <div class="form-group"><label>SEO Title (60 chars max) - Google me ye dikhega</label><input type="text" id="seoTitle" placeholder="Auto-generated from title..." maxlength="60"><div class="seo-score" id="seoTitleScore"></div></div>
-      <div class="form-group"><label>SEO Description (160 chars max)</label><textarea id="seoDescription" placeholder="Auto from excerpt..." maxlength="160"></textarea></div>
-      <div class="form-group"><label>Slug / URL (Auto short URL)</label><input type="text" id="slugPreview" readonly style="background:#f0f0f0;color:#842135;font-weight:600"><small style="color:#888">Final URL: https://www.himatechrcm.com/blog/<span id="finalUrl">...</span></small></div>
+
+    <!-- SEO -->
+    <div
+      class="card"
+      style="border:2px solid #842135"
+    >
+
+      <div class="card-header">
+
+        <div class="card-icon">🔎</div>
+
+        <div>
+
+          <h2>SEO Settings</h2>
+
+          <p>Auto-generated but editable</p>
+
+        </div>
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>SEO Title</label>
+
+        <input
+          id="seoTitle"
+          maxlength="60"
+          placeholder="SEO title"
+        >
+
+        <div
+          id="seoTitleScore"
+          class="seo-score"
+        ></div>
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>SEO Description</label>
+
+        <textarea
+          id="seoDescription"
+          maxlength="160"
+          placeholder="SEO description"
+        ></textarea>
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>Slug / URL</label>
+
+        <input
+          id="slugPreview"
+          readonly
+          style="background:#f0f0f0"
+        >
+
+        <small style="color:#888">
+          https://www.himatechrcm.com/blog/<span id="finalUrl">...</span>
+        </small>
+
+      </div>
+
     </div>
 
+
+    <!-- IMAGE -->
     <div class="card">
-      <div class="card-header"><div class="card-icon"><i class="fa-solid fa-image"></i></div><div><h2>Featured Image</h2><p>Recommended 800x500px - Alt text SEO ke liye zaruri</p></div></div>
-      <div class="featured-image" id="featuredImageArea" onclick="document.getElementById('featuredFile').click()"><div class="placeholder" id="imagePlaceholder"><i class="fa-solid fa-cloud-arrow-up" style="font-size:2rem"></i><br><strong>Click to upload or drag image</strong></div><img id="imagePreview" style="display:none"><input type="file" id="featuredFile" accept="image/*" style="display:none" onchange="handleFeaturedImage(event)"></div>
-      <div class="form-group" style="margin-top:14px"><label>Or paste image URL</label><input type="url" id="imageUrl" placeholder="https://..." oninput="handleImageUrl()"></div>
-      <div class="form-group"><label>Image Alt Text (SEO)</label><input type="text" id="imageAlt" placeholder="e.g. Medical billing team working on claims"></div>
+
+      <div class="card-header">
+
+        <div class="card-icon">🖼</div>
+
+        <div>
+
+          <h2>Featured Image</h2>
+
+          <p>Recommended 800 × 500px</p>
+
+        </div>
+
+      </div>
+
+
+      <div
+        class="featured-image"
+        id="featuredImageArea"
+        onclick="document.getElementById('featuredFile').click()"
+      >
+
+        <div id="imagePlaceholder">
+
+          <div style="font-size:35px">
+            ↑
+          </div>
+
+          <strong>
+            Click to upload image
+          </strong>
+
+        </div>
+
+        <img
+          id="imagePreview"
+          style="display:none"
+          alt=""
+        >
+
+        <input
+          id="featuredFile"
+          type="file"
+          accept="image/*"
+          style="display:none"
+          onchange="handleFeaturedImage(event)"
+        >
+
+      </div>
+
+
+      <div class="form-group" style="margin-top:15px">
+
+        <label>Or Image URL</label>
+
+        <input
+          id="imageUrl"
+          type="url"
+          placeholder="https://..."
+          oninput="handleImageUrl()"
+        >
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>Image Alt Text</label>
+
+        <input
+          id="imageAlt"
+          type="text"
+          placeholder="Medical billing team reviewing claims"
+        >
+
+      </div>
+
     </div>
 
+
+    <!-- CONTENT -->
     <div class="card">
-      <div class="card-header"><div class="card-icon"><i class="fa-solid fa-align-left"></i></div><div><h2>Blog Content</h2></div></div>
-      <div class="editor-wrapper"><div id="editor"></div></div>
-      <div style="text-align:right;font-size:.8rem;color:#aaa;margin-top:6px" id="wordCount">0 words</div>
+
+      <div class="card-header">
+
+        <div class="card-icon">✎</div>
+
+        <div>
+
+          <h2>Blog Content</h2>
+
+          <p>Write or generate your article</p>
+
+        </div>
+
+      </div>
+
+
+      <div class="editor-wrapper">
+
+        <div id="editor"></div>
+
+      </div>
+
+
+      <div
+        id="wordCount"
+        style="text-align:right;color:#999;font-size:12px;margin-top:6px"
+      >
+        0 words
+      </div>
+
     </div>
 
-    <div style="display:flex;gap:10px;margin-top:20px;flex-wrap:wrap"><button class="btn btn-primary" onclick="publishPost()">Publish Post</button><button class="btn btn-outline" onclick="previewPost()">Preview</button><button class="btn btn-danger" onclick="clearForm()">Clear</button></div>
+
+    <!-- ACTIONS -->
+    <div
+      style="display:flex;gap:10px;flex-wrap:wrap"
+    >
+
+      <button
+        class="btn btn-primary"
+        onclick="publishPost()"
+      >
+        Publish Post
+      </button>
+
+      <button
+        class="btn btn-outline"
+        onclick="previewPost()"
+      >
+        Preview
+      </button>
+
+      <button
+        class="btn btn-danger"
+        onclick="clearForm()"
+      >
+        Clear
+      </button>
+
+    </div>
+
+
     <div id="status" class="status-bar"></div>
-  </div>
 
-  <div id="tab-posts" style="display:none">
-    <div class="card"><div id="postList">No posts yet.</div></div>
-  </div>
-</div>
+  </section>
+
+
+  <!-- POSTS -->
+  <section
+    id="tab-posts"
+    style="display:none"
+  >
+
+    <div class="card">
+
+      <div
+        style="
+          display:flex;
+          justify-content:space-between;
+          align-items:center;
+          margin-bottom:18px
+        "
+      >
+
+        <h2>Published Posts</h2>
+
+        <button
+          class="btn btn-outline btn-sm"
+          onclick="loadPosts()"
+        >
+          Refresh
+        </button>
+
+      </div>
+
+      <div id="postList">
+        Loading...
+      </div>
+
+    </div>
+
+  </section>
+
+</main>
+
 
 <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
+
 <script>
-// FIXED: Dono passwords accept karega - tumhara wala bhi aur sahi wala bhi
-const ADMIN_PASSWORDS = ['himatech2026', 'himtech2026'];
+
+/* =========================================================
+   CONFIGURATION
+========================================================= */
+
+const ADMIN_PASSWORD = "himatech2026";
+
+const AUTH_KEY = "himatech_admin_auth_v2";
+
+
+/* =========================================================
+   LOGIN
+========================================================= */
 
 function checkLogin(){
-  const input = document.getElementById('loginPassword').value.trim();
-  console.log('Trying password:', input);
-  if(ADMIN_PASSWORDS.includes(input)){
-    document.getElementById('loginOverlay').classList.add('hidden');
-    document.getElementById('adminHeader').style.display='block';
-    document.getElementById('mainContent').style.display='block';
-    sessionStorage.setItem('himatech_admin_auth','true');
-    document.getElementById('loginError').style.display='none';
-  } else {
-    document.getElementById('loginError').style.display='block';
+
+  const password =
+    document.getElementById("loginPassword").value.trim();
+
+  const error =
+    document.getElementById("loginError");
+
+  if(password === ADMIN_PASSWORD){
+
+    sessionStorage.setItem(AUTH_KEY,"true");
+
+    showAdmin();
+
+    error.style.display = "none";
+
+  }else{
+
+    error.style.display = "block";
+
   }
+
 }
 
-function logout(){sessionStorage.removeItem('himatech_admin_auth');location.reload();}
 
-if(sessionStorage.getItem('himatech_admin_auth')==='true'){
-  document.getElementById('loginOverlay').classList.add('hidden');
-  document.getElementById('adminHeader').style.display='block';
-  document.getElementById('mainContent').style.display='block';
+function showAdmin(){
+
+  document
+    .getElementById("loginOverlay")
+    .classList.add("hidden");
+
+  document
+    .getElementById("adminHeader")
+    .style.display = "block";
+
+  document
+    .getElementById("mainContent")
+    .style.display = "block";
+
 }
 
-const quill = new Quill('#editor',{theme:'snow',placeholder:'Start writing your blog post here...',modules:{toolbar:[[{header:[2,3,false]}],['bold','italic','underline'],['blockquote','code-block'],[{list:'ordered'},{list:'bullet'}],['link','image'],['clean']]}});
-quill.on('text-change',()=>{
-  const t=quill.getText().trim();
-  document.getElementById('wordCount').textContent=(t?t.split(/\s+/).length:0)+' words';
+
+function logout(){
+
+  sessionStorage.removeItem(AUTH_KEY);
+
+  location.reload();
+
+}
+
+
+document
+  .getElementById("loginPassword")
+  .addEventListener("keydown",function(e){
+
+    if(e.key === "Enter"){
+      checkLogin();
+    }
+
+  });
+
+
+if(sessionStorage.getItem(AUTH_KEY) === "true"){
+
+  showAdmin();
+
+}
+
+
+/* =========================================================
+   QUILL
+========================================================= */
+
+const quill = new Quill("#editor",{
+
+  theme:"snow",
+
+  placeholder:"Start writing your blog post here...",
+
+  modules:{
+
+    toolbar:[
+
+      [{header:[2,3,false]}],
+
+      ["bold","italic","underline"],
+
+      ["blockquote","code-block"],
+
+      [{list:"ordered"},{list:"bullet"}],
+
+      ["link","image"],
+
+      ["clean"]
+
+    ]
+
+  }
+
 });
 
-let posts=[];let featuredImageBase64='';let editingId=null;
+
+quill.on("text-change",function(){
+
+  const text =
+    quill.getText().trim();
+
+  const words =
+    text ? text.split(/\s+/).length : 0;
+
+  document
+    .getElementById("wordCount")
+    .textContent = words + " words";
+
+});
+
+
+/* =========================================================
+   STATE
+========================================================= */
+
+let posts = [];
+
+let featuredImageBase64 = "";
+
+let editingId = null;
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+function showStatus(message,type){
+
+  const status =
+    document.getElementById("status");
+
+  status.textContent = message;
+
+  status.className =
+    "status-bar " + type;
+
+  setTimeout(function(){
+
+    status.className = "status-bar";
+
+  },5000);
+
+}
+
+
+/* =========================================================
+   LOAD POSTS
+========================================================= */
 
 async function loadPosts(){
+
+  const list =
+    document.getElementById("postList");
+
+  list.innerHTML = "Loading...";
+
   try{
-    const r=await fetch('/api/blog?t='+Date.now(), {cache:'no-store'});
-    if(r.ok) posts=await r.json();
-  }catch(e){console.log('No api/blog found');}
-  renderPosts();
-}
-function showStatus(msg, type){
-  const el=document.getElementById('status');
-  el.textContent=msg;
-  el.className='status-bar '+type;
-  el.style.display='flex';
-  setTimeout(()=>{el.style.display='none';},4000);
-}
 
-async function saveToGitHub(a,p,pid){
-async function saveToGitHub(p, a = 'create', pid = null) {
-  try {
-    if (!p && a !== 'delete') throw new Error('Post data missing');
-    
-    // ID ensure karo
-    const finalId = pid || p?.id || Date.now();
-    if (p) p.id = finalId;
+    const response =
+      await fetch(
+        "/api/blog?t=" + Date.now(),
+        {
+          method:"GET",
+          cache:"no-store",
+          headers:{
+            "Accept":"application/json"
+          }
+        }
+      );
 
-    const body = { action: a };
-    
-    if (a === 'delete') {
-      body.postId = String(finalId);
-    } else {
-      body.post = p;
-      body.postId = String(finalId); // update ke liye chahiye
+    if(!response.ok){
+
+      throw new Error(
+        "API returned " + response.status
+      );
+
     }
 
-    const r = await fetch('/api/blog?t=' + Date.now(), {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      cache: 'no-store',
-      body: JSON.stringify(body)
-    });
+    const data =
+      await response.json();
 
-    const d = await r.json().catch(() => ({ error: 'Invalid JSON response from API' }));
+    posts =
+      Array.isArray(data)
+        ? data
+        : Array.isArray(data.posts)
+          ? data.posts
+          : [];
 
-    if (!r.ok) {
-      const msg = JSON.stringify(d);
-      if (r.status === 401 || msg.includes('401') || msg.includes('Bad credentials')) {
-        throw new Error('GitHub Token Expire! Vercel > Settings > Env Vars > GITHUB_TOKEN update karo + Redeploy karo');
-      }
-      if (msg.includes('empty but sha exists') || msg.includes('ABORT')) {
-        throw new Error('Safety Abort: GitHub file read fail hua, is liye save rok diya taake purane gaeb na hon. Dobara try karo.');
-      }
-      throw new Error(d.error || d.message || 'Failed ' + r.status);
-    }
+  }catch(error){
 
-    showStatus(`Saved to GitHub ✅ Total: ${d.count} blogs`, 'success');
-    return true;
+    console.error(error);
 
-  } catch (e) {
-    showStatus('Failed: ' + e.message, 'error');
-    console.error('saveToGitHub error:', e);
-    return false;
+    posts = [];
+
+    list.innerHTML =
+      "<p style='color:#dc3545'>Unable to load posts from /api/blog.</p>";
+
   }
+
+  renderPosts();
+
 }
+
+
+/* =========================================================
+   SAVE TO API / GITHUB
+========================================================= */
+
+async function saveToGitHub(action,post=null,postId=null){
+
+  try{
+
+    if(action !== "delete" && !post){
+
+      throw new Error("Post data missing");
+
+    }
+
+
+    const finalId =
+      postId ||
+      post?.id ||
+      Date.now();
+
+
+    if(post){
+
+      post.id = finalId;
+
+    }
+
+
+    const body = {
+      action: action
+    };
+
+
+    if(action === "delete"){
+
+      body.postId =
+        String(finalId);
+
+    }else{
+
+      body.post =
+        post;
+
+      body.postId =
+        String(finalId);
+
+    }
+
+
+    const response =
+      await fetch(
+        "/api/blog?t=" + Date.now(),
+        {
+          method:"POST",
+          cache:"no-store",
+          headers:{
+            "Content-Type":"application/json",
+            "Accept":"application/json"
+          },
+          body:JSON.stringify(body)
+        }
+      );
+
+
+    const data =
+      await response.json().catch(function(){
+
+        return {
+          error:"Invalid response from API"
+        };
+
+      });
+
+
+    if(!response.ok){
+
+      if(response.status === 401){
+
+        throw new Error(
+          "GitHub authorization failed. Check GITHUB_TOKEN in Vercel."
+        );
+
+      }
+
+      throw new Error(
+        data.error ||
+        data.message ||
+        "API error " + response.status
+      );
+
+    }
+
+
+    return data;
+
+
+  }catch(error){
+
+    console.error(
+      "saveToGitHub:",
+      error
+    );
+
+    throw error;
+
+  }
+
+}
+
+
+/* =========================================================
+   RENDER POSTS
+========================================================= */
 
 function renderPosts(){
-  document.getElementById('postCount').textContent=posts.length;
-  document.getElementById('postList').innerHTML=posts.map(p=>`<div class="post-item"><div><strong>${p.title}</strong><br><small>${p.category} - ${p.date} - /blog/${p.slug}</small></div><div style="display:flex;gap:6px"><button class="btn btn-outline btn-sm" onclick="editPost('${p.id}')">Edit</button><button class="btn btn-danger btn-sm" onclick="deletePost('${p.id}')">Delete</button></div></div>`).join('')||'No posts yet';
-}
 
-function switchTab(t){
-  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
-  document.querySelectorAll('[id^="tab-"]').forEach(x=>x.style.display='none');
-  if(t==='editor'){
-    document.querySelectorAll('.tab')[0].classList.add('active');
-    document.getElementById('tab-editor').style.display='block';
-  }else{
-    document.querySelectorAll('.tab')[1].classList.add('active');
-    document.getElementById('tab-posts').style.display='block';
-    loadPosts();
+  const count =
+    document.getElementById("postCount");
+
+  const list =
+    document.getElementById("postList");
+
+
+  count.textContent =
+    posts.length;
+
+
+  if(!posts.length){
+
+    list.innerHTML =
+      "<p style='color:#888'>No posts yet.</p>";
+
+    return;
+
   }
+
+
+  list.innerHTML =
+    posts.map(function(post){
+
+      return `
+
+        <div class="post-item">
+
+          <div>
+
+            <div class="post-title">
+              ${escapeHtml(post.title || "Untitled")}
+            </div>
+
+            <div class="post-meta">
+              ${escapeHtml(post.category || "")}
+              •
+              ${escapeHtml(post.date || "")}
+              •
+              /blog/${escapeHtml(post.slug || "")}
+            </div>
+
+          </div>
+
+          <div class="post-actions">
+
+            <button
+              class="btn btn-outline btn-sm"
+              onclick="editPost('${String(post.id).replace(/'/g,"\\'")}')"
+            >
+              Edit
+            </button>
+
+            <button
+              class="btn btn-danger btn-sm"
+              onclick="deletePost('${String(post.id).replace(/'/g,"\\'")}')"
+            >
+              Delete
+            </button>
+
+          </div>
+
+        </div>
+
+      `;
+
+    }).join("");
+
 }
 
-function handleFeaturedImage(e){
-  const f=e.target.files[0];if(!f)return;
-  const r=new FileReader();
-  r.onload=ev=>{
-    featuredImageBase64=ev.target.result;
-    document.getElementById('imagePreview').src=ev.target.result;
-    document.getElementById('imagePreview').style.display='block';
-    document.getElementById('imagePlaceholder').style.display='none';
-    document.getElementById('featuredImageArea').classList.add('has-image');
-  };
-  r.readAsDataURL(f);
+
+/* =========================================================
+   HTML ESCAPE
+========================================================= */
+
+function escapeHtml(value){
+
+  return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
 }
+
+
+/* =========================================================
+   TABS
+========================================================= */
+
+function switchTab(tab){
+
+  const editor =
+    document.getElementById("tab-editor");
+
+  const postsTab =
+    document.getElementById("tab-posts");
+
+  const editorButton =
+    document.getElementById("editorTab");
+
+  const postsButton =
+    document.getElementById("postsTab");
+
+
+  if(tab === "editor"){
+
+    editor.style.display = "block";
+
+    postsTab.style.display = "none";
+
+    editorButton.classList.add("active");
+
+    postsButton.classList.remove("active");
+
+  }else{
+
+    editor.style.display = "none";
+
+    postsTab.style.display = "block";
+
+    editorButton.classList.remove("active");
+
+    postsButton.classList.add("active");
+
+    loadPosts();
+
+  }
+
+}
+
+
+/* =========================================================
+   IMAGE
+========================================================= */
+
+function handleFeaturedImage(event){
+
+  const file =
+    event.target.files[0];
+
+  if(!file) return;
+
+
+  if(!file.type.startsWith("image/")){
+
+    showStatus(
+      "Please select an image file.",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  const reader =
+    new FileReader();
+
+
+  reader.onload =
+    function(e){
+
+      featuredImageBase64 =
+        e.target.result;
+
+      const preview =
+        document.getElementById("imagePreview");
+
+      preview.src =
+        featuredImageBase64;
+
+      preview.style.display =
+        "block";
+
+      document
+        .getElementById("imagePlaceholder")
+        .style.display = "none";
+
+      document
+        .getElementById("featuredImageArea")
+        .classList.add("has-image");
+
+    };
+
+
+  reader.readAsDataURL(file);
+
+}
+
 
 function handleImageUrl(){
-  const u=document.getElementById('imageUrl').value.trim();
-  if(u){
-    featuredImageBase64='';
-    document.getElementById('imagePreview').src=u;
-    document.getElementById('imagePreview').style.display='block';
-    document.getElementById('imagePlaceholder').style.display='none';
-    document.getElementById('featuredImageArea').classList.add('has-image');
-  }
+
+  const url =
+    document
+      .getElementById("imageUrl")
+      .value.trim();
+
+
+  if(!url) return;
+
+
+  featuredImageBase64 = "";
+
+
+  const preview =
+    document.getElementById("imagePreview");
+
+  preview.src = url;
+
+  preview.style.display =
+    "block";
+
+
+  document
+    .getElementById("imagePlaceholder")
+    .style.display = "none";
+
+
+  document
+    .getElementById("featuredImageArea")
+    .classList.add("has-image");
+
 }
+
+
+/* =========================================================
+   SEO
+========================================================= */
+
+function makeSlug(title){
+
+  return title
+    .toLowerCase()
+    .normalize("NFKD")
+    .replace(/[^a-z0-9]+/g,"-")
+    .replace(/^-+|-+$/g,"")
+    .substring(0,70)
+    .replace(/-+$/,"");
+
+}
+
 
 function generateSEO(){
-  const title=document.getElementById('title').value.trim();
-  if(!title)return;
-  let rawSlug=title.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
-  let slug=rawSlug;
-  if(rawSlug.length>60){
-    let cut=rawSlug.substring(0,60);
-    let lh=cut.lastIndexOf('-');
-    slug=lh>30?cut.substring(0,lh):cut;
-  }
-  document.getElementById('slugPreview').value=slug;
-  document.getElementById('finalUrl').textContent=slug;
-  const seoTitle=document.getElementById('seoTitle');
+
+  const title =
+    document
+      .getElementById("title")
+      .value.trim();
+
+
+  if(!title) return;
+
+
+  const slug =
+    makeSlug(title);
+
+
+  document
+    .getElementById("slugPreview")
+    .value = slug;
+
+
+  document
+    .getElementById("finalUrl")
+    .textContent = slug;
+
+
+  const seoTitle =
+    document.getElementById("seoTitle");
+
+
   if(!seoTitle.dataset.manual){
-    seoTitle.value=(title.substring(0,55)+' | Hima Tech RCM').substring(0,60);
+
+    seoTitle.value =
+      (title + " | Hima Tech RCM")
+        .substring(0,60);
+
     checkSeoTitle();
+
   }
-  const alt=document.getElementById('imageAlt');
-  if(!alt.value) alt.value=title;
+
+
+  const alt =
+    document.getElementById("imageAlt");
+
+
+  if(!alt.value){
+
+    alt.value =
+      title + " - Hima Tech RCM";
+
+  }
+
 }
+
 
 function checkExcerpt(){
-  const ex=document.getElementById('excerpt').value;
-  const score=document.getElementById('excerptScore');
-  const seoDesc=document.getElementById('seoDescription');
-  if(!seoDesc.dataset.manual) seoDesc.value=ex.substring(0,160);
-  if(ex.length>0){
-    if(ex.length>=120&&ex.length<=160){
-      score.textContent='✓ Perfect length for Google ('+ex.length+' chars)';
-      score.className='seo-score good';
-    }else{
-      score.textContent=(ex.length<120?'Too short':'Too long')+' ('+ex.length+' chars) - Ideal 120-160';
-      score.className='seo-score bad';
-    }
+
+  const excerpt =
+    document
+      .getElementById("excerpt")
+      .value.trim();
+
+
+  const score =
+    document.getElementById("excerptScore");
+
+
+  const description =
+    document
+      .getElementById("seoDescription");
+
+
+  if(!description.dataset.manual){
+
+    description.value =
+      excerpt.substring(0,160);
+
   }
+
+
+  if(!excerpt){
+
+    score.className =
+      "seo-score";
+
+    return;
+
+  }
+
+
+  if(excerpt.length >= 120 &&
+     excerpt.length <= 160){
+
+    score.textContent =
+      "✓ Good SEO length: " +
+      excerpt.length +
+      "/160";
+
+    score.className =
+      "seo-score good";
+
+  }else{
+
+    score.textContent =
+      "Recommended: 120-160 characters (" +
+      excerpt.length +
+      ")";
+
+    score.className =
+      "seo-score bad";
+
+  }
+
 }
+
 
 function checkSeoTitle(){
-  const t=document.getElementById('seoTitle').value;
-  const s=document.getElementById('seoTitleScore');
-  if(t.length>0){
-    if(t.length>=45&&t.length<=60){
-      s.textContent='✓ Perfect ('+t.length+'/60)';
-      s.className='seo-score good';
-    }else{
-      s.textContent='Length '+t.length+'/60 - Ideal 45-60';
-      s.className='seo-score bad';
-    }
+
+  const title =
+    document
+      .getElementById("seoTitle")
+      .value.trim();
+
+
+  const score =
+    document
+      .getElementById("seoTitleScore");
+
+
+  if(!title){
+
+    score.className =
+      "seo-score";
+
+    return;
+
   }
+
+
+  if(title.length >= 45 &&
+     title.length <= 60){
+
+    score.textContent =
+      "✓ Good SEO title length: " +
+      title.length +
+      "/60";
+
+    score.className =
+      "seo-score good";
+
+  }else{
+
+    score.textContent =
+      "Recommended: 45-60 characters (" +
+      title.length +
+      ")";
+
+    score.className =
+      "seo-score bad";
+
+  }
+
 }
 
-document.getElementById('seoTitle').addEventListener('input',function(){this.dataset.manual='true';checkSeoTitle();});
-document.getElementById('seoDescription').addEventListener('input',function(){this.dataset.manual='true';});
 
-// === AI AUTO GENERATE - SEO FRIENDLY + IMAGE ALT ===
+document
+  .getElementById("seoTitle")
+  .addEventListener(
+    "input",
+    function(){
+
+      this.dataset.manual =
+        "true";
+
+      checkSeoTitle();
+
+    }
+  );
+
+
+document
+  .getElementById("seoDescription")
+  .addEventListener(
+    "input",
+    function(){
+
+      this.dataset.manual =
+        "true";
+
+    }
+  );
+
+
+/* =========================================================
+   AI GENERATOR
+========================================================= */
+
 function aiGenerateFull(){
-  let aiInput = document.getElementById('aiTitleInput').value.trim() || document.getElementById('title').value.trim();
-  if(!aiInput){ showStatus('Pehle Title likho AI box me!', 'error'); return; }
-  
-  // Sync title fields
-  document.getElementById('title').value = aiInput;
-  document.getElementById('aiTitleInput').value = aiInput;
-  
-  let category = document.getElementById('category').value;
-  let cleanTitle = aiInput.replace(/How to|What is|Why/gi,'').trim();
-  
-  // SEO Auto
-  let rawSlug = aiInput.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
-  let slug = rawSlug; if(rawSlug.length>60){ let cut=rawSlug.substring(0,60); let lh=cut.lastIndexOf('-'); slug=lh>30?cut.substring(0,lh):cut; }
-  let seoTitle = (aiInput.substring(0,55)+' | Hima Tech RCM').substring(0,60);
-  let excerpt = `Learn ${aiInput.toLowerCase()} with practical 2026 strategies. Cut denials, speed up cash flow and improve patient experience.`;
-  let seoDesc = excerpt.substring(0,155);
-  let altText = aiInput + ' - ' + category + ' at Hima Tech RCM';
-  
-  document.getElementById('excerpt').value = excerpt;
-  document.getElementById('seoTitle').value = seoTitle;
-  document.getElementById('seoDescription').value = seoDesc;
-  document.getElementById('slugPreview').value = slug;
-  document.getElementById('finalUrl').textContent = slug;
-  document.getElementById('imageAlt').value = altText;
-  checkExcerpt(); checkSeoTitle(); generateSEO();
-  // Re-set because generateSEO overwrites alt if empty logic - ensure alt stays
-  document.getElementById('imageAlt').value = altText;
-  document.getElementById('slugPreview').value = slug;
-  
-  // STYLISH ARTICLE - 500-600 words, no em dash, no banned words, human tone, SEO friendly
-  let articleHTML = `
-<h2>Denial rates just hit 9 percent in 2026</h2>
-<p>If your team still chases claims manually, AR days will keep climbing. <strong>${aiInput}</strong> is now a must have focus for stable cash flow and cleaner operations. Practices that moved to prevention first saw real gains in 90 days.</p>
 
-<div style="border-left:4px solid #842135;background:#fff1f3;padding:14px 16px;border-radius:0 12px 12px 0;margin:18px 0">
-<strong style="color:#842135">Key stat:</strong> Teams using predictive prevention see 30 percent fewer denials and 40 percent faster claim cycles. 71 percent of RCM leaders now rank patient financial experience as their top 2026 priority.
+  const input =
+    document
+      .getElementById("aiTitleInput")
+      .value.trim();
+
+
+  if(!input){
+
+    showStatus(
+      "Pehle article title enter karein.",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  const category =
+    document
+      .getElementById("category")
+      .value;
+
+
+  document
+    .getElementById("title")
+    .value = input;
+
+
+  document
+    .getElementById("aiTitleInput")
+    .value = input;
+
+
+  const slug =
+    makeSlug(input);
+
+
+  const excerpt =
+    `Learn ${input.toLowerCase()} with practical strategies for healthcare providers. Improve billing accuracy, reduce denials and strengthen revenue cycle performance.`;
+
+
+  const seoTitle =
+    (input + " | Hima Tech RCM")
+      .substring(0,60);
+
+
+  const seoDescription =
+    excerpt.substring(0,160);
+
+
+  const altText =
+    `${input} - ${category} - Hima Tech RCM`;
+
+
+  document
+    .getElementById("excerpt")
+    .value = excerpt;
+
+
+  document
+    .getElementById("seoTitle")
+    .value = seoTitle;
+
+
+  document
+    .getElementById("seoDescription")
+    .value = seoDescription;
+
+
+  document
+    .getElementById("slugPreview")
+    .value = slug;
+
+
+  document
+    .getElementById("finalUrl")
+    .textContent = slug;
+
+
+  document
+    .getElementById("imageAlt")
+    .value = altText;
+
+
+  delete document
+    .getElementById("seoTitle")
+    .dataset.manual;
+
+
+  delete document
+    .getElementById("seoDescription")
+    .dataset.manual;
+
+
+  checkExcerpt();
+
+  checkSeoTitle();
+
+
+  const article = `
+
+<h2>${escapeHtml(input)}</h2>
+
+<p>
+Healthcare practices need a reliable process for
+<strong>${escapeHtml(input.toLowerCase())}</strong>.
+Small problems at the front end of the revenue cycle can
+create larger billing and collection issues later.
+A structured workflow helps teams identify problems earlier,
+reduce unnecessary rework and keep claims moving.
+</p>
+
+<div style="
+border-left:4px solid #842135;
+background:#fff1f3;
+padding:15px;
+margin:20px 0;
+border-radius:0 10px 10px 0;
+">
+
+<strong style="color:#842135">
+Key takeaway:
+</strong>
+
+Start by identifying the specific workflow step that creates
+the most avoidable work. Fix that step first, measure the
+result and then expand the process.
+
 </div>
 
-<h2>Why this matters now</h2>
-<p>Margins are tight and payer rules change often. Small front end errors create big back end work. When eligibility and auth are missed, denials follow. Fixing the front end is faster and cheaper than fixing denials later. Clear data at scheduling saves hours in AR follow up.</p>
+<h2>Why this matters for healthcare practices</h2>
 
-<h2>Three trends to watch in 2026</h2>
+<p>
+Revenue cycle performance depends on several connected
+processes. Eligibility, authorization, documentation,
+coding, claim submission, payment posting and accounts
+receivable follow-up all affect the final result.
+When one step is incomplete, another department often has
+to spend additional time correcting it.
+</p>
 
-<h3>1. Touchless workflows</h3>
-<p>Eligibility checks, claim scrubbing and payment posting run without manual touches. Your staff handles exceptions only. This cuts cost and speeds up posting while reducing human error.</p>
+<h2>Three areas to review</h2>
 
-<h3>2. Predictive denial prevention</h3>
-<p>Models flag risky claims before you bill. You fix the issue before submission. Clean claims go out on first pass and come back faster. This lifts clean claim rate from 85 percent to over 95 percent in many groups.</p>
+<h3>1. Front-end accuracy</h3>
 
-<h3>3. Patient experience as revenue driver</h3>
-<p>Clear estimates and flexible payment options help patients pay on time. Simple language and proactive updates reduce confusion and calls. Practices using digital estimates see 20 percent higher point of service collections.</p>
+<p>
+Begin with patient demographics, insurance information,
+eligibility and authorization requirements. Accurate
+information before the visit can prevent avoidable problems
+after the claim is submitted.
+</p>
 
-<h2>Quick wins you can do this week</h2>
+<h3>2. Claim quality</h3>
+
+<p>
+Review claims before submission. Look for missing
+information, coding inconsistencies, payer-specific
+requirements and documentation issues. A consistent
+pre-billing review can reduce unnecessary claim rework.
+</p>
+
+<h3>3. Accounts receivable follow-up</h3>
+
+<p>
+Track unpaid claims by payer, age and denial reason.
+Instead of treating every account the same, prioritize
+claims that have a higher financial impact or a time-sensitive
+filing or appeal requirement.
+</p>
+
+<h2>Practical steps to take this week</h2>
+
 <ul>
-<li><strong>Review 30 days of denials by root cause.</strong> Most denials in 2026 still come from eligibility, auth and demographics. Group them and fix top two causes first.</li>
-<li><strong>Turn on real time eligibility in scheduling.</strong> Aim for under 12 seconds per check. Flag inactive coverage before visit.</li>
-<li><strong>Add a risk score to each claim before billing.</strong> Hold high risk claims for a quick human review. This prevents most avoidable denials.</li>
-<li><strong>Use image suggestion:</strong> For ${aiInput.toLowerCase()}, use a photo of billing team reviewing denials dashboard or a clean infographic showing AR days trend.</li>
+
+<li>
+Review recent denials and group them by root cause.
+</li>
+
+<li>
+Check eligibility before scheduled visits whenever possible.
+</li>
+
+<li>
+Review authorization requirements for services that commonly
+create payment problems.
+</li>
+
+<li>
+Monitor aging accounts regularly instead of waiting until
+they become severely overdue.
+</li>
+
+<li>
+Document recurring payer issues so your team can address
+patterns instead of individual claims only.
+</li>
+
 </ul>
 
-<div style="background:#faf7f8;border:1px solid #edd;border-radius:12px;padding:14px;margin:18px 0">
-<strong>Pro tip:</strong> Start with one payer that causes most denials. Fix that workflow first, measure results for two weeks, then expand to next payer. Small wins build momentum.
+<div style="
+background:#faf7f8;
+border:1px solid #eadde0;
+border-radius:12px;
+padding:16px;
+margin:20px 0;
+">
+
+<strong>Pro tip:</strong>
+
+Choose one recurring problem, measure its frequency for 30 days,
+make one workflow change and compare the results. This makes it
+easier to identify which operational changes are actually useful.
+
 </div>
 
-<h2>How Hima Tech RCM helps with ${cleanTitle}</h2>
-<p>We combine certified coders with AI scrubbing for ${category.toLowerCase()}. For ${aiInput.toLowerCase()}, our team audits your current flow, sets up touchless checks and tracks denial rate weekly. Clients usually see fewer denials in 90 days and faster collections without adding headcount.</p>
-<p><strong>Want to cut your AR days this quarter?</strong> Book a free 15 minute RCM review. We will show you where denials start and how to stop them early.</p>
+<h2>How Hima Tech RCM can help</h2>
 
-<h2>FAQ</h2>
-<h3>What is the average denial rate in 2026?</h3>
-<p>About 9 percent nationally. Strong teams reach 3 to 4 percent with prevention first workflows and daily eligibility checks.</p>
+<p>
+Hima Tech RCM provides medical billing and revenue cycle
+management services for healthcare providers. Our services
+can include eligibility verification, claim submission,
+payment posting, accounts receivable follow-up, denial
+management, coding support and credentialing.
+</p>
 
-<h3>How fast is AI eligibility now?</h3>
-<p>Under 12 seconds in most payer connections. Auth still varies by payer but automation cuts wait time by about 40 percent.</p>
+<p>
+We can also review your existing revenue cycle workflow to
+identify potential areas of revenue leakage and operational
+inefficiency.
+</p>
 
-<h3>What image should I use for this blog?</h3>
-<p>Use alt text: "${altText}". Ideal image: 800x500px photo of RCM team analyzing claims or a simple chart showing reduced AR days. Avoid stock photos with fake smiles.</p>
+<p>
+<strong>
+If you are reviewing your current billing process,
+consider starting with a free RCM audit.
+</strong>
+</p>
+
+<h2>Frequently Asked Questions</h2>
+
+<h3>What should a practice review first?</h3>
+
+<p>
+Start with the areas creating the highest volume of rework,
+denials or delayed payments. This provides a practical way
+to prioritize improvement.
+</p>
+
+<h3>How often should billing performance be reviewed?</h3>
+
+<p>
+Many practices benefit from regular weekly operational
+monitoring and a deeper monthly review of trends,
+denials and accounts receivable.
+</p>
+
+<h3>What image should I use?</h3>
+
+<p>
+Use a professional image showing a medical billing team
+reviewing claims, an RCM dashboard or a clean healthcare
+revenue cycle infographic. Recommended alt text:
+<strong>${escapeHtml(altText)}</strong>.
+</p>
+
 `;
 
-  quill.root.innerHTML = articleHTML;
-  showStatus('✨ Stylish SEO article generated! No em dash, 500-600 words, alt text auto filled. Ab Publish pe click karo - direct blog pe jayega!', 'success');
-  window.scrollTo(0, 300);
+
+  quill.root.innerHTML =
+    article;
+
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+
+  showStatus(
+    "Article generated successfully. Review it and click Publish Post.",
+    "success"
+  );
+
 }
 
-// FIXED: .trim() missing tha - ye publish ko fail kara raha tha
-async function publishPost(){
-  const title=document.getElementById('title').value.trim();
-  const category=document.getElementById('category').value;
-  const excerpt=document.getElementById('excerpt').value.trim(); // <- FIXED
-  const seoTitle=document.getElementById('seoTitle').value.trim();
-  const seoDescription=document.getElementById('seoDescription').value.trim();
-  const slug=document.getElementById('slugPreview').value.trim();
-  const imageAlt=document.getElementById('imageAlt').value.trim();
-  const imageUrlInput=document.getElementById('imageUrl').value.trim();
-  const content=quill.root.innerHTML;
 
-  if(!title || !excerpt || quill.getText().trim().length < 20){
-    showStatus('Title, Excerpt and Content required (min 20 words)','error');
+/* =========================================================
+   PUBLISH
+========================================================= */
+
+async function publishPost(){
+
+  const title =
+    document
+      .getElementById("title")
+      .value.trim();
+
+
+  const category =
+    document
+      .getElementById("category")
+      .value;
+
+
+  const excerpt =
+    document
+      .getElementById("excerpt")
+      .value.trim();
+
+
+  const seoTitle =
+    document
+      .getElementById("seoTitle")
+      .value.trim();
+
+
+  const seoDescription =
+    document
+      .getElementById("seoDescription")
+      .value.trim();
+
+
+  const slug =
+    document
+      .getElementById("slugPreview")
+      .value.trim();
+
+
+  const imageAlt =
+    document
+      .getElementById("imageAlt")
+      .value.trim();
+
+
+  const imageUrl =
+    document
+      .getElementById("imageUrl")
+      .value.trim();
+
+
+  const content =
+    quill.root.innerHTML;
+
+
+  const text =
+    quill.getText().trim();
+
+
+  if(!title){
+
+    showStatus(
+      "Title is required.",
+      "error"
+    );
+
     return;
+
   }
 
-  let finalImage = featuredImageBase64 || imageUrlInput || document.getElementById('imagePreview').src;
-  if(finalImage && finalImage.includes('logo-trim')) finalImage = '';
 
-  const post={
-    id: editingId || Date.now(),
-    title, category, excerpt,
-    seoTitle: seoTitle || title.substring(0,60),
-    seoDescription: seoDescription || excerpt.substring(0,160),
-    slug: slug || title.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,''),
-    image: finalImage,
-    imageAlt: imageAlt || title,
-    content: content,
-    date: new Date().toISOString().split('T')[0]
+  if(!excerpt){
+
+    showStatus(
+      "Excerpt is required.",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  if(text.length < 20){
+
+    showStatus(
+      "Blog content must contain at least 20 characters.",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  let image =
+    featuredImageBase64 ||
+    imageUrl;
+
+
+  if(!image){
+
+    const preview =
+      document
+        .getElementById("imagePreview")
+        .src;
+
+    if(
+      preview &&
+      !preview.endsWith(location.host) &&
+      preview !== location.href
+    ){
+
+      image = preview;
+
+    }
+
+  }
+
+
+  const post = {
+
+    id:
+      editingId ||
+      Date.now(),
+
+    title:
+      title,
+
+    category:
+      category,
+
+    excerpt:
+      excerpt,
+
+    seoTitle:
+      seoTitle ||
+      title.substring(0,60),
+
+    seoDescription:
+      seoDescription ||
+      excerpt.substring(0,160),
+
+    slug:
+      slug ||
+      makeSlug(title),
+
+    image:
+      image || "",
+
+    imageAlt:
+      imageAlt ||
+      title,
+
+    content:
+      content,
+
+    date:
+      new Date()
+        .toISOString()
+        .split("T")[0]
+
   };
 
-  showStatus('Publishing...','success');
-  const ok = await saveToGitHub(editingId ? 'update' : 'create', post, post.id);
-  if(ok){
-    showStatus('Published successfully!','success');
-    posts.unshift(post);
+
+  const action =
+    editingId
+      ? "update"
+      : "create";
+
+
+  showStatus(
+    editingId
+      ? "Updating post..."
+      : "Publishing post...",
+    "success"
+  );
+
+
+  try{
+
+    const result =
+      await saveToGitHub(
+        action,
+        post,
+        post.id
+      );
+
+
+    if(editingId){
+
+      const index =
+        posts.findIndex(
+          p => String(p.id) === String(post.id)
+        );
+
+
+      if(index >= 0){
+
+        posts[index] =
+          post;
+
+      }else{
+
+        posts.unshift(post);
+
+      }
+
+    }else{
+
+      posts.unshift(post);
+
+    }
+
+
     renderPosts();
-    // clearForm(); // optional
+
+
+    showStatus(
+      "Published successfully. Checking saved posts...",
+      "success"
+    );
+
+
+    editingId = null;
+
+
+    /*
+      Re-read API after publishing.
+      This confirms the backend actually saved the post.
+    */
+
+    await loadPosts();
+
+
+    showStatus(
+      "Post saved successfully to /api/blog.",
+      "success"
+    );
+
+
+  }catch(error){
+
+    showStatus(
+      "Publish failed: " +
+      error.message,
+      "error"
+    );
+
   }
+
 }
+
+
+/* =========================================================
+   EDIT
+========================================================= */
 
 function editPost(id){
-  const p=posts.find(x=>x.id==id);
-  if(!p) return;
-  editingId=p.id;
-  document.getElementById('title').value=p.title;
-  document.getElementById('category').value=p.category;
-  document.getElementById('excerpt').value=p.excerpt;
-  document.getElementById('seoTitle').value=p.seoTitle || '';
-  document.getElementById('seoDescription').value=p.seoDescription || '';
-  document.getElementById('slugPreview').value=p.slug;
-  document.getElementById('finalUrl').textContent=p.slug;
-  document.getElementById('imageAlt').value=p.imageAlt || '';
-  if(p.image){
-    document.getElementById('imagePreview').src=p.image;
-    document.getElementById('imagePreview').style.display='block';
-    document.getElementById('imagePlaceholder').style.display='none';
-    document.getElementById('featuredImageArea').classList.add('has-image');
-    if(p.image.startsWith('http')) document.getElementById('imageUrl').value=p.image;
-    else featuredImageBase64=p.image;
+
+  const post =
+    posts.find(
+      p => String(p.id) === String(id)
+    );
+
+
+  if(!post){
+
+    showStatus(
+      "Post not found.",
+      "error"
+    );
+
+    return;
+
   }
-  quill.root.innerHTML=p.content;
-  switchTab('editor');
-  window.scrollTo(0,0);
+
+
+  editingId =
+    post.id;
+
+
+  document
+    .getElementById("title")
+    .value =
+    post.title || "";
+
+
+  document
+    .getElementById("category")
+    .value =
+    post.category ||
+    "Revenue Cycle Management";
+
+
+  document
+    .getElementById("excerpt")
+    .value =
+    post.excerpt || "";
+
+
+  document
+    .getElementById("seoTitle")
+    .value =
+    post.seoTitle || "";
+
+
+  document
+    .getElementById("seoDescription")
+    .value =
+    post.seoDescription || "";
+
+
+  document
+    .getElementById("slugPreview")
+    .value =
+    post.slug || "";
+
+
+  document
+    .getElementById("finalUrl")
+    .textContent =
+    post.slug || "";
+
+
+  document
+    .getElementById("imageAlt")
+    .value =
+    post.imageAlt || "";
+
+
+  document
+    .getElementById("imageUrl")
+    .value =
+    post.image &&
+    post.image.startsWith("http")
+      ? post.image
+      : "";
+
+
+  if(post.image){
+
+    const preview =
+      document.getElementById("imagePreview");
+
+    preview.src =
+      post.image;
+
+    preview.style.display =
+      "block";
+
+    document
+      .getElementById("imagePlaceholder")
+      .style.display =
+      "none";
+
+    document
+      .getElementById("featuredImageArea")
+      .classList.add("has-image");
+
+
+    if(post.image.startsWith("data:")){
+
+      featuredImageBase64 =
+        post.image;
+
+    }
+
+  }
+
+
+  quill.root.innerHTML =
+    post.content || "";
+
+
+  checkExcerpt();
+
+  checkSeoTitle();
+
+
+  switchTab("editor");
+
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
 }
+
+
+/* =========================================================
+   DELETE
+========================================================= */
 
 async function deletePost(id){
-  if(!confirm('Delete this post?')) return;
-  const ok = await saveToGitHub('delete', null, id);
-  if(ok){
-    posts=posts.filter(x=>x.id!=id);
-    renderPosts();
-    showStatus('Deleted','success');
+
+  const post =
+    posts.find(
+      p => String(p.id) === String(id)
+    );
+
+
+  if(!post) return;
+
+
+  if(
+    !confirm(
+      `Delete "${post.title}"?`
+    )
+  ){
+
+    return;
+
   }
+
+
+  try{
+
+    showStatus(
+      "Deleting post...",
+      "success"
+    );
+
+
+    await saveToGitHub(
+      "delete",
+      null,
+      post.id
+    );
+
+
+    posts =
+      posts.filter(
+        p =>
+          String(p.id) !== String(post.id)
+      );
+
+
+    renderPosts();
+
+
+    showStatus(
+      "Post deleted successfully.",
+      "success"
+    );
+
+
+  }catch(error){
+
+    showStatus(
+      "Delete failed: " +
+      error.message,
+      "error"
+    );
+
+  }
+
 }
+
+
+/* =========================================================
+   PREVIEW
+========================================================= */
 
 function previewPost(){
-  const title=document.getElementById('title').value;
-  const content=quill.root.innerHTML;
-  const w=window.open();
-  w.document.write(`<h1>${title}</h1><hr>${content}`);
+
+  const title =
+    document
+      .getElementById("title")
+      .value;
+
+
+  const content =
+    quill.root.innerHTML;
+
+
+  const preview =
+    window.open(
+      "",
+      "_blank"
+    );
+
+
+  if(!preview){
+
+    showStatus(
+      "Browser blocked the preview window.",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  preview.document.write(`
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<title>
+${escapeHtml(title)}
+</title>
+
+<style>
+
+body{
+  max-width:850px;
+  margin:50px auto;
+  padding:20px;
+  font-family:Arial,sans-serif;
+  line-height:1.8;
+  color:#222
 }
+
+h1{
+  color:#842135
+}
+
+img{
+  max-width:100%
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>${escapeHtml(title)}</h1>
+
+<hr>
+
+${content}
+
+</body>
+
+</html>
+
+`);
+
+
+  preview.document.close();
+
+}
+
+
+/* =========================================================
+   CLEAR
+========================================================= */
 
 function clearForm(){
-  editingId=null;
-  document.getElementById('title').value='';
-  document.getElementById('excerpt').value='';
-  document.getElementById('seoTitle').value='';
-  document.getElementById('seoDescription').value='';
-  document.getElementById('slugPreview').value='';
-  document.getElementById('finalUrl').textContent='...';
-  document.getElementById('imageUrl').value='';
-  document.getElementById('imageAlt').value='';
-  document.getElementById('imagePreview').style.display='none';
-  document.getElementById('imagePlaceholder').style.display='block';
-  document.getElementById('featuredImageArea').classList.remove('has-image');
-  featuredImageBase64='';
-  quill.setText('');
-  delete document.getElementById('seoTitle').dataset.manual;
-  delete document.getElementById('seoDescription').dataset.manual;
+
+  if(
+    !confirm(
+      "Clear the current post?"
+    )
+  ){
+
+    return;
+
+  }
+
+
+  editingId = null;
+
+  featuredImageBase64 = "";
+
+
+  document
+    .getElementById("title")
+    .value = "";
+
+
+  document
+    .getElementById("aiTitleInput")
+    .value = "";
+
+
+  document
+    .getElementById("excerpt")
+    .value = "";
+
+
+  document
+    .getElementById("seoTitle")
+    .value = "";
+
+
+  document
+    .getElementById("seoDescription")
+    .value = "";
+
+
+  document
+    .getElementById("slugPreview")
+    .value = "";
+
+
+  document
+    .getElementById("finalUrl")
+    .textContent = "...";
+
+
+  document
+    .getElementById("imageUrl")
+    .value = "";
+
+
+  document
+    .getElementById("imageAlt")
+    .value = "";
+
+
+  document
+    .getElementById("imagePreview")
+    .style.display = "none";
+
+
+  document
+    .getElementById("imagePlaceholder")
+    .style.display = "block";
+
+
+  document
+    .getElementById("featuredImageArea")
+    .classList.remove("has-image");
+
+
+  quill.setText("");
+
+
+  delete document
+    .getElementById("seoTitle")
+    .dataset.manual;
+
+
+  delete document
+    .getElementById("seoDescription")
+    .dataset.manual;
+
+
+  document
+    .getElementById("wordCount")
+    .textContent = "0 words";
+
 }
 
+
+/* =========================================================
+   INITIAL LOAD
+========================================================= */
+
 loadPosts();
+
 </script>
-<script>(function(){var loc=location.href.replace(/#.*$/,"");var ATTR_NAMES=["data-product-id","data-productid","data-product_id","product-id","productid","product_id","data-source-entity-id","source-entity-id","source_entity_id","data-product","data-metadata","data-meta"];var DATASET_KEYS=["productId","productid","product_id","sourceEntityId","sourceentityid","source_entity_id","product","metadata","meta"];function readProductId(value){if(typeof value!=="string"||value.length===0)return null;if(/^[0-9]{6,}$/.test(value))return value;var match=value.match(/(?:product(?:_|-)?id|source(?:_|-)?entity(?:_|-)?id)["'=:\s]+([0-9]{6,})/i);return match?match[1]:null}function extractProductId(start){for(var node=start;node&&node!==document.body;node=node.parentElement){for(var i=0;i<ATTR_NAMES.length;i++){var attrValue=node.getAttribute&&node.getAttribute(ATTR_NAMES[i]);var attrProductId=readProductId(attrValue);if(attrProductId)return attrProductId}var dataset=node.dataset||null;if(dataset){for(var j=0;j<DATASET_KEYS.length;j++){var dataValue=dataset[DATASET_KEYS[j]];var dataProductId=readProductId(dataValue);if(dataProductId)return dataProductId}}}return null}function isInlineMediaSlotElement(node){return !!(node&&node.getAttribute&&node.getAttribute("data-clippy-inline-media-slot")!==null)}function findInlineMediaSlot(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(isInlineMediaSlotElement(node))return node}return null}function readInlineMediaUrl(node){if(!node)return null;return node.getAttribute&&((node.getAttribute("data-clippy-inline-media-url")||node.getAttribute("data-url")||node.getAttribute("data_url")))||node.href||null}function stripHash(url){return String(url).replace(/#.*$/,"")}function urlsMatch(a,b){if(!a||!b)return false;try{return stripHash(new URL(a,loc).href)===stripHash(new URL(b,loc).href)}catch(_){return stripHash(a)===stripHash(b)}}function isFirstPartyReelUrl(value){try{var url=new URL(value,loc);if(url.protocol!=="https:")return false;var host=url.hostname.toLowerCase();var supported=host==="instagram.com"||host.endsWith(".instagram.com")||host==="facebook.com"||host.endsWith(".facebook.com");return supported&&/\/reels?\//i.test(url.pathname)}catch(_){return false}}function isInlineMediaUrlClick(node,href){var slot=findInlineMediaSlot(node);if(!slot)return false;var slotUrl=readInlineMediaUrl(slot);if(slotUrl)return urlsMatch(href,slotUrl);return isFirstPartyReelUrl(href)}function findDataHref(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(node.getAttribute){var href=node.getAttribute("data-href")||node.getAttribute("data-url");if(href)return{href:href,node:node}}}return null}var nativeOpen=window.open;window.open=function(url){if(parent!==window&&typeof url==="string"&&/^https?:\/\//.test(url)){parent.postMessage({type:"ecto:usercontent-link-click",href:url},"*");return null}return nativeOpen?nativeOpen.apply(window,arguments):null};document.addEventListener("click",function(e){var target=e.target instanceof Element?e.target:null;if(!target)return;if(parent===window)return;var a=target.closest?target.closest("a[href]"):null;if(a&&a.href&&/^https?:\/\//.test(a.href)&&a.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(a,a.href))return;var productId=extractProductId(target)||extractProductId(a);if(productId){e.preventDefault();parent.postMessage({type:"ecto-artifact-link-click",productId:productId},"*");return}e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:a.href},"*");return}var dataHref=findDataHref(target);if(dataHref&&/^https?:\/\//.test(dataHref.href)&&dataHref.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(dataHref.node,dataHref.href))return;e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:dataHref.href},"*")}},true)})();</script><script>(function(){var FOCUS_TYPE="ecto:artifact-focus-request";var CLOSE_TYPE="ecto:artifact-close-request";function focusArtifactDocument(){var body=document.body;if(!body)return;try{window.focus();}catch(e){}if(!body.hasAttribute("tabindex"))body.setAttribute("tabindex","-1");try{body.focus({preventScroll:true});}catch(e){try{body.focus();}catch(e2){}}}window.addEventListener("message",function(event){if(event.source!==window.parent)return;var data=event.data;if(!data||typeof data!=="object"||data.type!==FOCUS_TYPE)return;if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",focusArtifactDocument,{once:true});return;}focusArtifactDocument();});window.addEventListener("keydown",function(event){if(event.key!=="Escape")return;window.setTimeout(function(){if(event.defaultPrevented)return;window.parent.postMessage({type:CLOSE_TYPE},"*");},0);});})();</script></body>
-</html>
+
+</body>
+      </html>
