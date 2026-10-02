@@ -1,515 +1,730 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-
-<title>Blog Builder | Hima Tech RCM</title>
-<meta name="robots" content="noindex,nofollow,noarchive">
-
-<link rel="icon" href="/assets/images/favicon.png">
-<link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
-<style>
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box
-}
-
-body{
-  font-family:Inter,system-ui,sans-serif;
-  background:#f7f8fa;
-  color:#191923;
-  min-height:100vh
-}
-
-/* LOGIN */
-.login-overlay{
-  position:fixed;
-  inset:0;
-  z-index:9999;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:linear-gradient(135deg,#18080e,#3a0f1f,#842135)
-}
-
-.login-overlay.hidden{
-  display:none
-}
-
-.login-card{
-  width:100%;
-  max-width:420px;
-  background:#fff;
-  border-radius:22px;
-  padding:42px 35px;
-  text-align:center;
-  box-shadow:0 25px 70px rgba(0,0,0,.35)
-}
-
-.login-logo{
-  width:180px;
-  height:110px;
-  margin:0 auto 22px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:#f4f4f4;
-  border-radius:14px;
-  padding:15px
-}
-
-.login-logo img{
-  width:100%;
-  height:100%;
-  object-fit:contain
-}
-
-.login-card h1{
-  margin-bottom:8px
-}
-
-.login-card p{
-  color:#777;
-  margin-bottom:20px
-}
-
-.login-input{
-  width:100%;
-  padding:14px 16px;
-  border:1.5px solid #ddd;
-  border-radius:11px;
-  font-size:15px;
-  outline:none
-}
-
-.login-input:focus{
-  border-color:#842135;
-  box-shadow:0 0 0 4px rgba(132,33,53,.08)
-}
-
-.login-btn{
-  width:100%;
-  margin-top:14px;
-  padding:14px;
-  border:0;
-  border-radius:11px;
-  background:#842135;
-  color:#fff;
-  font-size:15px;
-  font-weight:700;
-  cursor:pointer
-}
-
-.login-error{
-  display:none;
-  color:#dc3545!important;
-  font-size:13px;
-  margin-top:12px
-}
-
-/* HEADER */
-.admin-header{
-  display:none;
-  position:sticky;
-  top:0;
-  z-index:100;
-  background:linear-gradient(135deg,#18080e,#3a0f1f,#842135);
-  color:#fff
-}
-
-.header-inner{
-  max-width:1100px;
-  margin:auto;
-  padding:13px 25px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between
-}
-
-.header-inner img{
-  height:38px
-}
-
-.header-actions{
-  display:flex;
-  align-items:center;
-  gap:10px
-}
-
-.header-link{
-  color:#fff;
-  text-decoration:none;
-  font-size:14px
-}
-
-.logout-btn{
-  border:1px solid rgba(255,255,255,.25);
-  background:rgba(255,255,255,.08);
-  color:#fff;
-  padding:7px 13px;
-  border-radius:8px;
-  cursor:pointer
-}
-
-/* MAIN */
-.container{
-  display:none;
-  max-width:1100px;
-  margin:auto;
-  padding:22px 18px 50px
-}
-
-.tabs{
-  display:flex;
-  gap:5px;
-  background:#fff;
-  border:1px solid #eee;
-  padding:5px;
-  border-radius:14px;
-  margin-bottom:20px
-}
-
-.tab{
-  flex:1;
-  text-align:center;
-  padding:13px;
-  border-radius:10px;
-  cursor:pointer;
-  color:#777;
-  font-weight:600;
-  font-size:14px
-}
-
-.tab.active{
-  background:#842135;
-  color:#fff
-}
-
-/* CARD */
-.card{
-  background:#fff;
-  border:1px solid #eee;
-  border-radius:16px;
-  padding:27px;
-  margin-bottom:20px;
-  box-shadow:0 2px 8px rgba(0,0,0,.035)
-}
-
-.card-header{
-  display:flex;
-  align-items:center;
-  gap:11px;
-  margin-bottom:20px;
-  padding-bottom:15px;
-  border-bottom:1px solid #f0f0f0
-}
-
-.card-header h2{
-  font-size:20px
-}
-
-.card-header p{
-  color:#888;
-  font-size:13px;
-  margin-top:3px
-}
-
-.card-icon{
-  width:40px;
-  height:40px;
-  border-radius:10px;
-  background:#842135;
-  color:#fff;
-  display:flex;
-  align-items:center;
-  justify-content:center
-}
-
-/* FORMS */
-.form-row{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:16px
-}
-
-.form-group{
-  margin-bottom:16px
-}
-
-.form-group label{
-  display:block;
-  font-size:12px;
-  font-weight:700;
-  color:#555;
-  text-transform:uppercase;
-  letter-spacing:.4px;
-  margin-bottom:7px
-}
-
-.form-group input,
-.form-group select,
-.form-group textarea{
-  width:100%;
-  padding:12px 14px;
-  border:1.5px solid #ddd;
-  border-radius:10px;
-  background:#fafbfc;
-  font-family:inherit;
-  font-size:14px;
-  outline:none
-}
-
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus{
-  border-color:#842135;
-  background:#fff;
-  box-shadow:0 0 0 3px rgba(132,33,53,.07)
-}
-
-.form-group textarea{
-  min-height:90px;
-  resize:vertical
-}
-
-/* SEO */
-.seo-score{
-  display:none;
-  margin-top:6px;
-  padding:6px 9px;
-  border-radius:6px;
-  font-size:12px
-}
-
-.seo-score.good{
-  display:block;
-  background:#d4edda;
-  color:#155724
-}
-
-.seo-score.bad{
-  display:block;
-  background:#f8d7da;
-  color:#721c24
-}
-
-/* IMAGE */
-.featured-image{
-  min-height:200px;
-  border:2px dashed #d5d5d5;
-  border-radius:14px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  flex-direction:column;
-  text-align:center;
-  padding:30px;
-  cursor:pointer;
-  background:#fafbfc
-}
-
-.featured-image.has-image{
-  padding:0;
-  overflow:hidden;
-  border-style:solid;
-  border-color:#842135
-}
-
-.featured-image img{
-  width:100%;
-  height:260px;
-  object-fit:cover
-}
-
-/* EDITOR */
-.editor-wrapper{
-  border:1.5px solid #ddd;
-  border-radius:12px;
-  overflow:hidden
-}
-
-.ql-container{
-  border:0!important
-}
-
-.ql-editor{
-  min-height:400px;
-  padding:24px;
-  line-height:1.8
-}
-
-/* BUTTONS */
-.btn{
-  padding:12px 22px;
-  border:0;
-  border-radius:10px;
-  cursor:pointer;
-  font-weight:700;
-  display:inline-flex;
-  align-items:center;
-  gap:7px
-}
-
-.btn-primary{
-  background:#842135;
-  color:#fff
-}
-
-.btn-dark{
-  background:#111;
-  color:#fff
-}
-
-.btn-outline{
-  background:#fff;
-  color:#842135;
-  border:1.5px solid #842135
-}
-
-.btn-danger{
-  background:#dc3545;
-  color:#fff
-}
-
-.btn-sm{
-  padding:7px 12px;
-  font-size:12px
-}
-
-/* STATUS */
-.status-bar{
-  display:none;
-  margin-top:16px;
-  padding:13px 16px;
-  border-radius:9px;
-  font-size:13px;
-  font-weight:600
-}
-
-.status-bar.success{
-  display:block;
-  background:#d4edda;
-  color:#155724
-}
-
-.status-bar.error{
-  display:block;
-  background:#f8d7da;
-  color:#721c24
-}
-
-/* POSTS */
-.post-item{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:15px;
-  border:1px solid #eee;
-  border-radius:11px;
-  padding:15px;
-  margin-bottom:10px
-}
-
-.post-title{
-  font-weight:700
-}
-
-.post-meta{
-  color:#888;
-  font-size:12px;
-  margin-top:4px
-}
-
-.post-actions{
-  display:flex;
-  gap:6px
-}
-
-.ai-box{
-  border:2px solid #111;
-  background:linear-gradient(135deg,#fff,#fff6f8)
-}
-
-.ai-row{
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap
-}
-
-.ai-row input{
-  flex:1;
-  min-width:240px;
-  padding:13px 15px;
-  border:1.5px solid #111;
-  border-radius:10px
-}
-
-/* MOBILE */
-@media(max-width:650px){
-  .form-row{
-    grid-template-columns:1fr
-  }
-
-  .card{
-    padding:20px
-  }
-
-  .header-inner{
-    padding:12px 15px
-  }
-
-  .header-link{
-    display:none
-  }
-
-  .post-item{
-    flex-direction:column;
-    align-items:flex-start
-  }
-
-  .post-actions{
-    width:100%
-  }
-
-  .post-actions button{
-    flex:1
-  }
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Hima Tech RCM — Blog Builder</title>
+
+  <link
+    href="https://cdn.jsdelivr.net/npm/quill@1.3.7/dist/quill.snow.css"
+    rel="stylesheet"
+  >
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f5f5f5;
+      color: #222;
+    }
+
+    button,
+    input,
+    textarea,
+    select {
+      font-family: inherit;
+    }
+
+    .topbar {
+      background: #7d1a36;
+      color: #fff;
+      padding: 18px 25px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+    }
+
+    .topbar h1 {
+      margin: 0;
+      font-size: 22px;
+    }
+
+    .topbar small {
+      opacity: .85;
+    }
+
+    .logout-btn {
+      background: #fff;
+      color: #7d1a36;
+      border: 0;
+      padding: 9px 15px;
+      border-radius: 7px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .container {
+      max-width: 1250px;
+      margin: 25px auto;
+      padding: 0 18px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 25px;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 22px;
+      box-shadow: 0 3px 18px rgba(0,0,0,.07);
+      margin-bottom: 20px;
+    }
+
+    .card h2 {
+      margin-top: 0;
+      color: #7d1a36;
+      font-size: 20px;
+    }
+
+    label {
+      display: block;
+      margin: 15px 0 7px;
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      border: 1px solid #d5d5d5;
+      border-radius: 7px;
+      padding: 11px 12px;
+      font-size: 14px;
+      outline: none;
+      background: #fff;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      border-color: #7d1a36;
+      box-shadow: 0 0 0 2px rgba(125,26,54,.08);
+    }
+
+    textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    #editor {
+      min-height: 300px;
+      background: #fff;
+    }
+
+    .ql-editor {
+      min-height: 300px;
+      font-size: 16px;
+      line-height: 1.7;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+
+    button {
+      border: 0;
+      border-radius: 7px;
+      padding: 11px 17px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .btn-primary {
+      background: #7d1a36;
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background: #64152b;
+    }
+
+    .btn-secondary {
+      background: #eee;
+      color: #333;
+    }
+
+    .btn-danger {
+      background: #b42318;
+      color: #fff;
+    }
+
+    .btn-success {
+      background: #18794e;
+      color: #fff;
+    }
+
+    .status {
+      display: none;
+      margin-top: 15px;
+      padding: 13px;
+      border-radius: 7px;
+      white-space: pre-wrap;
+      word-break: break-word;
+      font-size: 14px;
+    }
+
+    .status.success {
+      display: block;
+      background: #e8f7ee;
+      color: #146c43;
+      border: 1px solid #b7e4c7;
+    }
+
+    .status.error {
+      display: block;
+      background: #fff0f0;
+      color: #9b1c1c;
+      border: 1px solid #efb0b0;
+    }
+
+    .status.info {
+      display: block;
+      background: #eef5ff;
+      color: #1f4f8f;
+      border: 1px solid #b8d2f4;
+    }
+
+    .post-item {
+      border: 1px solid #ddd;
+      border-radius: 9px;
+      padding: 14px;
+      margin-bottom: 12px;
+      background: #fff;
+    }
+
+    .post-item h3 {
+      margin: 0 0 7px;
+      font-size: 16px;
+    }
+
+    .post-meta {
+      color: #777;
+      font-size: 12px;
+      margin-bottom: 10px;
+    }
+
+    .post-actions {
+      display: flex;
+      gap: 7px;
+      flex-wrap: wrap;
+    }
+
+    .post-actions button {
+      padding: 7px 10px;
+      font-size: 12px;
+    }
+
+    .image-preview {
+      margin-top: 10px;
+      display: none;
+    }
+
+    .image-preview img {
+      width: 100%;
+      max-height: 220px;
+      object-fit: cover;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+    }
+
+    .slug-preview {
+      margin-top: 6px;
+      color: #777;
+      font-size: 12px;
+    }
+
+    .login-overlay {
+      position: fixed;
+      inset: 0;
+      background: #f5f5f5;
+      z-index: 99999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .login-box {
+      width: 100%;
+      max-width: 400px;
+      background: #fff;
+      padding: 30px;
+      border-radius: 13px;
+      box-shadow: 0 10px 40px rgba(0,0,0,.12);
+      text-align: center;
+    }
+
+    .login-logo {
+      color: #7d1a36;
+      font-size: 25px;
+      font-weight: 800;
+      margin-bottom: 5px;
+    }
+
+    .login-subtitle {
+      color: #777;
+      margin-bottom: 25px;
+      font-size: 14px;
+    }
+
+    .login-box input {
+      margin-bottom: 12px;
+    }
+
+    .login-box button {
+      width: 100%;
+      background: #7d1a36;
+      color: #fff;
+    }
+
+    #loginError {
+      display: none;
+      margin-top: 12px;
+      color: #b42318;
+      font-size: 13px;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .loading {
+      opacity: .6;
+      pointer-events: none;
+    }
+
+    .hint {
+      color: #777;
+      font-size: 12px;
+      margin-top: 5px;
+    }
+
+    .danger-box {
+      background: #fff8e6;
+      border: 1px solid #f0d58c;
+      color: #755500;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      margin-bottom: 15px;
+    }
+
+    @media (max-width: 900px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .row {
+        grid-template-columns: 1fr;
+      }
+
+      .topbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .topbar .logout-btn {
+        align-self: flex-end;
+      }
+
+      .container {
+        padding: 0 10px;
+      }
+
+      .card {
+        padding: 16px;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
 <!-- LOGIN -->
-<div class="login-overlay" id="loginOverlay">
-
-  <div class="login-card">
+<div id="loginOverlay" class="login-overlay">
+  <div class="login-box">
 
     <div class="login-logo">
-      <img src="/assets/images/logo-trim-light.png" alt="Hima Tech RCM">
+      HIMA TECH RCM
     </div>
 
-    <h1>Blog Builder</h1>
-    <p>Authorized access only</p>
+    <div class="login-subtitle">
+      Secure Blog Builder
+    </div>
 
     <input
-      id="loginPassword"
-      class="login-input"
       type="password"
+      id="loginPassword"
+      placeholder="Enter admin password"
       autocomplete="current-password"
-      placeholder="Enter password"
     >
 
-    <button class="login-btn" onclick="checkLogin()">
-      Sign In
+    <button onclick="checkLogin()">
+      Login
     </button>
 
-    <div id="loginError" class="login-error">
+    <div id="loginError">
       Incorrect password.
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ADMIN APP -->
+<div id="adminApp" class="hidden">
+
+  <div class="topbar">
+
+    <div>
+      <h1>Hima Tech RCM — Blog Builder</h1>
+      <small>Manage website blog posts</small>
+    </div>
+
+    <button class="logout-btn" onclick="logout()">
+      Logout
+    </button>
+
+  </div>
+
+
+  <div class="container">
+
+    <div class="grid">
+
+      <!-- LEFT -->
+      <div>
+
+        <div class="card">
+
+          <h2 id="formHeading">
+            Create New Post
+          </h2>
+
+          <input
+            type="hidden"
+            id="postId"
+          >
+
+          <label>
+            Post Title *
+          </label>
+
+          <input
+            id="postTitle"
+            type="text"
+            placeholder="Example: 7 Ways to Reduce Medical Billing Denials"
+          >
+
+
+          <div class="row">
+
+            <div>
+              <label>
+                Category *
+              </label>
+
+              <select id="postCategory">
+                <option value="Medical Billing">
+                  Medical Billing
+                </option>
+
+                <option value="RCM">
+                  Revenue Cycle Management
+                </option>
+
+                <option value="Credentialing">
+                  Credentialing
+                </option>
+
+                <option value="Healthcare">
+                  Healthcare
+                </option>
+
+                <option value="Denial Management">
+                  Denial Management
+                </option>
+
+                <option value="Practice Management">
+                  Practice Management
+                </option>
+
+                <option value="Healthcare Technology">
+                  Healthcare Technology
+                </option>
+              </select>
+            </div>
+
+            <div>
+              <label>
+                Date *
+              </label>
+
+              <input
+                id="postDate"
+                type="date"
+              >
+            </div>
+
+          </div>
+
+
+          <label>
+            URL Slug *
+          </label>
+
+          <input
+            id="postSlug"
+            type="text"
+            placeholder="medical-billing-denials"
+          >
+
+          <div class="slug-preview">
+            Live URL:
+            <strong>
+              https://www.himatechrcm.com/blog/
+            </strong>
+            <span id="slugText">
+              your-slug
+            </span>
+          </div>
+
+
+          <label>
+            Short Excerpt *
+          </label>
+
+          <textarea
+            id="postExcerpt"
+            placeholder="Short description that will appear on the blog card..."
+          ></textarea>
+
+
+          <label>
+            Featured Image URL
+          </label>
+
+          <input
+            id="postImage"
+            type="text"
+            placeholder="https://example.com/image.jpg"
+          >
+
+          <div class="hint">
+            You can paste a public image URL or upload an image below.
+          </div>
+
+
+          <label>
+            Upload Featured Image
+          </label>
+
+          <input
+            id="imageUpload"
+            type="file"
+            accept="image/*"
+          >
+
+          <div
+            id="imagePreview"
+            class="image-preview"
+          >
+            <img
+              id="previewImage"
+              src=""
+              alt="Preview"
+            >
+          </div>
+
+
+          <label>
+            Image Alt Text
+          </label>
+
+          <input
+            id="postImageAlt"
+            type="text"
+            placeholder="Medical billing specialist reviewing claims"
+          >
+
+
+          <label>
+            SEO Title
+          </label>
+
+          <input
+            id="seoTitle"
+            type="text"
+            placeholder="SEO title for Google"
+          >
+
+
+          <label>
+            SEO Description
+          </label>
+
+          <textarea
+            id="seoDescription"
+            placeholder="SEO meta description..."
+          ></textarea>
+
+
+          <label>
+            Article Content *
+          </label>
+
+          <div id="editor"></div>
+
+
+          <div class="btn-row">
+
+            <button
+              id="publishBtn"
+              class="btn-primary"
+              onclick="publishPost()"
+            >
+              Publish Post
+            </button>
+
+            <button
+              class="btn-secondary"
+              onclick="clearForm()"
+            >
+              Clear Form
+            </button>
+
+            <button
+              id="cancelEditBtn"
+              class="btn-secondary hidden"
+              onclick="clearForm()"
+            >
+              Cancel Edit
+            </button>
+
+          </div>
+
+
+          <div
+            id="statusBox"
+            class="status"
+          ></div>
+
+        </div>
+
+
+        <!-- AI HELPER -->
+        <div class="card">
+
+          <h2>
+            Quick Content Helper
+          </h2>
+
+          <div class="danger-box">
+            This creates a basic article structure only. Review and edit
+            the content before publishing.
+          </div>
+
+          <label>
+            Topic
+          </label>
+
+          <input
+            id="aiTopic"
+            type="text"
+            placeholder="Example: Medical Billing Denials"
+          >
+
+          <button
+            class="btn-secondary"
+            onclick="generateArticle()"
+          >
+            Generate Draft
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <!-- RIGHT -->
+      <div>
+
+        <div class="card">
+
+          <h2>
+            Published Posts
+          </h2>
+
+          <button
+            class="btn-secondary"
+            onclick="loadPosts()"
+            style="margin-bottom:15px;"
+          >
+            Refresh Posts
+          </button>
+
+          <div id="postsList">
+            Loading posts...
+          </div>
+
+        </div>
+
+
+        <div class="card">
+
+          <h2>
+            Blog Links
+          </h2>
+
+          <p style="font-size:14px;line-height:1.6;">
+            Public Blog:
+          </p>
+
+          <a
+            href="/blog"
+            target="_blank"
+            style="color:#7d1a36;font-weight:bold;"
+          >
+            Open /blog
+          </a>
+
+          <p style="font-size:14px;line-height:1.6;margin-top:20px;">
+            Admin:
+          </p>
+
+          <a
+            href="/admin.html"
+            target="_blank"
+            style="color:#7d1a36;font-weight:bold;"
+          >
+            Open Admin
+          </a>
+
+        </div>
+
+      </div>
+
     </div>
 
   </div>
@@ -517,461 +732,24 @@ body{
 </div>
 
 
-<!-- HEADER -->
-<header class="admin-header" id="adminHeader">
-
-  <div class="header-inner">
-
-    <img
-      src="/assets/images/logo-trim-light.png"
-      alt="Hima Tech RCM"
-    >
-
-    <div class="header-actions">
-
-      <a
-        class="header-link"
-        href="/blog"
-        target="_blank"
-      >
-        View Blog
-      </a>
-
-      <button
-        class="logout-btn"
-        onclick="logout()"
-      >
-        Logout
-      </button>
-
-    </div>
-
-  </div>
-
-</header>
-
-
-<!-- MAIN -->
-<main class="container" id="mainContent">
-
-  <div class="tabs">
-
-    <div
-      class="tab active"
-      id="editorTab"
-      onclick="switchTab('editor')"
-    >
-      Write Post
-    </div>
-
-    <div
-      class="tab"
-      id="postsTab"
-      onclick="switchTab('posts')"
-    >
-      All Posts <span id="postCount">0</span>
-    </div>
-
-  </div>
-
-
-  <!-- EDITOR -->
-  <section id="tab-editor">
-
-
-    <!-- AI -->
-    <div class="card ai-box">
-
-      <div class="card-header">
-
-        <div
-          class="card-icon"
-          style="background:#111"
-        >
-          ✨
-        </div>
-
-        <div>
-
-          <h2>AI Article Generator</h2>
-
-          <p>
-            Title enter karein. Article, SEO fields aur alt text automatically generate hoga.
-          </p>
-
-        </div>
-
-      </div>
-
-
-      <div class="ai-row">
-
-        <input
-          id="aiTitleInput"
-          type="text"
-          placeholder="Example: How to Reduce Medical Billing Denials in 2026"
-        >
-
-        <button
-          class="btn btn-dark"
-          onclick="aiGenerateFull()"
-        >
-          ✨ Generate Article
-        </button>
-
-      </div>
-
-      <small style="display:block;margin-top:9px;color:#777">
-        500-600 words • SEO title • description • slug • image alt text • no em dash
-      </small>
-
-    </div>
-
-
-    <!-- POST DETAILS -->
-    <div class="card">
-
-      <div class="card-header">
-
-        <div class="card-icon">H</div>
-
-        <div>
-          <h2>Post Details</h2>
-          <p>Title, category and excerpt</p>
-        </div>
-
-      </div>
-
-
-      <div class="form-row">
-
-        <div class="form-group">
-
-          <label>Post Title *</label>
-
-          <input
-            id="title"
-            type="text"
-            placeholder="Example: 5 Tips for Better Revenue Cycle Management"
-            oninput="generateSEO()"
-          >
-
-        </div>
-
-
-        <div class="form-group">
-
-          <label>Category</label>
-
-          <select id="category">
-
-            <option>Revenue Cycle Management</option>
-            <option>Medical Billing</option>
-            <option>Medical Coding</option>
-            <option>Credentialing</option>
-            <option>Compliance</option>
-            <option>Industry News</option>
-
-          </select>
-
-        </div>
-
-      </div>
-
-
-      <div class="form-group">
-
-        <label>Excerpt *</label>
-
-        <textarea
-          id="excerpt"
-          maxlength="160"
-          placeholder="Short description for Google and blog card"
-          oninput="checkExcerpt()"
-        ></textarea>
-
-        <div
-          id="excerptScore"
-          class="seo-score"
-        ></div>
-
-      </div>
-
-    </div>
-
-
-    <!-- SEO -->
-    <div
-      class="card"
-      style="border:2px solid #842135"
-    >
-
-      <div class="card-header">
-
-        <div class="card-icon">🔎</div>
-
-        <div>
-
-          <h2>SEO Settings</h2>
-
-          <p>Auto-generated but editable</p>
-
-        </div>
-
-      </div>
-
-
-      <div class="form-group">
-
-        <label>SEO Title</label>
-
-        <input
-          id="seoTitle"
-          maxlength="60"
-          placeholder="SEO title"
-        >
-
-        <div
-          id="seoTitleScore"
-          class="seo-score"
-        ></div>
-
-      </div>
-
-
-      <div class="form-group">
-
-        <label>SEO Description</label>
-
-        <textarea
-          id="seoDescription"
-          maxlength="160"
-          placeholder="SEO description"
-        ></textarea>
-
-      </div>
-
-
-      <div class="form-group">
-
-        <label>Slug / URL</label>
-
-        <input
-          id="slugPreview"
-          readonly
-          style="background:#f0f0f0"
-        >
-
-        <small style="color:#888">
-          https://www.himatechrcm.com/blog/<span id="finalUrl">...</span>
-        </small>
-
-      </div>
-
-    </div>
-
-
-    <!-- IMAGE -->
-    <div class="card">
-
-      <div class="card-header">
-
-        <div class="card-icon">🖼</div>
-
-        <div>
-
-          <h2>Featured Image</h2>
-
-          <p>Recommended 800 × 500px</p>
-
-        </div>
-
-      </div>
-
-
-      <div
-        class="featured-image"
-        id="featuredImageArea"
-        onclick="document.getElementById('featuredFile').click()"
-      >
-
-        <div id="imagePlaceholder">
-
-          <div style="font-size:35px">
-            ↑
-          </div>
-
-          <strong>
-            Click to upload image
-          </strong>
-
-        </div>
-
-        <img
-          id="imagePreview"
-          style="display:none"
-          alt=""
-        >
-
-        <input
-          id="featuredFile"
-          type="file"
-          accept="image/*"
-          style="display:none"
-          onchange="handleFeaturedImage(event)"
-        >
-
-      </div>
-
-
-      <div class="form-group" style="margin-top:15px">
-
-        <label>Or Image URL</label>
-
-        <input
-          id="imageUrl"
-          type="url"
-          placeholder="https://..."
-          oninput="handleImageUrl()"
-        >
-
-      </div>
-
-
-      <div class="form-group">
-
-        <label>Image Alt Text</label>
-
-        <input
-          id="imageAlt"
-          type="text"
-          placeholder="Medical billing team reviewing claims"
-        >
-
-      </div>
-
-    </div>
-
-
-    <!-- CONTENT -->
-    <div class="card">
-
-      <div class="card-header">
-
-        <div class="card-icon">✎</div>
-
-        <div>
-
-          <h2>Blog Content</h2>
-
-          <p>Write or generate your article</p>
-
-        </div>
-
-      </div>
-
-
-      <div class="editor-wrapper">
-
-        <div id="editor"></div>
-
-      </div>
-
-
-      <div
-        id="wordCount"
-        style="text-align:right;color:#999;font-size:12px;margin-top:6px"
-      >
-        0 words
-      </div>
-
-    </div>
-
-
-    <!-- ACTIONS -->
-    <div
-      style="display:flex;gap:10px;flex-wrap:wrap"
-    >
-
-      <button
-        class="btn btn-primary"
-        onclick="publishPost()"
-      >
-        Publish Post
-      </button>
-
-      <button
-        class="btn btn-outline"
-        onclick="previewPost()"
-      >
-        Preview
-      </button>
-
-      <button
-        class="btn btn-danger"
-        onclick="clearForm()"
-      >
-        Clear
-      </button>
-
-    </div>
-
-
-    <div id="status" class="status-bar"></div>
-
-  </section>
-
-
-  <!-- POSTS -->
-  <section
-    id="tab-posts"
-    style="display:none"
-  >
-
-    <div class="card">
-
-      <div
-        style="
-          display:flex;
-          justify-content:space-between;
-          align-items:center;
-          margin-bottom:18px
-        "
-      >
-
-        <h2>Published Posts</h2>
-
-        <button
-          class="btn btn-outline btn-sm"
-          onclick="loadPosts()"
-        >
-          Refresh
-        </button>
-
-      </div>
-
-      <div id="postList">
-        Loading...
-      </div>
-
-    </div>
-
-  </section>
-
-</main>
-
-
-<script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/quill@1.3.7/dist/quill.min.js"></script>
 
 <script>
 
 /* =========================================================
-   CONFIGURATION
+   CONFIG
 ========================================================= */
 
 const ADMIN_PASSWORD = "himatech2026";
 
-const AUTH_KEY = "himatech_admin_auth_v2";
+const AUTH_KEY = "AUTH_KEY_HIMA_TECH_BLOG_V3";
+
+
+/* =========================================================
+   QUILL
+========================================================= */
+
+let quill;
 
 
 /* =========================================================
@@ -988,11 +766,14 @@ function checkLogin(){
 
   if(password === ADMIN_PASSWORD){
 
-    sessionStorage.setItem(AUTH_KEY,"true");
-
-    showAdmin();
+    sessionStorage.setItem(
+      AUTH_KEY,
+      "true"
+    );
 
     error.style.display = "none";
+
+    showAdmin();
 
   }else{
 
@@ -1010,195 +791,306 @@ function showAdmin(){
     .classList.add("hidden");
 
   document
-    .getElementById("adminHeader")
-    .style.display = "block";
+    .getElementById("adminApp")
+    .classList.remove("hidden");
 
-  document
-    .getElementById("mainContent")
-    .style.display = "block";
+  initializePage();
 
 }
 
 
 function logout(){
 
-  sessionStorage.removeItem(AUTH_KEY);
+  sessionStorage.removeItem(
+    AUTH_KEY
+  );
 
   location.reload();
 
 }
 
 
-document
-  .getElementById("loginPassword")
-  .addEventListener("keydown",function(e){
+/* =========================================================
+   INITIALIZE
+========================================================= */
 
-    if(e.key === "Enter"){
-      checkLogin();
-    }
+function initializePage(){
 
-  });
+  if(!quill){
 
+    quill = new Quill(
+      "#editor",
+      {
+        theme: "snow",
 
-if(sessionStorage.getItem(AUTH_KEY) === "true"){
+        modules: {
+          toolbar: [
+            [{ header: [1, 2, 3, false] }],
 
-  showAdmin();
+            ["bold", "italic", "underline"],
+
+            [
+              { list: "ordered" },
+              { list: "bullet" }
+            ],
+
+            ["blockquote", "link", "image"],
+
+            ["clean"]
+          ]
+        }
+      }
+    );
+
+  }
+
+  setDefaultDate();
+
+  loadPosts();
 
 }
 
 
 /* =========================================================
-   QUILL
+   DATE
 ========================================================= */
 
-const quill = new Quill("#editor",{
+function setDefaultDate(){
 
-  theme:"snow",
+  const dateInput =
+    document.getElementById("postDate");
 
-  placeholder:"Start writing your blog post here...",
+  if(!dateInput.value){
 
-  modules:{
+    const today =
+      new Date()
+        .toISOString()
+        .split("T")[0];
 
-    toolbar:[
-
-      [{header:[2,3,false]}],
-
-      ["bold","italic","underline"],
-
-      ["blockquote","code-block"],
-
-      [{list:"ordered"},{list:"bullet"}],
-
-      ["link","image"],
-
-      ["clean"]
-
-    ]
+    dateInput.value = today;
 
   }
 
-});
-
-
-quill.on("text-change",function(){
-
-  const text =
-    quill.getText().trim();
-
-  const words =
-    text ? text.split(/\s+/).length : 0;
-
-  document
-    .getElementById("wordCount")
-    .textContent = words + " words";
-
-});
+}
 
 
 /* =========================================================
-   STATE
+   SLUG
 ========================================================= */
 
-let posts = [];
+function createSlug(text){
 
-let featuredImageBase64 = "";
+  return text
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9\s-]/g, "")
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-");
 
-let editingId = null;
+}
+
+
+document
+  .getElementById("postTitle")
+  .addEventListener(
+    "input",
+    function(){
+
+      const slugInput =
+        document.getElementById("postSlug");
+
+      if(!slugInput.dataset.manual){
+
+        slugInput.value =
+          createSlug(this.value);
+
+      }
+
+      updateSlugPreview();
+
+    }
+  );
+
+
+document
+  .getElementById("postSlug")
+  .addEventListener(
+    "input",
+    function(){
+
+      this.dataset.manual = "true";
+
+      updateSlugPreview();
+
+    }
+  );
+
+
+function updateSlugPreview(){
+
+  const slug =
+    document
+      .getElementById("postSlug")
+      .value
+      .trim();
+
+  document
+    .getElementById("slugText")
+    .textContent =
+      slug || "your-slug";
+
+}
+
+
+/* =========================================================
+   IMAGE UPLOAD
+========================================================= */
+
+document
+  .getElementById("imageUpload")
+  .addEventListener(
+    "change",
+    function(event){
+
+      const file =
+        event.target.files[0];
+
+      if(!file){
+        return;
+      }
+
+      if(file.size > 2 * 1024 * 1024){
+
+        showStatus(
+          "Image is too large. Please use an image under 2 MB.",
+          "error"
+        );
+
+        this.value = "";
+
+        return;
+
+      }
+
+      const reader =
+        new FileReader();
+
+      reader.onload =
+        function(e){
+
+          const imageData =
+            e.target.result;
+
+          document
+            .getElementById("postImage")
+            .value =
+              imageData;
+
+          document
+            .getElementById("previewImage")
+            .src =
+              imageData;
+
+          document
+            .getElementById("imagePreview")
+            .style.display =
+              "block";
+
+        };
+
+      reader.readAsDataURL(file);
+
+    }
+  );
+
+
+document
+  .getElementById("postImage")
+  .addEventListener(
+    "input",
+    function(){
+
+      const value =
+        this.value.trim();
+
+      if(value){
+
+        document
+          .getElementById("previewImage")
+          .src =
+            value;
+
+        document
+          .getElementById("imagePreview")
+          .style.display =
+            "block";
+
+      }
+
+    }
+  );
 
 
 /* =========================================================
    STATUS
 ========================================================= */
 
-function showStatus(message,type){
+function showStatus(
+  message,
+  type = "info"
+){
 
-  const status =
-    document.getElementById("status");
+  const box =
+    document.getElementById("statusBox");
 
-  status.textContent = message;
+  box.className =
+    "status " + type;
 
-  status.className =
-    "status-bar " + type;
+  box.textContent =
+    message;
 
-  setTimeout(function(){
+  box.scrollIntoView({
+    behavior: "smooth",
+    block: "nearest"
+  });
 
-    status.className = "status-bar";
+}
 
-  },5000);
+
+function clearStatus(){
+
+  const box =
+    document.getElementById("statusBox");
+
+  box.className =
+    "status";
+
+  box.textContent = "";
 
 }
 
 
 /* =========================================================
-   LOAD POSTS
+   API ERROR HANDLER
+   THIS FIXES [object Object]
 ========================================================= */
 
-async function loadPosts(){
-
-  const list =
-    document.getElementById("postList");
-
-  list.innerHTML = "Loading...";
+async function saveToGitHub(
+  action,
+  post = null,
+  postId = null
+){
 
   try{
 
-    const response =
-      await fetch(
-        "/api/blog?t=" + Date.now(),
-        {
-          method:"GET",
-          cache:"no-store",
-          headers:{
-            "Accept":"application/json"
-          }
-        }
-      );
-
-    if(!response.ok){
+    if(
+      action !== "delete" &&
+      !post
+    ){
 
       throw new Error(
-        "API returned " + response.status
+        "Post data missing."
       );
-
-    }
-
-    const data =
-      await response.json();
-
-    posts =
-      Array.isArray(data)
-        ? data
-        : Array.isArray(data.posts)
-          ? data.posts
-          : [];
-
-  }catch(error){
-
-    console.error(error);
-
-    posts = [];
-
-    list.innerHTML =
-      "<p style='color:#dc3545'>Unable to load posts from /api/blog.</p>";
-
-  }
-
-  renderPosts();
-
-}
-
-
-/* =========================================================
-   SAVE TO API / GITHUB
-========================================================= */
-
-async function saveToGitHub(action,post=null,postId=null){
-
-  try{
-
-    if(action !== "delete" && !post){
-
-      throw new Error("Post data missing");
 
     }
 
@@ -1211,7 +1103,8 @@ async function saveToGitHub(action,post=null,postId=null){
 
     if(post){
 
-      post.id = finalId;
+      post.id =
+        finalId;
 
     }
 
@@ -1239,43 +1132,160 @@ async function saveToGitHub(action,post=null,postId=null){
 
     const response =
       await fetch(
-        "/api/blog?t=" + Date.now(),
+        "/api/blog?t=" +
+        Date.now(),
         {
-          method:"POST",
-          cache:"no-store",
-          headers:{
-            "Content-Type":"application/json",
-            "Accept":"application/json"
+          method: "POST",
+
+          cache: "no-store",
+
+          headers: {
+            "Content-Type":
+              "application/json",
+
+            "Accept":
+              "application/json"
           },
-          body:JSON.stringify(body)
+
+          body:
+            JSON.stringify(body)
         }
       );
 
 
-    const data =
-      await response.json().catch(function(){
+    /*
+      IMPORTANT:
+      Read raw response first.
+      This prevents [object Object].
+    */
 
-        return {
-          error:"Invalid response from API"
-        };
+    const rawText =
+      await response.text();
 
-      });
+
+    let data = {};
+
+
+    try{
+
+      data =
+        rawText
+          ? JSON.parse(rawText)
+          : {};
+
+    }catch(parseError){
+
+      data = {
+        error:
+          rawText ||
+          "Empty response from API."
+      };
+
+    }
 
 
     if(!response.ok){
 
-      if(response.status === 401){
+      console.error(
+        "BLOG API ERROR:",
+        {
+          status:
+            response.status,
 
-        throw new Error(
-          "GitHub authorization failed. Check GITHUB_TOKEN in Vercel."
-        );
+          statusText:
+            response.statusText,
+
+          response:
+            data
+        }
+      );
+
+
+      let message = "";
+
+
+      if(typeof data === "string"){
+
+        message =
+          data;
 
       }
 
+      else if(data.error){
+
+        message =
+          typeof data.error === "string"
+
+            ? data.error
+
+            : JSON.stringify(
+                data.error,
+                null,
+                2
+              );
+
+      }
+
+      else if(data.message){
+
+        message =
+          typeof data.message === "string"
+
+            ? data.message
+
+            : JSON.stringify(
+                data.message,
+                null,
+                2
+              );
+
+      }
+
+      else{
+
+        message =
+          JSON.stringify(
+            data,
+            null,
+            2
+          );
+
+      }
+
+
+      if(data.status){
+
+        message +=
+          "\nGitHub Status: " +
+          data.status;
+
+      }
+
+
+      if(data.details){
+
+        const details =
+          typeof data.details === "string"
+
+            ? data.details
+
+            : JSON.stringify(
+                data.details,
+                null,
+                2
+              );
+
+        message +=
+          "\nDetails: " +
+          details;
+
+      }
+
+
       throw new Error(
-        data.error ||
-        data.message ||
-        "API error " + response.status
+        message ||
+        "API request failed with HTTP status " +
+        response.status
       );
 
     }
@@ -1287,11 +1297,121 @@ async function saveToGitHub(action,post=null,postId=null){
   }catch(error){
 
     console.error(
-      "saveToGitHub:",
+      "saveToGitHub ERROR:",
       error
     );
 
-    throw error;
+
+    throw new Error(
+      error?.message ||
+      String(error)
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   LOAD POSTS
+========================================================= */
+
+async function loadPosts(){
+
+  const list =
+    document.getElementById(
+      "postsList"
+    );
+
+  list.innerHTML =
+    "Loading posts...";
+
+
+  try{
+
+    const response =
+      await fetch(
+        "/api/blog?t=" +
+        Date.now(),
+        {
+          method: "GET",
+          cache: "no-store"
+        }
+      );
+
+
+    const rawText =
+      await response.text();
+
+
+    let data = [];
+
+
+    try{
+
+      data =
+        rawText
+          ? JSON.parse(rawText)
+          : [];
+
+    }catch(error){
+
+      throw new Error(
+        "Invalid JSON returned by /api/blog:\n" +
+        rawText
+      );
+
+    }
+
+
+    if(!response.ok){
+
+      let message =
+        typeof data?.error === "string"
+          ? data.error
+          : JSON.stringify(
+              data,
+              null,
+              2
+            );
+
+      throw new Error(
+        message
+      );
+
+    }
+
+
+    const posts =
+      Array.isArray(data)
+        ? data
+        : Array.isArray(data.posts)
+          ? data.posts
+          : [];
+
+
+    renderPosts(
+      posts
+    );
+
+
+  }catch(error){
+
+    console.error(
+      "loadPosts:",
+      error
+    );
+
+    list.innerHTML = `
+      <div class="status error" style="display:block;">
+        Failed to load posts.
+
+        ${escapeHtml(
+          error?.message ||
+          String(error)
+        )}
+      </div>
+    `;
 
   }
 
@@ -1302,23 +1422,21 @@ async function saveToGitHub(action,post=null,postId=null){
    RENDER POSTS
 ========================================================= */
 
-function renderPosts(){
-
-  const count =
-    document.getElementById("postCount");
+function renderPosts(posts){
 
   const list =
-    document.getElementById("postList");
-
-
-  count.textContent =
-    posts.length;
+    document.getElementById(
+      "postsList"
+    );
 
 
   if(!posts.length){
 
-    list.innerHTML =
-      "<p style='color:#888'>No posts yet.</p>";
+    list.innerHTML = `
+      <div style="color:#777;font-size:14px;">
+        No posts found.
+      </div>
+    `;
 
     return;
 
@@ -1326,779 +1444,279 @@ function renderPosts(){
 
 
   list.innerHTML =
-    posts.map(function(post){
+    posts.map(
+      function(post){
 
-      return `
+        const title =
+          escapeHtml(
+            post.title ||
+            "Untitled Post"
+          );
 
-        <div class="post-item">
 
-          <div>
+        const category =
+          escapeHtml(
+            post.category ||
+            "Uncategorized"
+          );
 
-            <div class="post-title">
-              ${escapeHtml(post.title || "Untitled")}
-            </div>
+
+        const date =
+          escapeHtml(
+            post.date ||
+            ""
+          );
+
+
+        const slug =
+          escapeHtml(
+            post.slug ||
+            String(post.id || "")
+          );
+
+
+        return `
+          <div class="post-item">
+
+            <h3>
+              ${title}
+            </h3>
 
             <div class="post-meta">
-              ${escapeHtml(post.category || "")}
-              •
-              ${escapeHtml(post.date || "")}
-              •
-              /blog/${escapeHtml(post.slug || "")}
+              ${category}
+              ${date ? " • " + date : ""}
+            </div>
+
+            <div
+              style="
+                font-size:12px;
+                color:#777;
+                margin-bottom:10px;
+                word-break:break-all;
+              "
+            >
+              /blog/${slug}
+            </div>
+
+            <div class="post-actions">
+
+              <button
+                class="btn-secondary"
+                onclick="editPost('${escapeAttribute(String(post.id))}')"
+              >
+                Edit
+              </button>
+
+              <button
+                class="btn-danger"
+                onclick="deletePost('${escapeAttribute(String(post.id))}')"
+              >
+                Delete
+              </button>
+
+              <button
+                class="btn-success"
+                onclick="openPost('${escapeAttribute(String(post.slug || post.id))}')"
+              >
+                View
+              </button>
+
             </div>
 
           </div>
+        `;
 
-          <div class="post-actions">
-
-            <button
-              class="btn btn-outline btn-sm"
-              onclick="editPost('${String(post.id).replace(/'/g,"\\'")}')"
-            >
-              Edit
-            </button>
-
-            <button
-              class="btn btn-danger btn-sm"
-              onclick="deletePost('${String(post.id).replace(/'/g,"\\'")}')"
-            >
-              Delete
-            </button>
-
-          </div>
-
-        </div>
-
-      `;
-
-    }).join("");
+      }
+    )
+    .join("");
 
 }
 
 
 /* =========================================================
-   HTML ESCAPE
+   GET CURRENT POSTS
 ========================================================= */
 
-function escapeHtml(value){
+async function getPosts(){
 
-  return String(value ?? "")
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
-
-}
-
-
-/* =========================================================
-   TABS
-========================================================= */
-
-function switchTab(tab){
-
-  const editor =
-    document.getElementById("tab-editor");
-
-  const postsTab =
-    document.getElementById("tab-posts");
-
-  const editorButton =
-    document.getElementById("editorTab");
-
-  const postsButton =
-    document.getElementById("postsTab");
-
-
-  if(tab === "editor"){
-
-    editor.style.display = "block";
-
-    postsTab.style.display = "none";
-
-    editorButton.classList.add("active");
-
-    postsButton.classList.remove("active");
-
-  }else{
-
-    editor.style.display = "none";
-
-    postsTab.style.display = "block";
-
-    editorButton.classList.remove("active");
-
-    postsButton.classList.add("active");
-
-    loadPosts();
-
-  }
-
-}
-
-
-/* =========================================================
-   IMAGE
-========================================================= */
-
-function handleFeaturedImage(event){
-
-  const file =
-    event.target.files[0];
-
-  if(!file) return;
-
-
-  if(!file.type.startsWith("image/")){
-
-    showStatus(
-      "Please select an image file.",
-      "error"
+  const response =
+    await fetch(
+      "/api/blog?t=" +
+      Date.now(),
+      {
+        cache: "no-store"
+      }
     );
 
-    return;
 
-  }
+  const rawText =
+    await response.text();
 
 
-  const reader =
-    new FileReader();
+  let data;
 
 
-  reader.onload =
-    function(e){
+  try{
 
-      featuredImageBase64 =
-        e.target.result;
+    data =
+      rawText
+        ? JSON.parse(rawText)
+        : [];
 
-      const preview =
-        document.getElementById("imagePreview");
+  }catch(error){
 
-      preview.src =
-        featuredImageBase64;
-
-      preview.style.display =
-        "block";
-
-      document
-        .getElementById("imagePlaceholder")
-        .style.display = "none";
-
-      document
-        .getElementById("featuredImageArea")
-        .classList.add("has-image");
-
-    };
-
-
-  reader.readAsDataURL(file);
-
-}
-
-
-function handleImageUrl(){
-
-  const url =
-    document
-      .getElementById("imageUrl")
-      .value.trim();
-
-
-  if(!url) return;
-
-
-  featuredImageBase64 = "";
-
-
-  const preview =
-    document.getElementById("imagePreview");
-
-  preview.src = url;
-
-  preview.style.display =
-    "block";
-
-
-  document
-    .getElementById("imagePlaceholder")
-    .style.display = "none";
-
-
-  document
-    .getElementById("featuredImageArea")
-    .classList.add("has-image");
-
-}
-
-
-/* =========================================================
-   SEO
-========================================================= */
-
-function makeSlug(title){
-
-  return title
-    .toLowerCase()
-    .normalize("NFKD")
-    .replace(/[^a-z0-9]+/g,"-")
-    .replace(/^-+|-+$/g,"")
-    .substring(0,70)
-    .replace(/-+$/,"");
-
-}
-
-
-function generateSEO(){
-
-  const title =
-    document
-      .getElementById("title")
-      .value.trim();
-
-
-  if(!title) return;
-
-
-  const slug =
-    makeSlug(title);
-
-
-  document
-    .getElementById("slugPreview")
-    .value = slug;
-
-
-  document
-    .getElementById("finalUrl")
-    .textContent = slug;
-
-
-  const seoTitle =
-    document.getElementById("seoTitle");
-
-
-  if(!seoTitle.dataset.manual){
-
-    seoTitle.value =
-      (title + " | Hima Tech RCM")
-        .substring(0,60);
-
-    checkSeoTitle();
-
-  }
-
-
-  const alt =
-    document.getElementById("imageAlt");
-
-
-  if(!alt.value){
-
-    alt.value =
-      title + " - Hima Tech RCM";
-
-  }
-
-}
-
-
-function checkExcerpt(){
-
-  const excerpt =
-    document
-      .getElementById("excerpt")
-      .value.trim();
-
-
-  const score =
-    document.getElementById("excerptScore");
-
-
-  const description =
-    document
-      .getElementById("seoDescription");
-
-
-  if(!description.dataset.manual){
-
-    description.value =
-      excerpt.substring(0,160);
-
-  }
-
-
-  if(!excerpt){
-
-    score.className =
-      "seo-score";
-
-    return;
-
-  }
-
-
-  if(excerpt.length >= 120 &&
-     excerpt.length <= 160){
-
-    score.textContent =
-      "✓ Good SEO length: " +
-      excerpt.length +
-      "/160";
-
-    score.className =
-      "seo-score good";
-
-  }else{
-
-    score.textContent =
-      "Recommended: 120-160 characters (" +
-      excerpt.length +
-      ")";
-
-    score.className =
-      "seo-score bad";
-
-  }
-
-}
-
-
-function checkSeoTitle(){
-
-  const title =
-    document
-      .getElementById("seoTitle")
-      .value.trim();
-
-
-  const score =
-    document
-      .getElementById("seoTitleScore");
-
-
-  if(!title){
-
-    score.className =
-      "seo-score";
-
-    return;
-
-  }
-
-
-  if(title.length >= 45 &&
-     title.length <= 60){
-
-    score.textContent =
-      "✓ Good SEO title length: " +
-      title.length +
-      "/60";
-
-    score.className =
-      "seo-score good";
-
-  }else{
-
-    score.textContent =
-      "Recommended: 45-60 characters (" +
-      title.length +
-      ")";
-
-    score.className =
-      "seo-score bad";
-
-  }
-
-}
-
-
-document
-  .getElementById("seoTitle")
-  .addEventListener(
-    "input",
-    function(){
-
-      this.dataset.manual =
-        "true";
-
-      checkSeoTitle();
-
-    }
-  );
-
-
-document
-  .getElementById("seoDescription")
-  .addEventListener(
-    "input",
-    function(){
-
-      this.dataset.manual =
-        "true";
-
-    }
-  );
-
-
-/* =========================================================
-   AI GENERATOR
-========================================================= */
-
-function aiGenerateFull(){
-
-  const input =
-    document
-      .getElementById("aiTitleInput")
-      .value.trim();
-
-
-  if(!input){
-
-    showStatus(
-      "Pehle article title enter karein.",
-      "error"
+    throw new Error(
+      "API returned invalid JSON:\n" +
+      rawText
     );
 
-    return;
+  }
+
+
+  if(!response.ok){
+
+    const message =
+      data?.error
+        ? (
+            typeof data.error === "string"
+              ? data.error
+              : JSON.stringify(
+                  data.error,
+                  null,
+                  2
+                )
+          )
+        : JSON.stringify(
+            data,
+            null,
+            2
+          );
+
+    throw new Error(
+      message
+    );
 
   }
 
 
-  const category =
-    document
-      .getElementById("category")
-      .value;
-
-
-  document
-    .getElementById("title")
-    .value = input;
-
-
-  document
-    .getElementById("aiTitleInput")
-    .value = input;
-
-
-  const slug =
-    makeSlug(input);
-
-
-  const excerpt =
-    `Learn ${input.toLowerCase()} with practical strategies for healthcare providers. Improve billing accuracy, reduce denials and strengthen revenue cycle performance.`;
-
-
-  const seoTitle =
-    (input + " | Hima Tech RCM")
-      .substring(0,60);
-
-
-  const seoDescription =
-    excerpt.substring(0,160);
-
-
-  const altText =
-    `${input} - ${category} - Hima Tech RCM`;
-
-
-  document
-    .getElementById("excerpt")
-    .value = excerpt;
-
-
-  document
-    .getElementById("seoTitle")
-    .value = seoTitle;
-
-
-  document
-    .getElementById("seoDescription")
-    .value = seoDescription;
-
-
-  document
-    .getElementById("slugPreview")
-    .value = slug;
-
-
-  document
-    .getElementById("finalUrl")
-    .textContent = slug;
-
-
-  document
-    .getElementById("imageAlt")
-    .value = altText;
-
-
-  delete document
-    .getElementById("seoTitle")
-    .dataset.manual;
-
-
-  delete document
-    .getElementById("seoDescription")
-    .dataset.manual;
-
-
-  checkExcerpt();
-
-  checkSeoTitle();
-
-
-  const article = `
-
-<h2>${escapeHtml(input)}</h2>
-
-<p>
-Healthcare practices need a reliable process for
-<strong>${escapeHtml(input.toLowerCase())}</strong>.
-Small problems at the front end of the revenue cycle can
-create larger billing and collection issues later.
-A structured workflow helps teams identify problems earlier,
-reduce unnecessary rework and keep claims moving.
-</p>
-
-<div style="
-border-left:4px solid #842135;
-background:#fff1f3;
-padding:15px;
-margin:20px 0;
-border-radius:0 10px 10px 0;
-">
-
-<strong style="color:#842135">
-Key takeaway:
-</strong>
-
-Start by identifying the specific workflow step that creates
-the most avoidable work. Fix that step first, measure the
-result and then expand the process.
-
-</div>
-
-<h2>Why this matters for healthcare practices</h2>
-
-<p>
-Revenue cycle performance depends on several connected
-processes. Eligibility, authorization, documentation,
-coding, claim submission, payment posting and accounts
-receivable follow-up all affect the final result.
-When one step is incomplete, another department often has
-to spend additional time correcting it.
-</p>
-
-<h2>Three areas to review</h2>
-
-<h3>1. Front-end accuracy</h3>
-
-<p>
-Begin with patient demographics, insurance information,
-eligibility and authorization requirements. Accurate
-information before the visit can prevent avoidable problems
-after the claim is submitted.
-</p>
-
-<h3>2. Claim quality</h3>
-
-<p>
-Review claims before submission. Look for missing
-information, coding inconsistencies, payer-specific
-requirements and documentation issues. A consistent
-pre-billing review can reduce unnecessary claim rework.
-</p>
-
-<h3>3. Accounts receivable follow-up</h3>
-
-<p>
-Track unpaid claims by payer, age and denial reason.
-Instead of treating every account the same, prioritize
-claims that have a higher financial impact or a time-sensitive
-filing or appeal requirement.
-</p>
-
-<h2>Practical steps to take this week</h2>
-
-<ul>
-
-<li>
-Review recent denials and group them by root cause.
-</li>
-
-<li>
-Check eligibility before scheduled visits whenever possible.
-</li>
-
-<li>
-Review authorization requirements for services that commonly
-create payment problems.
-</li>
-
-<li>
-Monitor aging accounts regularly instead of waiting until
-they become severely overdue.
-</li>
-
-<li>
-Document recurring payer issues so your team can address
-patterns instead of individual claims only.
-</li>
-
-</ul>
-
-<div style="
-background:#faf7f8;
-border:1px solid #eadde0;
-border-radius:12px;
-padding:16px;
-margin:20px 0;
-">
-
-<strong>Pro tip:</strong>
-
-Choose one recurring problem, measure its frequency for 30 days,
-make one workflow change and compare the results. This makes it
-easier to identify which operational changes are actually useful.
-
-</div>
-
-<h2>How Hima Tech RCM can help</h2>
-
-<p>
-Hima Tech RCM provides medical billing and revenue cycle
-management services for healthcare providers. Our services
-can include eligibility verification, claim submission,
-payment posting, accounts receivable follow-up, denial
-management, coding support and credentialing.
-</p>
-
-<p>
-We can also review your existing revenue cycle workflow to
-identify potential areas of revenue leakage and operational
-inefficiency.
-</p>
-
-<p>
-<strong>
-If you are reviewing your current billing process,
-consider starting with a free RCM audit.
-</strong>
-</p>
-
-<h2>Frequently Asked Questions</h2>
-
-<h3>What should a practice review first?</h3>
-
-<p>
-Start with the areas creating the highest volume of rework,
-denials or delayed payments. This provides a practical way
-to prioritize improvement.
-</p>
-
-<h3>How often should billing performance be reviewed?</h3>
-
-<p>
-Many practices benefit from regular weekly operational
-monitoring and a deeper monthly review of trends,
-denials and accounts receivable.
-</p>
-
-<h3>What image should I use?</h3>
-
-<p>
-Use a professional image showing a medical billing team
-reviewing claims, an RCM dashboard or a clean healthcare
-revenue cycle infographic. Recommended alt text:
-<strong>${escapeHtml(altText)}</strong>.
-</p>
-
-`;
-
-
-  quill.root.innerHTML =
-    article;
-
-
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
-
-
-  showStatus(
-    "Article generated successfully. Review it and click Publish Post.",
-    "success"
-  );
+  return Array.isArray(data)
+    ? data
+    : (
+        Array.isArray(data.posts)
+          ? data.posts
+          : []
+      );
 
 }
 
 
 /* =========================================================
-   PUBLISH
+   PUBLISH / UPDATE
 ========================================================= */
 
 async function publishPost(){
 
+  clearStatus();
+
+
+  const button =
+    document.getElementById(
+      "publishBtn"
+    );
+
+
   const title =
     document
-      .getElementById("title")
-      .value.trim();
+      .getElementById("postTitle")
+      .value
+      .trim();
 
 
   const category =
     document
-      .getElementById("category")
-      .value;
+      .getElementById("postCategory")
+      .value
+      .trim();
+
+
+  const date =
+    document
+      .getElementById("postDate")
+      .value
+      .trim();
+
+
+  const slug =
+    document
+      .getElementById("postSlug")
+      .value
+      .trim();
 
 
   const excerpt =
     document
-      .getElementById("excerpt")
-      .value.trim();
+      .getElementById("postExcerpt")
+      .value
+      .trim();
+
+
+  const image =
+    document
+      .getElementById("postImage")
+      .value
+      .trim();
+
+
+  const imageAlt =
+    document
+      .getElementById("postImageAlt")
+      .value
+      .trim();
 
 
   const seoTitle =
     document
       .getElementById("seoTitle")
-      .value.trim();
+      .value
+      .trim();
 
 
   const seoDescription =
     document
       .getElementById("seoDescription")
-      .value.trim();
-
-
-  const slug =
-    document
-      .getElementById("slugPreview")
-      .value.trim();
-
-
-  const imageAlt =
-    document
-      .getElementById("imageAlt")
-      .value.trim();
-
-
-  const imageUrl =
-    document
-      .getElementById("imageUrl")
-      .value.trim();
+      .value
+      .trim();
 
 
   const content =
-    quill.root.innerHTML;
+    quill
+      ? quill.root.innerHTML.trim()
+      : "";
 
 
-  const text =
-    quill.getText().trim();
+  const postId =
+    document
+      .getElementById("postId")
+      .value
+      .trim();
 
 
   if(!title){
 
     showStatus(
-      "Title is required.",
+      "Please enter a post title.",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  if(!slug){
+
+    showStatus(
+      "Please enter a URL slug.",
       "error"
     );
 
@@ -2110,7 +1728,7 @@ async function publishPost(){
   if(!excerpt){
 
     showStatus(
-      "Excerpt is required.",
+      "Please enter a short excerpt.",
       "error"
     );
 
@@ -2119,10 +1737,13 @@ async function publishPost(){
   }
 
 
-  if(text.length < 20){
+  if(
+    !content ||
+    content === "<p><br></p>"
+  ){
 
     showStatus(
-      "Blog content must contain at least 20 characters.",
+      "Please enter article content.",
       "error"
     );
 
@@ -2131,36 +1752,18 @@ async function publishPost(){
   }
 
 
-  let image =
-    featuredImageBase64 ||
-    imageUrl;
-
-
-  if(!image){
-
-    const preview =
-      document
-        .getElementById("imagePreview")
-        .src;
-
-    if(
-      preview &&
-      !preview.endsWith(location.host) &&
-      preview !== location.href
-    ){
-
-      image = preview;
-
-    }
-
-  }
+  const action =
+    postId
+      ? "update"
+      : "create";
 
 
   const post = {
 
     id:
-      editingId ||
-      Date.now(),
+      postId
+        ? postId
+        : Date.now(),
 
     title:
       title,
@@ -2172,28 +1775,25 @@ async function publishPost(){
       excerpt,
 
     seoTitle:
-      seoTitle ||
-      title.substring(0,60),
+      seoTitle || title,
 
     seoDescription:
-      seoDescription ||
-      excerpt.substring(0,160),
+      seoDescription || excerpt,
 
     slug:
-      slug ||
-      makeSlug(title),
+      slug,
 
     image:
-      image || "",
+      image,
 
     imageAlt:
-      imageAlt ||
-      title,
+      imageAlt || title,
 
     content:
       content,
 
     date:
+      date ||
       new Date()
         .toISOString()
         .split("T")[0]
@@ -2201,21 +1801,24 @@ async function publishPost(){
   };
 
 
-  const action =
-    editingId
-      ? "update"
-      : "create";
-
-
-  showStatus(
-    editingId
-      ? "Updating post..."
-      : "Publishing post...",
-    "success"
-  );
-
-
   try{
+
+    button.disabled =
+      true;
+
+    button.textContent =
+      action === "create"
+        ? "Publishing..."
+        : "Updating...";
+
+
+    showStatus(
+      action === "create"
+        ? "Publishing post..."
+        : "Updating post...",
+      "info"
+    );
+
 
     const result =
       await saveToGitHub(
@@ -2225,63 +1828,228 @@ async function publishPost(){
       );
 
 
-    if(editingId){
-
-      const index =
-        posts.findIndex(
-          p => String(p.id) === String(post.id)
-        );
-
-
-      if(index >= 0){
-
-        posts[index] =
-          post;
-
-      }else{
-
-        posts.unshift(post);
-
-      }
-
-    }else{
-
-      posts.unshift(post);
-
-    }
-
-
-    renderPosts();
+    console.log(
+      "Publish result:",
+      result
+    );
 
 
     showStatus(
-      "Published successfully. Checking saved posts...",
+      action === "create"
+        ? "Post published successfully!"
+        : "Post updated successfully!",
       "success"
     );
 
 
-    editingId = null;
+    clearForm();
 
-
-    /*
-      Re-read API after publishing.
-      This confirms the backend actually saved the post.
-    */
 
     await loadPosts();
 
 
-    showStatus(
-      "Post saved successfully to /api/blog.",
-      "success"
+  }catch(error){
+
+    console.error(
+      "Publish failed:",
+      error
     );
+
+
+    showStatus(
+      "Publish failed:\n\n" +
+      (
+        error?.message ||
+        String(error)
+      ),
+      "error"
+    );
+
+
+  }finally{
+
+    button.disabled =
+      false;
+
+    button.textContent =
+      document
+        .getElementById("postId")
+        .value
+        .trim()
+        ? "Update Post"
+        : "Publish Post";
+
+  }
+
+}
+
+
+/* =========================================================
+   EDIT POST
+========================================================= */
+
+async function editPost(id){
+
+  try{
+
+    showStatus(
+      "Loading post...",
+      "info"
+    );
+
+
+    const posts =
+      await getPosts();
+
+
+    const post =
+      posts.find(
+        function(item){
+
+          return String(item.id) ===
+            String(id);
+
+        }
+      );
+
+
+    if(!post){
+
+      throw new Error(
+        "Post not found."
+      );
+
+    }
+
+
+    document
+      .getElementById("postId")
+      .value =
+        post.id || "";
+
+
+    document
+      .getElementById("postTitle")
+      .value =
+        post.title || "";
+
+
+    document
+      .getElementById("postCategory")
+      .value =
+        post.category ||
+        "Medical Billing";
+
+
+    document
+      .getElementById("postDate")
+      .value =
+        post.date || "";
+
+
+    document
+      .getElementById("postSlug")
+      .value =
+        post.slug || "";
+
+
+    document
+      .getElementById("postSlug")
+      .dataset.manual =
+        "true";
+
+
+    document
+      .getElementById("postExcerpt")
+      .value =
+        post.excerpt || "";
+
+
+    document
+      .getElementById("postImage")
+      .value =
+        post.image || "";
+
+
+    document
+      .getElementById("postImageAlt")
+      .value =
+        post.imageAlt || "";
+
+
+    document
+      .getElementById("seoTitle")
+      .value =
+        post.seoTitle || "";
+
+
+    document
+      .getElementById("seoDescription")
+      .value =
+        post.seoDescription || "";
+
+
+    if(quill){
+
+      quill.root.innerHTML =
+        post.content || "";
+
+    }
+
+
+    if(post.image){
+
+      document
+        .getElementById("previewImage")
+        .src =
+          post.image;
+
+      document
+        .getElementById("imagePreview")
+        .style.display =
+          "block";
+
+    }
+
+
+    document
+      .getElementById("formHeading")
+      .textContent =
+        "Edit Post";
+
+
+    document
+      .getElementById("publishBtn")
+      .textContent =
+        "Update Post";
+
+
+    document
+      .getElementById("cancelEditBtn")
+      .classList
+      .remove("hidden");
+
+
+    updateSlugPreview();
+
+
+    clearStatus();
+
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
 
 
   }catch(error){
 
     showStatus(
-      "Publish failed: " +
-      error.message,
+      "Could not load post:\n\n" +
+      (
+        error?.message ||
+        String(error)
+      ),
       "error"
     );
 
@@ -2291,162 +2059,18 @@ async function publishPost(){
 
 
 /* =========================================================
-   EDIT
-========================================================= */
-
-function editPost(id){
-
-  const post =
-    posts.find(
-      p => String(p.id) === String(id)
-    );
-
-
-  if(!post){
-
-    showStatus(
-      "Post not found.",
-      "error"
-    );
-
-    return;
-
-  }
-
-
-  editingId =
-    post.id;
-
-
-  document
-    .getElementById("title")
-    .value =
-    post.title || "";
-
-
-  document
-    .getElementById("category")
-    .value =
-    post.category ||
-    "Revenue Cycle Management";
-
-
-  document
-    .getElementById("excerpt")
-    .value =
-    post.excerpt || "";
-
-
-  document
-    .getElementById("seoTitle")
-    .value =
-    post.seoTitle || "";
-
-
-  document
-    .getElementById("seoDescription")
-    .value =
-    post.seoDescription || "";
-
-
-  document
-    .getElementById("slugPreview")
-    .value =
-    post.slug || "";
-
-
-  document
-    .getElementById("finalUrl")
-    .textContent =
-    post.slug || "";
-
-
-  document
-    .getElementById("imageAlt")
-    .value =
-    post.imageAlt || "";
-
-
-  document
-    .getElementById("imageUrl")
-    .value =
-    post.image &&
-    post.image.startsWith("http")
-      ? post.image
-      : "";
-
-
-  if(post.image){
-
-    const preview =
-      document.getElementById("imagePreview");
-
-    preview.src =
-      post.image;
-
-    preview.style.display =
-      "block";
-
-    document
-      .getElementById("imagePlaceholder")
-      .style.display =
-      "none";
-
-    document
-      .getElementById("featuredImageArea")
-      .classList.add("has-image");
-
-
-    if(post.image.startsWith("data:")){
-
-      featuredImageBase64 =
-        post.image;
-
-    }
-
-  }
-
-
-  quill.root.innerHTML =
-    post.content || "";
-
-
-  checkExcerpt();
-
-  checkSeoTitle();
-
-
-  switchTab("editor");
-
-
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
-
-}
-
-
-/* =========================================================
-   DELETE
+   DELETE POST
 ========================================================= */
 
 async function deletePost(id){
 
-  const post =
-    posts.find(
-      p => String(p.id) === String(id)
+  const confirmed =
+    confirm(
+      "Are you sure you want to delete this post?\n\nThis cannot be undone."
     );
 
 
-  if(!post) return;
-
-
-  if(
-    !confirm(
-      `Delete "${post.title}"?`
-    )
-  ){
+  if(!confirmed){
 
     return;
 
@@ -2457,25 +2081,39 @@ async function deletePost(id){
 
     showStatus(
       "Deleting post...",
-      "success"
+      "info"
     );
+
+
+    const posts =
+      await getPosts();
+
+
+    const post =
+      posts.find(
+        function(item){
+
+          return String(item.id) ===
+            String(id);
+
+        }
+      );
+
+
+    if(!post){
+
+      throw new Error(
+        "Post not found."
+      );
+
+    }
 
 
     await saveToGitHub(
       "delete",
       null,
-      post.id
+      id
     );
-
-
-    posts =
-      posts.filter(
-        p =>
-          String(p.id) !== String(post.id)
-      );
-
-
-    renderPosts();
 
 
     showStatus(
@@ -2484,11 +2122,23 @@ async function deletePost(id){
     );
 
 
+    await loadPosts();
+
+
   }catch(error){
 
+    console.error(
+      "Delete failed:",
+      error
+    );
+
+
     showStatus(
-      "Delete failed: " +
-      error.message,
+      "Delete failed:\n\n" +
+      (
+        error?.message ||
+        String(error)
+      ),
       "error"
     );
 
@@ -2498,129 +2148,65 @@ async function deletePost(id){
 
 
 /* =========================================================
-   PREVIEW
+   OPEN POST
 ========================================================= */
 
-function previewPost(){
+function openPost(slug){
 
-  const title =
-    document
-      .getElementById("title")
-      .value;
-
-
-  const content =
-    quill.root.innerHTML;
-
-
-  const preview =
-    window.open(
-      "",
-      "_blank"
-    );
-
-
-  if(!preview){
-
-    showStatus(
-      "Browser blocked the preview window.",
-      "error"
-    );
-
-    return;
-
-  }
-
-
-  preview.document.write(`
-
-<!DOCTYPE html>
-
-<html>
-
-<head>
-
-<title>
-${escapeHtml(title)}
-</title>
-
-<style>
-
-body{
-  max-width:850px;
-  margin:50px auto;
-  padding:20px;
-  font-family:Arial,sans-serif;
-  line-height:1.8;
-  color:#222
-}
-
-h1{
-  color:#842135
-}
-
-img{
-  max-width:100%
-}
-
-</style>
-
-</head>
-
-<body>
-
-<h1>${escapeHtml(title)}</h1>
-
-<hr>
-
-${content}
-
-</body>
-
-</html>
-
-`);
-
-
-  preview.document.close();
+  window.open(
+    "/blog/" +
+    encodeURIComponent(slug),
+    "_blank"
+  );
 
 }
 
 
 /* =========================================================
-   CLEAR
+   CLEAR FORM
 ========================================================= */
 
 function clearForm(){
 
-  if(
-    !confirm(
-      "Clear the current post?"
-    )
-  ){
-
-    return;
-
-  }
-
-
-  editingId = null;
-
-  featuredImageBase64 = "";
-
-
   document
-    .getElementById("title")
+    .getElementById("postId")
     .value = "";
 
 
   document
-    .getElementById("aiTitleInput")
+    .getElementById("postTitle")
     .value = "";
 
 
   document
-    .getElementById("excerpt")
+    .getElementById("postCategory")
+    .value =
+      "Medical Billing";
+
+
+  document
+    .getElementById("postSlug")
+    .value = "";
+
+
+  document
+    .getElementById("postSlug")
+    .dataset.manual =
+      "";
+
+
+  document
+    .getElementById("postExcerpt")
+    .value = "";
+
+
+  document
+    .getElementById("postImage")
+    .value = "";
+
+
+  document
+    .getElementById("postImageAlt")
     .value = "";
 
 
@@ -2635,67 +2221,272 @@ function clearForm(){
 
 
   document
-    .getElementById("slugPreview")
-    .value = "";
-
-
-  document
-    .getElementById("finalUrl")
-    .textContent = "...";
-
-
-  document
-    .getElementById("imageUrl")
-    .value = "";
-
-
-  document
-    .getElementById("imageAlt")
+    .getElementById("imageUpload")
     .value = "";
 
 
   document
     .getElementById("imagePreview")
-    .style.display = "none";
+    .style.display =
+      "none";
 
 
   document
-    .getElementById("imagePlaceholder")
-    .style.display = "block";
+    .getElementById("previewImage")
+    .src = "";
+
+
+  if(quill){
+
+    quill.setContents([]);
+
+  }
+
+
+  setDefaultDate();
 
 
   document
-    .getElementById("featuredImageArea")
-    .classList.remove("has-image");
-
-
-  quill.setText("");
-
-
-  delete document
-    .getElementById("seoTitle")
-    .dataset.manual;
-
-
-  delete document
-    .getElementById("seoDescription")
-    .dataset.manual;
+    .getElementById("formHeading")
+    .textContent =
+      "Create New Post";
 
 
   document
-    .getElementById("wordCount")
-    .textContent = "0 words";
+    .getElementById("publishBtn")
+    .textContent =
+      "Publish Post";
+
+
+  document
+    .getElementById("cancelEditBtn")
+    .classList
+    .add("hidden");
+
+
+  updateSlugPreview();
+
+  clearStatus();
 
 }
 
 
 /* =========================================================
-   INITIAL LOAD
+   SIMPLE ARTICLE GENERATOR
 ========================================================= */
 
-loadPosts();
+function generateArticle(){
+
+  const topic =
+    document
+      .getElementById("aiTopic")
+      .value
+      .trim();
+
+
+  if(!topic){
+
+    showStatus(
+      "Enter a topic first.",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  const slug =
+    createSlug(topic);
+
+
+  document
+    .getElementById("postTitle")
+    .value =
+      topic;
+
+
+  document
+    .getElementById("postSlug")
+    .value =
+      slug;
+
+
+  document
+    .getElementById("postSlug")
+    .dataset.manual =
+      "true";
+
+
+  document
+    .getElementById("postExcerpt")
+    .value =
+      `Learn how ${topic} can affect healthcare organizations, revenue cycle performance, and overall practice efficiency.`;
+
+
+  document
+    .getElementById("seoTitle")
+    .value =
+      `${topic} | Hima Tech RCM`;
+
+
+  document
+    .getElementById("seoDescription")
+    .value =
+      `Learn more about ${topic}, common challenges, and practical strategies for healthcare providers.`;
+
+
+  if(quill){
+
+    quill.root.innerHTML = `
+
+      <h2>Introduction</h2>
+
+      <p>
+        ${escapeHtml(topic)} is an important topic
+        for healthcare providers and medical practices.
+        Understanding the process can help organizations
+        improve efficiency and reduce avoidable problems.
+      </p>
+
+      <h2>Why ${escapeHtml(topic)} Matters</h2>
+
+      <p>
+        Healthcare organizations need reliable processes
+        to manage administrative and financial activities.
+        A well-structured approach can improve visibility,
+        reduce delays, and support better operational results.
+      </p>
+
+      <h2>Common Challenges</h2>
+
+      <ul>
+        <li>Incomplete or inaccurate information</li>
+        <li>Delays in administrative processes</li>
+        <li>Communication gaps</li>
+        <li>Limited follow-up</li>
+        <li>Revenue leakage</li>
+      </ul>
+
+      <h2>How Practices Can Improve</h2>
+
+      <p>
+        Practices can improve results by reviewing their
+        existing workflows, monitoring key performance
+        indicators, and identifying areas where manual
+        processes or delays are creating unnecessary work.
+      </p>
+
+      <h2>Conclusion</h2>
+
+      <p>
+        A consistent and well-managed approach to
+        ${escapeHtml(topic)}
+        can help healthcare organizations maintain
+        smoother operations and better financial visibility.
+      </p>
+
+    `;
+
+  }
+
+
+  updateSlugPreview();
+
+
+  showStatus(
+    "Draft generated. Review the content before publishing.",
+    "success"
+  );
+
+}
+
+
+/* =========================================================
+   HTML ESCAPE
+========================================================= */
+
+function escapeHtml(value){
+
+  return String(value ?? "")
+    .replace(
+      /&/g,
+      "&amp;"
+    )
+    .replace(
+      /</g,
+      "&lt;"
+    )
+    .replace(
+      />/g,
+      "&gt;"
+    )
+    .replace(
+      /"/g,
+      "&quot;"
+    )
+    .replace(
+      /'/g,
+      "&#039;"
+    );
+
+}
+
+
+function escapeAttribute(value){
+
+  return String(value ?? "")
+    .replace(
+      /\\/g,
+      "\\\\"
+    )
+    .replace(
+      /'/g,
+      "\\'"
+    )
+    .replace(
+      /"/g,
+      "&quot;"
+    );
+
+}
+
+
+/* =========================================================
+   ENTER KEY LOGIN
+========================================================= */
+
+document
+  .getElementById("loginPassword")
+  .addEventListener(
+    "keydown",
+    function(event){
+
+      if(event.key === "Enter"){
+
+        checkLogin();
+
+      }
+
+    }
+  );
+
+
+/* =========================================================
+   START
+========================================================= */
+
+if(
+  sessionStorage.getItem(
+    AUTH_KEY
+  ) === "true"
+){
+
+  showAdmin();
+
+}
 
 </script>
 
 </body>
-      </html>
+  </html>
