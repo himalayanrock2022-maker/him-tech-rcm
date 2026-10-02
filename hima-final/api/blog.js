@@ -5,7 +5,7 @@ export default async function handler(req, res) {
 
   const OWNER = "him-tech-rcm";
   const REPO = "hima-final";
-  const PATH = "data/blog.json";
+  const PATH = "blog.json";
 
   const BRANCH =
     process.env.GITHUB_BRANCH || "master";
