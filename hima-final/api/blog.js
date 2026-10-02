@@ -1,3 +1,4 @@
+export const runtime = "nodejs";
 export default async function handler(req, res) {
 
   const TOKEN = process.env.GITHUB_TOKEN;
