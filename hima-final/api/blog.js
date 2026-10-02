@@ -67,13 +67,14 @@ export default async function handler(req, res) {
 
       // File does not exist
       if (getRes.status === 404) {
+  const errorText = await getRes.text();
 
-        return res
-          .status(200)
-          .json([]);
-
-      }
-
+  return res.status(500).json({
+    error: "GitHub returned 404",
+    githubUrl: githubUrl,
+    details: errorText
+  });
+}
 
       if (!getRes.ok) {
 
