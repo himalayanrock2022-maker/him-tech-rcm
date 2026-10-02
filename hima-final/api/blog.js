@@ -585,25 +585,20 @@ export default async function handler(req, res) {
 
 
     if (!putRes.ok) {
+if (!putRes.ok) {
+  const errorText = await putRes.text();
 
-      const errorText =
-        await putRes.text();
+  console.error("GITHUB PUT ERROR:", {
+    status: putRes.status,
+    response: errorText
+  });
 
-
-      return res.status(500).json({
-
-        error:
-          "GitHub PUT failed. Existing data was not intentionally overwritten.",
-
-        status:
-          putRes.status,
-
-        details:
-          errorText
-
-      });
-
-    }
+  return res.status(500).json({
+    error: "GitHub PUT failed.",
+    status: putRes.status,
+    details: errorText
+  });
+}
 
 
     const putData =
