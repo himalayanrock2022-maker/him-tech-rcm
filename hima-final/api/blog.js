@@ -35,6 +35,72 @@ const PATH = "hima-final/blog.json";
   "X-GitHub-Api-Version": "2022-11-28",
   "User-Agent": "Hima-Tech-RCM-Blog"
 };
+  
+    // =========================================================
+  // GITHUB AUTH DIAGNOSTIC
+  // =========================================================
+
+  let githubAuthInfo = null;
+
+  try {
+    const authRes = await fetch("https://api.github.com/user", {
+      method: "GET",
+      headers: githubHeaders,
+      cache: "no-store"
+    });
+
+    if (authRes.ok) {
+      const authData = await authRes.json();
+
+      githubAuthInfo = {
+        login: authData.login || null,
+        id: authData.id || null,
+        type: authData.type || null
+      };
+    } else {
+      githubAuthInfo = {
+        error: `GitHub /user returned ${authRes.status}`,
+        details: await authRes.text()
+      };
+    }
+  } catch (authError) {
+    githubAuthInfo = {
+      error: authError.message
+    };
+  }
+
+
+  let githubRepoInfo = null;
+
+  try {
+    const repoRes = await fetch(
+      `https://api.github.com/repos/${OWNER}/${REPO}`,
+      {
+        method: "GET",
+        headers: githubHeaders,
+        cache: "no-store"
+      }
+    );
+
+    if (repoRes.ok) {
+      const repoData = await repoRes.json();
+
+      githubRepoInfo = {
+        full_name: repoData.full_name || null,
+        default_branch: repoData.default_branch || null,
+        permissions: repoData.permissions || null
+      };
+    } else {
+      githubRepoInfo = {
+        error: `GitHub repository check returned ${repoRes.status}`,
+        details: await repoRes.text()
+      };
+    }
+  } catch (repoError) {
+    githubRepoInfo = {
+      error: repoError.message
+    };
+  }
 
   try {
 
@@ -787,17 +853,22 @@ const PATH = "hima-final/blog.json";
     branch: BRANCH
   });
 
-  return res.status(500).json({
+ return res.status(500).json({
     error: "GitHub PUT failed.",
     status: putRes.status,
     details: errorText,
+
     acceptedPermissions: permissionHeader,
+
+    githubAuthentication: githubAuthInfo,
+
+    githubRepository: githubRepoInfo,
+
     repository: `${OWNER}/${REPO}`,
     path: PATH,
     branch: BRANCH
-  });
-
-}
+});
+     }
 
     // =======================================================
     // SUCCESS
