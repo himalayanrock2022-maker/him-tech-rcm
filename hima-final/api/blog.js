@@ -30,18 +30,11 @@ const PATH = "hima-final/blog.json";
 
 
   const githubHeaders = {
-
-    Authorization:
-      `Bearer ${TOKEN}`,
-
-    Accept:
-      "application/vnd.github+json",
-
-    "X-GitHub-Api-Version":
-      "2022-11-28"
-
-  };
-
+  Authorization: `Bearer ${TOKEN}`,
+  Accept: "application/vnd.github+json",
+  "X-GitHub-Api-Version": "2022-11-28",
+  "User-Agent": "Hima-Tech-RCM-Blog"
+};
 
   try {
 
@@ -773,44 +766,38 @@ const PATH = "hima-final/blog.json";
     // GITHUB PUT ERROR
     // =======================================================
 
-    if (!putRes.ok) {
+   if (!putRes.ok) {
 
-      const errorText =
-        await putRes.text();
+  const errorText = await putRes.text();
 
+  const permissionHeader =
+    putRes.headers.get("X-Accepted-GitHub-Permissions");
 
-      console.error(
-        "GITHUB PUT ERROR:",
-        {
+  const remaining =
+    putRes.headers.get("X-RateLimit-Remaining");
 
-          status:
-            putRes.status,
+  console.error("GITHUB PUT ERROR:", {
+    status: putRes.status,
+    statusText: putRes.statusText,
+    response: errorText,
+    acceptedPermissions: permissionHeader,
+    rateLimitRemaining: remaining,
+    repo: `${OWNER}/${REPO}`,
+    path: PATH,
+    branch: BRANCH
+  });
 
-          statusText:
-            putRes.statusText,
+  return res.status(500).json({
+    error: "GitHub PUT failed.",
+    status: putRes.status,
+    details: errorText,
+    acceptedPermissions: permissionHeader,
+    repository: `${OWNER}/${REPO}`,
+    path: PATH,
+    branch: BRANCH
+  });
 
-          response:
-            errorText
-
-        }
-      );
-
-
-      return res.status(500).json({
-
-        error:
-          "GitHub PUT failed.",
-
-        status:
-          putRes.status,
-
-        details:
-          errorText
-
-      });
-
-    }
-
+}
 
     // =======================================================
     // SUCCESS
