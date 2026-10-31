@@ -564,13 +564,55 @@ function updateSlugPreview() {
    IMAGE UPLOAD
 ========================================================= */
 
-document.getElementById("imageUpload").addEventListener("change", function(event) {
-  const file = event.target.files[0];
+
+/* =========================================================
+   IMAGE UPLOAD — IMPROVED
+========================================================= */
+
+const imageUpload = document.getElementById("imageUpload");
+const postImage = document.getElementById("postImage");
+const previewImage = document.getElementById("previewImage");
+const imagePreview = document.getElementById("imagePreview");
+
+function showImagePreview(src) {
+  if (!src) {
+    previewImage.removeAttribute("src");
+    imagePreview.style.display = "none";
+    return;
+  }
+
+  previewImage.onload = function() {
+    imagePreview.style.display = "block";
+    console.log("Image preview loaded successfully.");
+  };
+
+  previewImage.onerror = function() {
+    imagePreview.style.display = "none";
+    showStatus(
+      "Image could not be displayed. Please try another image or a valid public image URL.",
+      "error"
+    );
+  };
+
+  previewImage.src = src;
+}
+
+imageUpload.addEventListener("change", function(event) {
+  const file = event.target.files && event.target.files[0];
 
   if (!file) return;
 
+  if (!file.type.startsWith("image/")) {
+    showStatus("Please select a valid image file.", "error");
+    this.value = "";
+    return;
+  }
+
   if (file.size > 2 * 1024 * 1024) {
-    showStatus("Image is too large. Please use an image under 2 MB.", "error");
+    showStatus(
+      "Image is too large. Please use an image under 2 MB.",
+      "error"
+    );
     this.value = "";
     return;
   }
@@ -580,22 +622,29 @@ document.getElementById("imageUpload").addEventListener("change", function(event
   reader.onload = function(e) {
     const imageData = e.target.result;
 
-    document.getElementById("postImage").value = imageData;
-    document.getElementById("previewImage").src = imageData;
-    document.getElementById("imagePreview").style.display = "block";
+    if (!imageData || typeof imageData !== "string") {
+      showStatus("Could not read the selected image.", "error");
+      return;
+    }
+
+    postImage.value = imageData;
+    showImagePreview(imageData);
+
+    showStatus("Image uploaded and preview loaded successfully.", "success");
+  };
+
+  reader.onerror = function() {
+    showStatus("Image reading failed. Please select the image again.", "error");
   };
 
   reader.readAsDataURL(file);
 });
 
-document.getElementById("postImage").addEventListener("input", function() {
+postImage.addEventListener("input", function() {
   const value = this.value.trim();
-
-  if (value) {
-    document.getElementById("previewImage").src = value;
-    document.getElementById("imagePreview").style.display = "block";
-  }
+  showImagePreview(value);
 });
+
 
 /* =========================================================
    STATUS
