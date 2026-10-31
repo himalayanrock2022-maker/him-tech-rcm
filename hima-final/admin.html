@@ -472,9 +472,8 @@ let quill;
    LOGIN
 ========================================================= */
 
-function checkLogin() { alert("Login function is running");
-
-const password = document.getElementById("loginPassword").value.trim();
+function checkLogin() {
+  const password = document.getElementById("loginPassword").value.trim();
   const error = document.getElementById("loginError");
 
   if (password === ADMIN_PASSWORD) {
@@ -701,7 +700,8 @@ imageUpload.addEventListener("change", async function(event) {
 postImage.addEventListener("input", function() {
   showImagePreview(this.value.trim());
 });
- =========================================================
+
+/* =========================================================
    STATUS
 ========================================================= */
 
