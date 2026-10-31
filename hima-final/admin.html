@@ -465,6 +465,7 @@ const AUTH_KEY = "AUTH_KEY_HIMA_TECH_BLOG_V3";
 
 let quill;
 
+
 /* =========================================================
    LOGIN
 ========================================================= */
@@ -492,6 +493,9 @@ function logout() {
   sessionStorage.removeItem(AUTH_KEY);
   location.reload();
 }
+
+// Login button click event
+document.getElementById("loginButton").addEventListener("click", checkLogin);
 
 /* =========================================================
    INITIALIZE
