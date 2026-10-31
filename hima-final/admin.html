@@ -295,10 +295,7 @@
       placeholder="Enter admin password"
       autocomplete="current-password">
 
-    <button type="button" id="loginButton"
-onclick="alert('Login button is working')">
-Login
-</button>
+    <button type="button" onclick="checkLogin()">Login</button>
     <div id="loginError">Incorrect password.</div>
   </div>
 </div>
@@ -498,7 +495,6 @@ function logout() {
 }
 
 // Login button click event
-document.getElementById("loginButton").addEventListener("click", checkLogin);
 
 /* =========================================================
    INITIALIZE
