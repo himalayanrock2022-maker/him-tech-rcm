@@ -561,12 +561,8 @@ function updateSlugPreview() {
 }
 
 /* =========================================================
-   IMAGE UPLOAD
-========================================================= */
-
-
-/* =========================================================
-   IMAGE UPLOAD — IMPROVED
+   ANDROID CHROME IMAGE UPLOAD
+   Automatic JPG conversion and compression
 ========================================================= */
 
 const imageUpload = document.getElementById("imageUpload");
@@ -583,70 +579,123 @@ function showImagePreview(src) {
 
   previewImage.onload = function() {
     imagePreview.style.display = "block";
-    console.log("Image preview loaded successfully.");
   };
 
   previewImage.onerror = function() {
     imagePreview.style.display = "none";
-    showStatus(
-      "Image could not be displayed. Please try another image or a valid public image URL.",
-      "error"
-    );
+    showStatus("Image preview failed. Please select another image.", "error");
   };
 
   previewImage.src = src;
 }
 
-imageUpload.addEventListener("change", function(event) {
+async function processUploadedImage(file) {
+  if (!file || !file.type.startsWith("image/")) {
+    throw new Error("Please select a valid image.");
+  }
+
+  // Create a temporary browser URL instead of using FileReader
+  const objectURL = URL.createObjectURL(file);
+
+  try {
+    const img = new Image();
+    img.src = objectURL;
+
+    await new Promise((resolve, reject) => {
+      img.onload = resolve;
+      img.onerror = () => reject(
+        new Error("Chrome could not open this image. Try a JPG or PNG.")
+      );
+    });
+
+    if (!img.naturalWidth || !img.naturalHeight) {
+      throw new Error("Invalid image dimensions.");
+    }
+
+    // Resize large images while preserving proportions
+    const maxWidth = 1600;
+    const maxHeight = 1600;
+
+    const scale = Math.min(
+      1,
+      maxWidth / img.naturalWidth,
+      maxHeight / img.naturalHeight
+    );
+
+    const width = Math.round(img.naturalWidth * scale);
+    const height = Math.round(img.naturalHeight * scale);
+
+    const canvas = document.createElement("canvas");
+    canvas.width = width;
+    canvas.height = height;
+
+    const ctx = canvas.getContext("2d");
+
+    if (!ctx) {
+      throw new Error("Image processing is not supported by this browser.");
+    }
+
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(0, 0, width, height);
+    ctx.drawImage(img, 0, 0, width, height);
+
+    // Convert image to compressed JPEG
+    let quality = 0.82;
+    let result = canvas.toDataURL("image/jpeg", quality);
+
+    while (result.length > 1800000 && quality > 0.45) {
+      quality -= 0.10;
+      result = canvas.toDataURL("image/jpeg", quality);
+    }
+
+    if (!result || !result.startsWith("data:image/jpeg;base64,")) {
+      throw new Error("Could not convert image to JPG.");
+    }
+
+    return result;
+
+  } finally {
+    URL.revokeObjectURL(objectURL);
+  }
+}
+
+imageUpload.addEventListener("change", async function(event) {
   const file = event.target.files && event.target.files[0];
 
   if (!file) return;
 
-  if (!file.type.startsWith("image/")) {
-    showStatus("Please select a valid image file.", "error");
-    this.value = "";
-    return;
-  }
+  try {
+    showStatus("Processing and compressing your image...", "info");
 
-  if (file.size > 2 * 1024 * 1024) {
-    showStatus(
-      "Image is too large. Please use an image under 2 MB.",
-      "error"
-    );
-    this.value = "";
-    return;
-  }
-
-  const reader = new FileReader();
-
-  reader.onload = function(e) {
-    const imageData = e.target.result;
-
-    if (!imageData || typeof imageData !== "string") {
-      showStatus("Could not read the selected image.", "error");
-      return;
-    }
+    const imageData = await processUploadedImage(file);
 
     postImage.value = imageData;
     showImagePreview(imageData);
 
-    showStatus("Image uploaded and preview loaded successfully.", "success");
-  };
+    document.getElementById("postImageAlt").value =
+      document.getElementById("postImageAlt").value ||
+      document.getElementById("postTitle").value;
 
-  reader.onerror = function() {
-    showStatus("Image reading failed. Please select the image again.", "error");
-  };
+    showStatus(
+      "Image successfully uploaded and converted to JPG. Preview is ready.",
+      "success"
+    );
 
-  reader.readAsDataURL(file);
+  } catch (error) {
+    console.error("Image upload error:", error);
+
+    showStatus(
+      "Image upload failed:\n" + error.message,
+      "error"
+    );
+
+  }
 });
 
 postImage.addEventListener("input", function() {
-  const value = this.value.trim();
-  showImagePreview(value);
+  showImagePreview(this.value.trim());
 });
-
-
-/* =========================================================
+ =========================================================
    STATUS
 ========================================================= */
 
