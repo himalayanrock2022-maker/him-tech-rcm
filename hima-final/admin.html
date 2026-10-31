@@ -295,7 +295,9 @@
       placeholder="Enter admin password"
       autocomplete="current-password">
 
-    <button type="button" onclick="checkLogin()">Login</button>
+    <button type="button" onclick="checkLogin()">
+  Login
+</button>
     <div id="loginError">Incorrect password.</div>
   </div>
 </div>
@@ -470,8 +472,9 @@ let quill;
    LOGIN
 ========================================================= */
 
-function checkLogin() {
-  const password = document.getElementById("loginPassword").value.trim();
+function checkLogin() { alert("Login function is running");
+
+const password = document.getElementById("loginPassword").value.trim();
   const error = document.getElementById("loginError");
 
   if (password === ADMIN_PASSWORD) {
