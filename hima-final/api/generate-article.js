@@ -1,96 +1,200 @@
 
-You are a senior human-style healthcare content strategist and SEO writer
-for Hima Tech RCM, serving healthcare providers in the United States.
+export const runtime = "nodejs";
+
+function countWords(html) {
+  return String(html || "")
+    .replace(/<[^>]*>/g, " ")
+    .replace(/&nbsp;|&#160;/gi, " ")
+    .replace(/&amp;/gi, "&")
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean).length;
+}
+
+function cleanHtml(html) {
+  return String(html || "")
+    .replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, "")
+    .replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi, "")
+    .replace(/<(iframe|object|embed)\b[^>]*>[\s\S]*?<\/\1>/gi, "")
+    .replace(/\s+on\w+\s*=\s*("[^"]*"|'[^']*'|[^\s>]+)/gi, "")
+    .replace(/href\s*=\s*(['"])\s*javascript:[\s\S]*?\1/gi, 'href="#"');
+}
+
+export default async function handler(req, res) {
+  if (req.method !== "POST") {
+    return res.status(405).json({ error: "Method not allowed" });
+  }
+
+  const apiKey = process.env.GEMINI_API_KEY;
+
+  if (!apiKey) {
+    return res.status(500).json({
+      error: "GEMINI_API_KEY is missing in Vercel."
+    });
+  }
+
+  try {
+    const { topic, password } = req.body || {};
+
+    if (!topic || typeof topic !== "string" || !topic.trim()) {
+      return res.status(400).json({
+        error: "Please enter an article topic."
+      });
+    }
+
+    const expectedPassword =
+      process.env.BLOG_ADMIN_PASSWORD || "himatech2026";
+
+    if (password !== expectedPassword) {
+      return res.status(401).json({
+        error: "Admin authentication failed."
+      });
+    }
+
+    const prompt = `
+You are a senior human-style healthcare content strategist
+and SEO writer for Hima Tech RCM, serving US healthcare providers.
 
 Write a completely original, deeply informative article about:
-"${topic}"
+"${topic.trim()}"
 
-STRICT CONTENT REQUIREMENTS:
+STRICT REQUIREMENTS:
 
-1. LENGTH
-- Article must contain 700–800 words.
-- Count visible article text, including headings and FAQs.
+LENGTH:
+- Write 700–800 visible words.
+- Count headings, paragraphs and FAQs.
 - Do not count HTML tags or SEO metadata.
 
-2. KEYWORD RULE
-- Use each target keyword or keyphrase only ONCE in the entire article.
-- Never repeat the same exact target keyword in headings, paragraphs,
+KEYWORDS:
+- Generate 3 relevant target keywords.
+- Each target keyword or exact keyphrase may appear ONLY ONCE
+  in the entire article.
+- Do not repeat target keywords in headings, paragraphs,
   FAQs or conclusion.
-- Avoid keyword stuffing and unnatural repetition.
-- Use natural synonyms and related terminology where needed.
-- Do not repeat the primary keyword in the title and article body
-  if doing so would violate the one-use rule.
+- Use natural synonyms instead.
+- Avoid keyword stuffing.
 
-3. STRUCTURE
-- Use one H1 heading for the article title.
-- Organize the article with meaningful H2 sections.
-- Use H3 headings for relevant subsections.
-- Maintain a logical heading hierarchy.
-- Include an engaging introduction, detailed main discussion,
+STRUCTURE:
+- Include exactly one H1.
+- Use meaningful H2 sections.
+- Use H3 subsections where useful.
+- Include an introduction, detailed discussion,
   practical conclusion and exactly 3 FAQs.
 
-4. HUMAN WRITING
-- Write naturally, like an experienced healthcare industry professional.
-- Use varied sentence structures and paragraph lengths.
-- Avoid robotic phrases, generic introductions and repetitive transitions.
-- Avoid predictable AI-style wording and empty filler.
-- Be clear, thoughtful, specific and conversational while remaining professional.
+HUMANIZED WRITING:
+- Sound like an experienced healthcare professional.
+- Use natural sentence variety and paragraph lengths.
+- Avoid robotic wording, generic filler and repetitive transitions.
+- Be clear, engaging, thoughtful and practical.
 
-5. ORIGINALITY
+ORIGINALITY:
 - Create fresh explanations, examples and analysis.
-- Never copy or closely paraphrase existing articles.
-- Do not invent quotations, statistics, studies or sources.
-- Avoid repetitive templates and recycled paragraphs.
-- The result must be original and plagiarism-conscious.
-- Do not claim that plagiarism has been independently verified.
+- Do not copy or closely paraphrase existing articles.
+- Do not invent statistics, studies, sources or quotations.
+- Do not claim plagiarism has been independently verified.
 
-6. SOCIAL DISCUSSION INSIGHTS
-- Reflect relevant themes, questions, concerns and opinions commonly
-  discussed in public healthcare and professional social media discussions.
-- You may summarize discussion patterns in your own words.
-- Never mention personal names, usernames, handles or account identities.
-- Never invent direct quotations or claim that a specific discussion
-  occurred if it has not been verified.
-- Do not present social media opinions as established facts.
+SOCIAL DISCUSSION INSIGHTS:
+- Reflect relevant themes, concerns, questions and opinions
+  commonly discussed in public healthcare and professional
+  social media conversations.
+- Summarize discussion themes in your own words.
+- Never include names, usernames or account identities.
+- Never invent direct quotations or claim live research
+  was conducted when it was not.
+- Do not present opinions as established facts.
 
-7. INFORMATION QUALITY
-- Explain the subject thoroughly and accurately.
-- Include practical examples, real-world implications and actionable advice.
-- Address common challenges and misconceptions.
-- Write specifically for US physicians, clinics, hospitals and
-  healthcare practice managers.
+INFORMATION QUALITY:
+- Write for US physicians, clinics, hospitals and practice managers.
+- Explain practical challenges and real-world implications.
+- Include useful examples and actionable recommendations.
 - Avoid unsupported medical, legal or financial claims.
 
-8. SEO METADATA
-Generate:
-- SEO title
-- Meta description
-- URL-friendly slug
-- Short excerpt
-- Relevant target keywords
+SEO:
+- Generate an SEO title, meta description, slug, excerpt
+  and 3 target keywords.
+- Keep SEO metadata outside the article word count.
 
-9. HTML
-- Return clean HTML in contentHtml.
-- Use h1, h2, h3, p, ul, ol, li, strong, em and blockquote.
-- Include exactly 3 FAQs in a clearly labeled section.
-- Do not include scripts, styles, images or inline event handlers.
+HTML:
+- Return clean HTML using h1, h2, h3, p, ul, ol, li,
+  strong, em and blockquote.
+- Include exactly 3 FAQs.
+- No scripts, styles, images or event handlers.
 
-10. FINAL QUALITY CHECK
-Before returning:
-- Verify article is 700–800 words.
-- Verify each target keyword occurs only once in the article.
-- Verify heading hierarchy.
-- Remove repeated ideas and unnecessary filler.
-- Ensure the article reads naturally and provides genuine value.
+FINAL CHECK:
+- Verify 700–800 article words.
+- Check each target keyword appears exactly once.
+- Check heading hierarchy and remove repetition.
+- Return valid JSON only, without Markdown fences.
 
-Return valid JSON only, without Markdown fences:
-
+JSON FORMAT:
 {
   "title": "Article title",
-  "slug": "url-friendly-slug",
+  "slug": "article-url-slug",
   "excerpt": "Short excerpt",
   "seoTitle": "SEO title",
   "seoDescription": "Meta description",
-  "keywords": "keyword one, keyword two, keyword three",
-  "contentHtml": "<h1>Article title</h1><p>...</p>"
+  "keywords": ["keyword one", "keyword two", "keyword three"],
+  "contentHtml": "<h1>Title</h1><p>Article...</p>"
+}
+`;
+
+    const response = await fetch(
+      "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=" +
+        encodeURIComponent(apiKey),
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          contents: [
+            { parts: [{ text: prompt }] }
+          ],
+          generationConfig: {
+            temperature: 0.7,
+            responseMimeType: "application/json"
+          }
+        })
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      console.error("Gemini error:", data);
+      return res.status(502).json({
+        error: data.error?.message || "Gemini generation failed."
+      });
+    }
+
+    const rawText = data.candidates?.[0]?.content?.parts
+      ?.map(part => part.text || "")
+      .join("");
+
+    if (!rawText) {
+      return res.status(502).json({
+        error: "Gemini returned an empty response."
+      });
+    }
+
+    const article = JSON.parse(rawText);
+    article.contentHtml = cleanHtml(article.contentHtml);
+
+    const wordCount = countWords(article.contentHtml);
+
+    return res.status(200).json({
+      success: true,
+      article: {
+        ...article,
+        wordCount
+      }
+    });
+
+  } catch (error) {
+    console.error("Article generation error:", error);
+
+    return res.status(500).json({
+      error: "Article generation failed. Please try again."
+    });
+  }
 }
