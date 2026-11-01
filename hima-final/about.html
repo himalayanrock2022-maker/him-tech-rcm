@@ -1,311 +1,1354 @@
-<!doctype html>
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>About Us | Hima Tech RCM</title>
-    <meta name="description" content="Hima Tech RCM provides medical billing, revenue cycle management, credentialing, enrollment and healthcare support services for U.S. providers.">
-    <link rel="icon" href="/assets/images/favicon.png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <!-- BEST - Updated v=400 - same as Home -->
-    <link rel="stylesheet" href="/assets/css/site.css?v=400">
-    <style>
-    /* BEST FINAL NAVBAR - No confusion, solid white, dark buttons */
-    .navbar .logo img { width: 90px !important; max-width: 90px !important; }
-    .footer .footer-grid > div:first-child > img { width: 180px !important; max-width: 180px !important; }
-    .hero,.pagehero{overflow:visible!important}
-    @media(max-width:991px){ .navbar .logo img{width:75px!important} }
-    .navbar .dropdown { position: relative; }
-    .navbar .dropdown .mega {
-      position: absolute; left: 50% !important; transform: translateX(-50%) !important; top: 100% !important;
-      min-width: 700px; max-width: 85vw; margin-top: 10px; background: #ffffff !important; opacity: 1 !important;
-      backdrop-filter: none !important; border: 1px solid #e2e8f0 !important; border-radius: 16px;
-      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25), 0 0 0 1px rgba(0,0,0,0.05) !important;
-      padding: 16px; grid-template-columns: repeat(2, 1fr); gap: 4px; z-index: 9999; display: none;
-    }
-    .navbar .dropdown:hover .mega { display: grid !important; }
-    .navbar .dropdown .mega a {
-      background: #ffffff !important; color: #1e293b !important; padding: 12px 14px !important; border-radius: 10px;
-      font-weight: 600 !important; font-size: 14px !important; border: 1px solid transparent;
-      display: flex !important; align-items: center; gap: 10px; text-decoration: none !important;
-    }
-    .navbar .dropdown .mega a i { color: #0e3a8a !important; font-size: 14px; width: 20px; text-align: center; }
-    .navbar .dropdown .mega a:hover { background: #f1f5f9 !important; color: #0e3a8a !important; border-color: #e2e8f0 !important; transform: translateX(2px); }
-    .navbar .dropdown .mega a:hover i { color: #842135 !important; }
-    .navbar .dropdown::before { content: ''; position: absolute; left: 0; right: 0; top: 100%; height: 12px; }
-    .free-tools-dropdown { position: relative; }
-    .free-tools-dropdown .mega.tools-mega {
-      min-width: 360px !important; grid-template-columns: 1fr !important; left: 50% !important;
-      transform: translateX(-50%) !important; padding: 12px !important; background: #ffffff !important; opacity: 1 !important;
-    }
-    .tools-mega a { display: flex !important; align-items: center; gap: 12px; padding: 14px 16px !important; border-radius: 12px; text-decoration: none; border: 1px solid transparent; transition: all 0.2s; }
-    .tools-mega a:hover { transform: translateY(-1px); filter: brightness(1.1); }
-    .tools-mega a.bill-defender { background: #842135 !important; color: white !important; border-color: #842135 !important; }
-    .tools-mega a.bill-defender small { color: rgba(255,255,255,0.85) !important; }
-    .tools-mega a.rcm-portal { background: #0e3a8a !important; color: white !important; border-color: #0e3a8a !important; }
-    .tools-mega a.rcm-portal small { color: rgba(255,255,255,0.85) !important; }
-    .tools-mega a .tool-icon { width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
-    .bill-defender .tool-icon { background: white !important; color: #842135 !important; }
-    .rcm-portal .tool-icon { background: white !important; color: #0e3a8a !important; }
-    .badge-new { font-size: 9px; font-weight: 800; padding: 3px 7px; border-radius: 20px; background: white; color: #842135; margin-left: auto; letter-spacing: 0.5px; }
-    .rcm-portal .badge-new { background: white; color: #0e3a8a; }
-    .bill-defender .badge-new { background: white; color: #842135; }
-    .free-tools-btn { display: inline-flex; align-items: center; gap: 6px; background: linear-gradient(135deg, #842135, #0e3a8a); color: white !important; padding: 8px 16px !important; border-radius: 20px; font-weight: 700; font-size: 13px; }
-    .free-tools-btn .badge-new { background: white; color: #842135; }
-    @media(max-width:1200px){
-      .navbar .dropdown .mega { left: 0 !important; transform: none !important; min-width: 600px; }
-      .free-tools-dropdown .mega.tools-mega { left: 0 !important; transform: none !important; }
-    }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>About Hima Tech RCM | Medical Billing & RCM Company</title>
+
+<meta name="description" content="Meet Hima Tech RCM, a medical billing and revenue cycle management company providing services from Pakistan to healthcare providers across the United States.">
+
+<link rel="canonical" href="https://www.himatechrcm.com/about">
+
+<link rel="icon" href="/assets/images/favicon.png">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="/assets/css/site.css?v=400">
+
+<style>
+:root {
+  --maroon: #842135;
+  --maroon2: #a83045;
+  --navy: #0e3a8a;
+  --dark: #102a43;
+  --muted: #64748b;
+  --light: #f5f7fb;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+.navbar .logo img {
+  width: 90px !important;
+  max-width: 90px !important;
+  height: auto !important;
+}
+
+.footer-grid img[src*="logo-trim-light"] {
+  width: 90px !important;
+  max-width: 90px !important;
+  height: auto !important;
+}
+
+/* Navigation dropdown */
+
+.navbar .dropdown {
+  position: relative;
+}
+
+.navbar .dropdown .mega {
+  position: absolute;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  top: 100% !important;
+  min-width: 700px;
+  max-width: 85vw;
+  margin-top: 10px;
+  background: #fff !important;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 16px;
+  box-shadow: 0 25px 50px rgba(0,0,0,.18);
+  padding: 16px;
+  grid-template-columns: repeat(2,1fr);
+  gap: 4px;
+  z-index: 9999;
+  display: none;
+}
+
+.navbar .dropdown:hover .mega {
+  display: grid !important;
+}
+
+.navbar .dropdown .mega a {
+  background: #fff !important;
+  color: #1e293b !important;
+  padding: 12px 14px !important;
+  border-radius: 10px;
+  font-weight: 600 !important;
+  font-size: 14px !important;
+  display: flex !important;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none !important;
+}
+
+.navbar .dropdown .mega a i {
+  color: var(--navy) !important;
+  width: 20px;
+}
+
+.navbar .dropdown .mega a:hover {
+  background: #f1f5f9 !important;
+  color: var(--navy) !important;
+}
+
+.free-tools-dropdown {
+  position: relative;
+}
+
+.free-tools-dropdown .mega.tools-mega {
+  min-width: 360px !important;
+  grid-template-columns: 1fr !important;
+  padding: 12px !important;
+}
+
+.tools-mega a {
+  display: flex !important;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px !important;
+  border-radius: 12px;
+}
+
+.tools-mega a.bill-defender {
+  background: var(--maroon) !important;
+  color: white !important;
+}
+
+.tools-mega a.rcm-portal {
+  background: var(--navy) !important;
+  color: white !important;
+}
+
+.tools-mega a small {
+  color: rgba(255,255,255,.85) !important;
+}
+
+.tool-icon {
+  width: 38px;
+  height: 38px;
+  background: white;
+  color: var(--maroon);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rcm-portal .tool-icon {
+  color: var(--navy);
+}
+
+.badge-new {
+  font-size: 9px;
+  font-weight: 800;
+  padding: 3px 7px;
+  border-radius: 20px;
+  background: white;
+  color: var(--maroon);
+  margin-left: auto;
+}
+
+/* Hero */
+
+.about-hero {
+  background:
+    linear-gradient(120deg,
+    rgba(6,43,71,.94),
+    rgba(11,80,120,.90),
+    rgba(132,33,53,.82)),
+    url('/assets/images/hero-home.jpg') center/cover no-repeat;
+  padding: 95px 20px;
+  text-align: center;
+  color: white;
+}
+
+.about-hero h1 {
+  font-size: clamp(34px,5vw,52px);
+  margin: 0 0 18px;
+  line-height: 1.2;
+}
+
+.about-hero p {
+  max-width: 760px;
+  margin: auto;
+  color: #e2edf5;
+  font-size: 17px;
+  line-height: 1.8;
+}
+
+.about-hero .hero-tag {
+  display: inline-block;
+  background: rgba(255,255,255,.13);
+  border: 1px solid rgba(255,255,255,.25);
+  padding: 8px 18px;
+  border-radius: 30px;
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+/* General sections */
+
+.about-section {
+  padding: 75px 0;
+}
+
+.about-section.light {
+  background: var(--light);
+}
+
+.section-heading {
+  text-align: center;
+  max-width: 760px;
+  margin: 0 auto 42px;
+}
+
+.section-heading .kicker {
+  color: var(--maroon);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  margin-bottom: 12px;
+}
+
+.section-heading h2 {
+  color: var(--dark);
+  font-size: clamp(27px,3vw,36px);
+  margin: 0 0 14px;
+  line-height: 1.3;
+}
+
+.section-heading p {
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+/* About content */
+
+.about-content {
+  display: grid;
+  grid-template-columns: 1.1fr .9fr;
+  gap: 50px;
+  align-items: center;
+}
+
+.about-text h2 {
+  font-size: 34px;
+  color: var(--dark);
+  margin: 0 0 20px;
+  line-height: 1.3;
+}
+
+.about-text p {
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.9;
+  margin-bottom: 16px;
+}
+
+.about-visual {
+  background: linear-gradient(135deg,#0e3a8a,#842135);
+  border-radius: 24px;
+  min-height: 360px;
+  padding: 35px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: white;
+  box-shadow: 0 15px 40px rgba(14,58,138,.15);
+}
+
+.about-visual .visual-icon {
+  font-size: 50px;
+  margin-bottom: 20px;
+}
+
+.about-visual h3 {
+  font-size: 27px;
+  margin: 0 0 12px;
+}
+
+.about-visual p {
+  color: #e2eaf5;
+  line-height: 1.8;
+  margin: 0;
+}
+
+/* Values */
+
+.values-grid {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 24px;
+}
+
+.value-card {
+  background: white;
+  border: 1px solid #e5eaf0;
+  border-radius: 18px;
+  padding: 30px;
+  transition: .3s;
+  box-shadow: 0 7px 24px rgba(0,0,0,.04);
+}
+
+.value-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 15px 35px rgba(132,33,53,.10);
+}
+
+.value-icon {
+  width: 55px;
+  height: 55px;
+  border-radius: 14px;
+  background: rgba(132,33,53,.09);
+  color: var(--maroon);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 23px;
+  margin-bottom: 20px;
+}
+
+.value-card h3 {
+  color: var(--dark);
+  font-size: 20px;
+  margin: 0 0 12px;
+}
+
+.value-card p {
+  color: var(--muted);
+  line-height: 1.8;
+  font-size: 14px;
+  margin: 0;
+}
+
+/* Services */
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 18px;
+}
+
+.service-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 19px;
+  border: 1px solid #e5eaf0;
+  border-radius: 13px;
+  background: white;
+  transition: .25s;
+}
+
+.service-item:hover {
+  border-color: var(--maroon);
+  transform: translateY(-3px);
+}
+
+.service-item i {
+  color: var(--maroon);
+  font-size: 22px;
+  width: 28px;
+  text-align: center;
+}
+
+.service-item span {
+  color: var(--dark);
+  font-weight: 650;
+  font-size: 14px;
+}
+
+/* Team section */
+
+.team-section {
+  padding: 80px 0;
+  background: #f8fafc;
+}
+
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(3,minmax(0,1fr));
+  gap: 28px;
+  margin-top: 38px;
+}
+
+.team-card {
+  background: white;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid #e5e7eb;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(8,45,73,.06);
+  transition: .3s;
+}
+
+.team-card:hover {
+  transform: translateY(-7px);
+  box-shadow: 0 18px 38px rgba(132,33,53,.14);
+}
+
+.team-photo {
+  height: 330px;
+  width: 100%;
+  overflow: hidden;
+  background: #edf1f5;
+  position: relative;
+}
+
+.team-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 25%;
+  transition: .4s;
+}
+
+.team-card:hover .team-photo img {
+  transform: scale(1.04);
+}
+
+.team-info {
+  padding: 24px 18px 27px;
+}
+
+.team-info h3 {
+  font-size: 20px;
+  color: var(--navy);
+  margin: 0 0 9px;
+}
+
+.team-info p {
+  font-size: 14px;
+  color: var(--maroon);
+  font-weight: 700;
+  margin: 0;
+}
+
+.team-info .team-description {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.7;
+  margin-top: 12px;
+}
+
+/* CTA */
+
+.about-cta {
+  background: linear-gradient(120deg,#0e3a8a,#842135);
+  padding: 65px 20px;
+  text-align: center;
+  color: white;
+}
+
+.about-cta h2 {
+  font-size: 32px;
+  margin: 0 0 15px;
+}
+
+.about-cta p {
+  color: #e5eaf5;
+  max-width: 650px;
+  margin: 0 auto 25px;
+  line-height: 1.8;
+}
+
+.about-cta a {
+  display: inline-block;
+  background: white;
+  color: var(--maroon);
+  padding: 14px 28px;
+  border-radius: 30px;
+  font-weight: 800;
+  text-decoration: none;
+  transition: .2s;
+}
+
+.about-cta a:hover {
+  transform: translateY(-3px);
+}
+
+/* Footer */
+
+.footer-grid img {
+  width: 90px;
+  height: auto;
+}
+
+.footer-grid > div > a {
+  display: block;
+  margin: 9px 0;
+}
+
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,.1);
+  margin-top: 30px;
+  padding: 18px 20px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 15px;
+  font-size: 13px;
+  opacity: .85;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Responsive */
+
+@media(max-width:1000px) {
+  .about-content {
+    grid-template-columns: 1fr;
+  }
+
+  .services-grid {
+    grid-template-columns: repeat(2,1fr);
+  }
+
+  .navbar .dropdown .mega {
+    min-width: 600px;
+  }
+}
+
+@media(max-width:700px) {
+  .about-hero {
+    padding: 65px 18px;
+  }
+
+  .about-section,
+  .team-section {
+    padding: 55px 0;
+  }
+
+  .values-grid,
+  .team-grid,
+  .services-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .team-photo {
+    height: 370px;
+  }
+
+  .about-visual {
+    min-height: 280px;
+  }
+
+  .about-text h2 {
+    font-size: 28px;
+  }
+
+  .footer-bottom {
+    justify-content: center;
+    text-align: center;
+  }
+}
+
+@media(max-width:1200px) {
+  .navbar .dropdown .mega {
+    left: 0 !important;
+    transform: none !important;
+  }
+
+  .free-tools-dropdown .mega.tools-mega {
+    left: 0 !important;
+    transform: none !important;
+  }
+}
+</style>
 </head>
+
 <body style="overflow-x:hidden">
-    <div class="topbar">
-        <div class="container">
-            <span>Healthcare Revenue Cycle & Credentialing Services</span>
-            <span><a href="mailto:info@himatechrcm.com">info@himatechrcm.com</a> <a href="tel:+12146138150">+1 (214) 613-8150</a></span>
-        </div>
-    </div>
 
-    <!-- BEST UNIVERSAL HEADER - Same as Home -->
-    <header class="navbar">
-        <div class="container nav">
-            <a href="/" class="logo"><img src="/assets/images/logo-trim.png" alt="Hima Tech RCM"></a>
-            <nav class="navlinks">
-                <a href="/">Home</a>
-                <a href="/about">About</a>
-                <div class="dropdown">
-                    <button>Services <i class="fa-solid fa-chevron-down"></i></button>
-                    <div class="mega">
-                        <a href="/services/medical-billing"><i class="fa-solid fa-file-invoice-dollar"></i><span>Medical Billing</span></a>
-                        <a href="/services/revenue-cycle-management"><i class="fa-solid fa-chart-line"></i><span>Revenue Cycle Management</span></a>
-                        <a href="/services/medical-coding"><i class="fa-solid fa-code"></i><span>Medical Coding</span></a>
-                        <a href="/services/provider-credentialing"><i class="fa-solid fa-id-badge"></i><span>Provider Credentialing</span></a>
-                        <a href="/services/payer-enrollment"><i class="fa-solid fa-network-wired"></i><span>Payer Enrollment</span></a>
-                        <a href="/services/caqh-management"><i class="fa-solid fa-database"></i><span>CAQH Management</span></a>
-                        <a href="/services/medicare-pecos"><i class="fa-solid fa-hospital-user"></i><span>Medicare & PECOS Enrollment</span></a>
-                        <a href="/services/medicaid-enrollment"><i class="fa-solid fa-file-medical"></i><span>Medicaid Enrollment</span></a>
-                        <a href="/services/eligibility-verification"><i class="fa-solid fa-shield-halved"></i><span>Eligibility & Benefits Verification</span></a>
-                        <a href="/services/claims-management"><i class="fa-solid fa-file-circle-check"></i><span>Claims Management</span></a>
-                        <a href="/services/denial-management"><i class="fa-solid fa-ban"></i><span>Denial Management</span></a>
-                        <a href="/services/prior-authorization"><i class="fa-solid fa-clipboard-check"></i><span>Prior Authorization</span></a>
-                        <a href="/services/hospital-privileging"><i class="fa-solid fa-building-columns"></i><span>Hospital Privileging</span></a>
-                        <a href="/services/credentialing-tracking"><i class="fa-solid fa-calendar-check"></i><span>Credentialing & Expiration Tracking</span></a>
-                    </div>
-                </div>
-                <a href="/specialties">Specialties</a>
-                <a href="/blog">Blog</a>
-                <div class="dropdown free-tools-dropdown">
-                    <button class="free-tools-btn">Free Tools <span class="badge-new">NEW</span> <i class="fa-solid fa-chevron-down" style="font-size:10px; margin-left:2px;"></i></button>
-                    <div class="mega tools-mega">
-                        <a href="/tools/patient-bill-defender" class="bill-defender">
-                            <span class="tool-icon"><i class="fa-solid fa-shield-heart"></i></span>
-                            <span><strong>Patient Bill Defender</strong><br><small>Protect patients from billing errors</small></span>
-                            <span class="badge-new">NEW</span>
-                        </a>
-                        <a href="/tools/doctor-rcm-portal" class="rcm-portal">
-                            <span class="tool-icon"><i class="fa-solid fa-user-doctor"></i></span>
-                            <span><strong>Doctor RCM Portal</strong><br><small>Provider revenue dashboard</small></span>
-                            <span class="badge-new">NEW</span>
-                        </a>
-                    </div>
-                </div>
-                <a href="/audit" style="font-weight:700; color:#842135;">Free RCM Audit</a>
-                <a class="navcta" href="/contact">Request a Consultation</a>
-            </nav>
-            <button class="menu" aria-label="Open menu"><i class="fa-solid fa-bars"></i></button>
-        </div>
-        <div class="mobile-menu">
-            <a href="/">Home</a>
-            <a href="/about">About</a>
-            <a href="/specialties">Specialties</a>
-            <a href="/blog">Blog</a>
-            <hr>
-            <strong>Services</strong>
-            <a href="/services/medical-billing"><i class="fa-solid fa-file-invoice-dollar"></i><span>Medical Billing</span></a>
-            <a href="/services/revenue-cycle-management"><i class="fa-solid fa-chart-line"></i><span>Revenue Cycle Management</span></a>
-            <a href="/services/medical-coding"><i class="fa-solid fa-code"></i><span>Medical Coding</span></a>
-            <a href="/services/provider-credentialing"><i class="fa-solid fa-id-badge"></i><span>Provider Credentialing</span></a>
-            <a href="/services/payer-enrollment"><i class="fa-solid fa-network-wired"></i><span>Payer Enrollment</span></a>
-            <a href="/services/caqh-management"><i class="fa-solid fa-database"></i><span>CAQH Management</span></a>
-            <a href="/services/medicare-pecos"><i class="fa-solid fa-hospital-user"></i><span>Medicare & PECOS Enrollment</span></a>
-            <a href="/services/medicaid-enrollment"><i class="fa-solid fa-file-medical"></i><span>Medicaid Enrollment</span></a>
-            <a href="/services/eligibility-verification"><i class="fa-solid fa-shield-halved"></i><span>Eligibility & Benefits Verification</span></a>
-            <a href="/services/claims-management"><i class="fa-solid fa-file-circle-check"></i><span>Claims Management</span></a>
-            <a href="/services/denial-management"><i class="fa-solid fa-ban"></i><span>Denial Management</span></a>
-            <a href="/services/prior-authorization"><i class="fa-solid fa-clipboard-check"></i><span>Prior Authorization</span></a>
-            <a href="/services/hospital-privileging"><i class="fa-solid fa-building-columns"></i><span>Hospital Privileging</span></a>
-            <a href="/services/credentialing-tracking"><i class="fa-solid fa-calendar-check"></i><span>Credentialing & Expiration Tracking</span></a>
-            <hr>
-            <strong style="color:#842135;">Free Tools <small style="background:#842135;color:white;padding:2px 6px;border-radius:10px;font-size:9px;">NEW</small></strong>
-            <a href="/tools/patient-bill-defender" style="background:#842135; border:1px solid #842135; border-radius:12px; padding:14px; display:flex; gap:10px; align-items:center;">
-              <i class="fa-solid fa-shield-heart" style="background:white; color:#842135; width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center;"></i><span style="font-weight:700; color:white;">Patient Bill Defender</span><small style="margin-left:auto; background:white; color:#842135; padding:3px 8px; border-radius:10px; font-size:9px; font-weight:800;">NEW</small>
-            </a>
-            <a href="/tools/doctor-rcm-portal" style="background:#0e3a8a; border:1px solid #0e3a8a; border-radius:12px; padding:14px; display:flex; gap:10px; align-items:center; margin-top:8px;">
-              <i class="fa-solid fa-user-doctor" style="background:white; color:#0e3a8a; width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center;"></i><span style="font-weight:700; color:white;">Doctor RCM Portal</span><small style="margin-left:auto; background:white; color:#0e3a8a; padding:3px 8px; border-radius:10px; font-size:9px; font-weight:800;">NEW</small>
-            </a>
-            <hr>
-            <a href="/audit" style="font-weight:700; color:#842135;">Free RCM Audit</a>
-            <a href="/contact" style="background:#0e3a8a; color:white; text-align:center; border-radius:10px; padding:12px; margin-top:8px; font-weight:700;">Request a Consultation</a>
-        </div>
-    </header>
+<!-- TOP BAR -->
 
-    <main>
-        <section class="pagehero about-hero" style="background:linear-gradient(rgba(26,10,10,.82),rgba(26,10,10,.82)),url('/assets/images/About Us.jpg.jpeg') center/cover no-repeat">
-            <div class="container">
-                <span class="eyebrow">About Hima Tech RCM</span>
-                <h1>Healthcare operations with a human side.</h1>
-                <p>We help U.S. providers organize revenue cycle, billing, credentialing and payer enrollment work with practical processes and responsive support.</p>
-            </div>
-        </section>
-        <section class="section">
-            <div class="container split">
-                <div>
-                    <span class="kicker">Our mission</span>
-                    <h2>Make complex healthcare administration easier to manage.</h2>
-                    <p>Hima Tech RCM is built around a simple idea: providers should have clear visibility into the operational work that supports reimbursement and growth.</p>
-                    <p>Our approach combines structured workflows, provider data management, billing support, payer follow-up and reporting so practices can spend less time chasing administrative details.</p>
-                </div>
-                <div class="visual">
-                    <img src="/assets/images/About Us.jpg.jpeg" alt="Healthcare operations" style="border-radius:18px">
-                </div>
-            </div>
-        </section>
-        <section class="section alt">
-            <div class="container center">
-                <span class="kicker">What we value</span>
-                <h2>Accuracy. Accountability. Communication.</h2>
-                <div class="cards">
-                    <div class="card">
-                        <div class="icon"><i class="fa-solid fa-bullseye"></i></div>
-                        <h3>Accuracy</h3>
-                        <p>Details matter in healthcare administration. We build checks into the workflow.</p>
-                    </div>
-                    <div class="card">
-                        <div class="icon"><i class="fa-solid fa-user-shield"></i></div>
-                        <h3>Accountability</h3>
-                        <p>Clear ownership and status visibility keep important work from disappearing.</p>
-                    </div>
-                    <div class="card">
-                        <div class="icon"><i class="fa-solid fa-comments"></i></div>
-                        <h3>Communication</h3>
-                        <p>Providers deserve concise updates, practical reporting and responsive support.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <section class="section">
-            <div class="container">
-                <div class="section-head center">
-                    <span class="kicker">Our team</span>
-                    <h2>People behind the process.</h2>
-                </div>
-                <div class="cards">
-                    <!-- TEAM SECTION FIXED - NO CROP + NAMES -->
-<div class="cards" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:20px; margin-top:30px;">
-
-    <div class="card" style="text-align:center; background:white; border-radius:16px; padding:20px; border:1px solid #eee; overflow:hidden;">
-        <div style="width:100%; height:320px; border-radius:15px; overflow:hidden; margin:0 auto 18px; background:#fdf2f4;">
-            <img src="./assets/images/M-Hifaz-CEO.jpeg" alt="Muhammad Hifaz ud Din - CEO" style="width:100%; height:100%; object-fit:contain; object-position:top center; display:block;">
-        </div>
-        <h3 style="margin:0; font-size:19px; color:#1a0a0a;">Muhammad Hifaz ud Din</h3>
-        <p style="color:#842135; font-weight:700; font-size:12px; letter-spacing:1px; margin:6px 0 10px; text-transform:uppercase;">CEO & Founder</p>
-        <p style="font-size:13px; color:#6b7280; line-height:1.5;">Focused on healthcare operations, service quality and long-term provider relationships.</p>
-    </div>
-
-    <div class="card" style="text-align:center; background:white; border-radius:16px; padding:20px; border:1px solid #eee; overflow:hidden;">
-        <div style="width:100%; height:320px; border-radius:15px; overflow:hidden; margin:0 auto 18px; background:#fdf2f4;">
-            <img src="./assets/images/Muhammad-Shahid-Credentialing.jpeg" alt="Muhammad Shahid - Credentialing" style="width:100%; height:100%; object-fit:contain; object-position:top center; display:block;">
-        </div>
-        <h3 style="margin:0; font-size:19px; color:#1a0a0a;">Muhammad Shahid</h3>
-        <p style="color:#842135; font-weight:700; font-size:12px; letter-spacing:1px; margin:6px 0 10px; text-transform:uppercase;">Provider Credentialing Specialist</p>
-        <p style="font-size:13px; color:#6b7280; line-height:1.5;">Provider enrollment and credentialing workflows managed with detail and follow-through.</p>
-    </div>
-
-    <div class="card" style="text-align:center; background:white; border-radius:16px; padding:20px; border:1px solid #eee; overflow:hidden;">
-        <div style="width:100%; height:320px; border-radius:15px; overflow:hidden; margin:0 auto 18px; background:#fdf2f4;">
-            <img src="./assets/images/David-BDO.jpeg" style="width:100%; height:100%; object-fit:contain; object-position:top center; display:block;">
-        </div>
-        <h3 style="margin:0; font-size:19px; color:#1a0a0a;">David</h3>
-        <p style="color:#842135; font-weight:700; font-size:12px; letter-spacing:1px; margin:6px 0 10px; text-transform:uppercase;">Business Development Officer</p>
-        <p style="font-size:13px; color:#6b7280; line-height:1.5;">Driving growth and building long-term provider partnerships across the US.</p>
-    </div>
-
+<div class="topbar">
+  <div class="container">
+    <span>Healthcare Revenue Cycle & Credentialing Services</span>
+    <span>
+      <a href="mailto:info@himatechrcm.com">info@himatechrcm.com</a>
+      <a href="tel:+12146138150">+1 (214) 613-8150</a>
+    </span>
+  </div>
 </div>
-                        <h3>Credentialing</h3>
-                        <p>Provider enrollment and credentialing workflows managed with detail and follow-through.</p>
-                    </div>
-                    <div class="card" style="text-align:center">
-                        <img src="./assets/images/David-BDO.jpeg" ...> style="height:200px;width:90%;object-fit:cover;border-radius:15px;margin:0 auto 18px;display:block">
-                        <h3>Client Support</h3>
-                        <p>A collaborative approach to onboarding, communication and service delivery.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
 
-    <footer class="footer">
-  <div class="container footer-grid" style="grid-template-columns: 1.5fr 0.9fr 1.1fr 0.8fr 0.9fr; gap: 20px;">
-    <div>
-      <img src="/assets/images/logo-trim-light.png" alt="Hima Tech RCM">
-      <p>Healthcare revenue cycle, credentialing, enrollment and billing support for U.S. providers.</p>
-      <p style="margin-top:12px">
-        <a href="mailto:info@himatechrcm.com" style="display:block;margin:6px 0"><i class="fa-solid fa-envelope" style="margin-right:6px"></i>info@himatechrcm.com</a>
-        <a href="tel:+12146138150" style="display:block;margin:6px 0"><i class="fa-solid fa-phone" style="margin-right:6px"></i>+1 (214) 613-8150</a>
-      </p>
+<!-- NAVIGATION -->
+
+<header class="navbar">
+  <div class="container nav">
+
+    <a href="/" class="logo">
+      <img src="/assets/images/logo-trim.png" alt="Hima Tech RCM">
+    </a>
+
+    <nav class="navlinks">
+
+      <a href="/">Home</a>
+      <a href="/about" style="color:#842135;font-weight:700">About</a>
+
+      <div class="dropdown">
+        <button>Services <i class="fa-solid fa-chevron-down"></i></button>
+
+        <div class="mega">
+          <a href="/services/medical-billing"><i class="fa-solid fa-file-invoice-dollar"></i>Medical Billing</a>
+          <a href="/services/revenue-cycle-management"><i class="fa-solid fa-chart-line"></i>Revenue Cycle Management</a>
+          <a href="/services/medical-coding"><i class="fa-solid fa-code"></i>Medical Coding</a>
+          <a href="/services/provider-credentialing"><i class="fa-solid fa-id-badge"></i>Provider Credentialing</a>
+          <a href="/services/payer-enrollment"><i class="fa-solid fa-network-wired"></i>Payer Enrollment</a>
+          <a href="/services/caqh-management"><i class="fa-solid fa-database"></i>CAQH Management</a>
+          <a href="/services/medicare-pecos"><i class="fa-solid fa-hospital-user"></i>Medicare & PECOS Enrollment</a>
+          <a href="/services/medicaid-enrollment"><i class="fa-solid fa-file-medical"></i>Medicaid Enrollment</a>
+          <a href="/services/eligibility-verification"><i class="fa-solid fa-shield-halved"></i>Eligibility Verification</a>
+          <a href="/services/claims-management"><i class="fa-solid fa-file-circle-check"></i>Claims Management</a>
+          <a href="/services/denial-management"><i class="fa-solid fa-ban"></i>Denial Management</a>
+          <a href="/services/prior-authorization"><i class="fa-solid fa-clipboard-check"></i>Prior Authorization</a>
+          <a href="/services/hospital-privileging"><i class="fa-solid fa-building-columns"></i>Hospital Privileging</a>
+          <a href="/services/credentialing-tracking"><i class="fa-solid fa-calendar-check"></i>Credentialing Tracking</a>
+        </div>
+      </div>
+
+      <a href="/specialties">Specialties</a>
+      <a href="/blog">Blog</a>
+
+      <div class="dropdown free-tools-dropdown">
+
+        <button class="free-tools-btn">
+          Free Tools
+          <span class="badge-new">NEW</span>
+          <i class="fa-solid fa-chevron-down"></i>
+        </button>
+
+        <div class="mega tools-mega">
+
+          <a href="/tools/patient-bill-defender" class="bill-defender">
+            <span class="tool-icon"><i class="fa-solid fa-shield-heart"></i></span>
+            <span>
+              <strong>Patient Bill Defender</strong><br>
+              <small>Protect patients from billing errors</small>
+            </span>
+            <span class="badge-new">NEW</span>
+          </a>
+
+          <a href="/tools/doctor-rcm-portal" class="rcm-portal">
+            <span class="tool-icon"><i class="fa-solid fa-user-doctor"></i></span>
+            <span>
+              <strong>Doctor RCM Portal</strong><br>
+              <small>Provider revenue dashboard</small>
+            </span>
+            <span class="badge-new">NEW</span>
+          </a>
+
+        </div>
+      </div>
+
+      <a href="/audit" style="font-weight:700;color:#842135">Free RCM Audit</a>
+      <a class="navcta" href="/contact">Contact Us</a>
+
+    </nav>
+
+    <button class="menu" aria-label="Open menu">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+  </div>
+
+  <!-- MOBILE MENU -->
+
+  <div class="mobile-menu">
+
+    <a href="/">Home</a>
+    <a href="/about">About</a>
+    <a href="/specialties">Specialties</a>
+    <a href="/blog">Blog</a>
+
+    <hr>
+    <strong>Services</strong>
+
+    <a href="/services/medical-billing">Medical Billing</a>
+    <a href="/services/revenue-cycle-management">Revenue Cycle Management</a>
+    <a href="/services/medical-coding">Medical Coding</a>
+    <a href="/services/provider-credentialing">Provider Credentialing</a>
+    <a href="/services/payer-enrollment">Payer Enrollment</a>
+    <a href="/services/caqh-management">CAQH Management</a>
+    <a href="/services/medicare-pecos">Medicare & PECOS Enrollment</a>
+    <a href="/services/medicaid-enrollment">Medicaid Enrollment</a>
+    <a href="/services/eligibility-verification">Eligibility Verification</a>
+    <a href="/services/claims-management">Claims Management</a>
+    <a href="/services/denial-management">Denial Management</a>
+    <a href="/services/prior-authorization">Prior Authorization</a>
+    <a href="/services/hospital-privileging">Hospital Privileging</a>
+    <a href="/services/credentialing-tracking">Credentialing Tracking</a>
+
+    <hr>
+
+    <strong style="color:#842135">Free Tools - NEW</strong>
+
+    <a href="/tools/patient-bill-defender">Patient Bill Defender</a>
+    <a href="/tools/doctor-rcm-portal">Doctor RCM Portal</a>
+
+    <hr>
+
+    <a href="/audit" style="color:#842135;font-weight:700">Free RCM Audit</a>
+    <a href="/contact">Contact Us</a>
+
+  </div>
+</header>
+
+
+<!-- HERO -->
+
+<section class="about-hero">
+
+  <div class="container">
+
+    <span class="hero-tag">
+      <i class="fa-solid fa-building"></i>
+      ABOUT HIMA TECH RCM
+    </span>
+
+    <h1>Helping Healthcare Providers<br>Move Forward with Confidence</h1>
+
+    <p>
+      We are a medical billing and revenue cycle management company
+      providing services from Pakistan to healthcare providers
+      across the United States. Our focus is helping medical practices
+      improve billing operations, manage claims, and strengthen
+      their revenue cycle.
+    </p>
+
+  </div>
+
+</section>
+
+
+<!-- ABOUT COMPANY -->
+
+<section class="about-section">
+
+  <div class="container">
+
+    <div class="about-content">
+
+      <div class="about-text">
+
+        <div class="kicker" style="color:#842135;font-weight:800;letter-spacing:1px">
+          WHO WE ARE
+        </div>
+
+        <h2>About Hima Tech RCM</h2>
+
+        <p>
+          Hima Tech RCM is a medical billing and revenue cycle
+          management company providing services from Pakistan
+          to healthcare providers in the United States.
+        </p>
+
+        <p>
+          We support independent physicians, medical practices,
+          clinics, and healthcare organizations with practical
+          revenue cycle solutions designed around their operational
+          needs.
+        </p>
+
+        <p>
+          Our services cover the revenue cycle, from provider
+          credentialing and payer enrollment to claims management,
+          payment posting, accounts receivable follow-up,
+          and denial management.
+        </p>
+
+        <p>
+          We believe healthcare providers should be able to focus
+          on patient care while having a dependable team supporting
+          their billing and administrative operations.
+        </p>
+
+        <a href="/services/revenue-cycle-management"
+           style="display:inline-block;margin-top:12px;background:#842135;color:white;padding:13px 24px;border-radius:8px;text-decoration:none;font-weight:700">
+          Explore Our Services
+          <i class="fa-solid fa-arrow-right"></i>
+        </a>
+
+      </div>
+
+      <div class="about-visual">
+
+        <div class="visual-icon">
+          <i class="fa-solid fa-heart-pulse"></i>
+        </div>
+
+        <h3>Himalayan Roots.<br>Healthcare Focus.</h3>
+
+        <p>
+          The name Hima represents the Himalayas.
+          Inspired by the values of strength, reliability,
+          and dedication, we aim to build lasting relationships
+          with healthcare providers through consistent service
+          and professional support.
+        </p>
+
+      </div>
+
     </div>
+
+  </div>
+
+</section>
+
+
+<!-- MISSION AND VISION -->
+
+<section class="about-section light">
+
+  <div class="container">
+
+    <div class="section-heading">
+
+      <div class="kicker">OUR PURPOSE</div>
+
+      <h2>Our Mission & Vision</h2>
+
+      <p>
+        Building better revenue cycle operations through
+        dependable support, professional expertise,
+        and a commitment to healthcare providers.
+      </p>
+
+    </div>
+
+    <div class="values-grid">
+
+      <div class="value-card">
+
+        <div class="value-icon">
+          <i class="fa-solid fa-bullseye"></i>
+        </div>
+
+        <h3>Our Mission</h3>
+
+        <p>
+          To help healthcare providers manage their revenue
+          cycle more effectively through reliable medical billing,
+          credentialing, enrollment, and administrative support.
+        </p>
+
+      </div>
+
+      <div class="value-card">
+
+        <div class="value-icon">
+          <i class="fa-solid fa-eye"></i>
+        </div>
+
+        <h3>Our Vision</h3>
+
+        <p>
+          To become a trusted revenue cycle management partner
+          for healthcare organizations by delivering consistent
+          service, operational value, and long-term relationships.
+        </p>
+
+      </div>
+
+      <div class="value-card">
+
+        <div class="value-icon">
+          <i class="fa-solid fa-handshake"></i>
+        </div>
+
+        <h3>Our Commitment</h3>
+
+        <p>
+          To approach every client relationship with
+          accountability, transparency, attention to detail,
+          and a commitment to continuous improvement.
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- WHY CHOOSE US -->
+
+<section class="about-section">
+
+  <div class="container">
+
+    <div class="section-heading">
+
+      <div class="kicker">WHY HIMA TECH RCM</div>
+
+      <h2>A Dedicated Partner for Your Revenue Cycle</h2>
+
+      <p>
+        We focus on practical solutions that support
+        healthcare providers throughout their revenue cycle.
+      </p>
+
+    </div>
+
+    <div class="values-grid">
+
+      <div class="value-card">
+
+        <div class="value-icon">
+          <i class="fa-solid fa-user-doctor"></i>
+        </div>
+
+        <h3>Provider-Focused Support</h3>
+
+        <p>
+          Our services are designed around the operational
+          requirements of physicians, clinics, and healthcare practices.
+        </p>
+
+      </div>
+
+      <div class="value-card">
+
+        <div class="value-icon">
+          <i class="fa-solid fa-chart-line"></i>
+        </div>
+
+        <h3>Revenue Cycle Expertise</h3>
+
+        <p>
+          We work across billing, claims, accounts receivable,
+          denials, and enrollment to support stronger
+          revenue cycle operations.
+        </p>
+
+      </div>
+
+      <div class="value-card">
+
+        <div class="value-icon">
+          <i class="fa-solid fa-shield-halved"></i>
+        </div>
+
+        <h3>Security & Compliance Focus</h3>
+
+        <p>
+          We emphasize HIPAA-conscious workflows,
+          appropriate data handling, and information
+          security practices aligned with applicable requirements.
+        </p>
+
+      </div>
+
+      <div class="value-card">
+
+        <div class="value-icon">
+          <i class="fa-solid fa-people-group"></i>
+        </div>
+
+        <h3>Dedicated Professionals</h3>
+
+        <p>
+          Our team works across different revenue cycle
+          functions to provide organized and consistent
+          operational support.
+        </p>
+
+      </div>
+
+      <div class="value-card">
+
+        <div class="value-icon">
+          <i class="fa-solid fa-magnifying-glass-chart"></i>
+        </div>
+
+        <h3>Focus on Improvement</h3>
+
+        <p>
+          We identify operational gaps and opportunities
+          that may affect claim processing, reimbursement,
+          and revenue cycle performance.
+        </p>
+
+      </div>
+
+      <div class="value-card">
+
+        <div class="value-icon">
+          <i class="fa-solid fa-comments"></i>
+        </div>
+
+        <h3>Transparent Communication</h3>
+
+        <p>
+          We value clear communication, regular updates,
+          and working relationships built on trust
+          and accountability.
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- OUR SERVICES -->
+
+<section class="about-section light">
+
+  <div class="container">
+
+    <div class="section-heading">
+
+      <div class="kicker">WHAT WE DO</div>
+
+      <h2>Our Healthcare RCM Services</h2>
+
+      <p>
+        Comprehensive revenue cycle and provider enrollment
+        support for U.S. healthcare practices.
+      </p>
+
+    </div>
+
+    <div class="services-grid">
+
+      <a class="service-item" href="/services/medical-billing">
+        <i class="fa-solid fa-file-invoice-dollar"></i>
+        <span>Medical Billing</span>
+      </a>
+
+      <a class="service-item" href="/services/revenue-cycle-management">
+        <i class="fa-solid fa-chart-line"></i>
+        <span>Revenue Cycle Management</span>
+      </a>
+
+      <a class="service-item" href="/services/medical-coding">
+        <i class="fa-solid fa-code"></i>
+        <span>Medical Coding</span>
+      </a>
+
+      <a class="service-item" href="/services/provider-credentialing">
+        <i class="fa-solid fa-id-badge"></i>
+        <span>Provider Credentialing</span>
+      </a>
+
+      <a class="service-item" href="/services/payer-enrollment">
+        <i class="fa-solid fa-network-wired"></i>
+        <span>Payer Enrollment</span>
+      </a>
+
+      <a class="service-item" href="/services/caqh-management">
+        <i class="fa-solid fa-database"></i>
+        <span>CAQH Management</span>
+      </a>
+
+      <a class="service-item" href="/services/medicare-pecos">
+        <i class="fa-solid fa-hospital-user"></i>
+        <span>Medicare & PECOS</span>
+      </a>
+
+      <a class="service-item" href="/services/medicaid-enrollment">
+        <i class="fa-solid fa-file-medical"></i>
+        <span>Medicaid Enrollment</span>
+      </a>
+
+      <a class="service-item" href="/services/eligibility-verification">
+        <i class="fa-solid fa-shield-halved"></i>
+        <span>Eligibility Verification</span>
+      </a>
+
+      <a class="service-item" href="/services/claims-management">
+        <i class="fa-solid fa-file-circle-check"></i>
+        <span>Claims Management</span>
+      </a>
+
+      <a class="service-item" href="/services/denial-management">
+        <i class="fa-solid fa-ban"></i>
+        <span>Denial Management</span>
+      </a>
+
+      <a class="service-item" href="/services/prior-authorization">
+        <i class="fa-solid fa-clipboard-check"></i>
+        <span>Prior Authorization</span>
+      </a>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- MEET OUR TEAM -->
+
+<section class="team-section" id="our-team">
+
+  <div class="container">
+
+    <div class="section-heading">
+
+      <div class="kicker">THE PEOPLE BEHIND HIMA TECH RCM</div>
+
+      <h2>Meet Our Leadership & Team</h2>
+
+      <p>
+        Our team brings together leadership, business development,
+        and credentialing expertise to support healthcare providers
+        and their revenue cycle operations.
+      </p>
+
+    </div>
+
+    <div class="team-grid">
+
+      <!-- DAVID -->
+
+      <div class="team-card">
+
+        <div class="team-photo">
+
+          <img
+            src="/assets/David%20%20BDO.jpeg"
+            alt="David - Business Development Officer"
+            loading="lazy"
+            onerror="this.onerror=null;this.src='/assets/images/team-placeholder.jpg';"
+          >
+
+        </div>
+
+        <div class="team-info">
+
+          <h3>David</h3>
+
+          <p>Business Development Officer</p>
+
+          <div class="team-description">
+            Building professional relationships and helping
+            healthcare providers explore revenue cycle solutions.
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- CEO -->
+
+      <div class="team-card">
+
+        <div class="team-photo">
+
+          <img
+            src="/assets/M.%20Hifaz%20CEO.jpeg"
+            alt="Hifaz - Founder and CEO of Hima Tech RCM"
+            loading="lazy"
+            onerror="this.onerror=null;this.src='/assets/images/team-placeholder.jpg';"
+          >
+
+        </div>
+
+        <div class="team-info">
+
+          <h3>Hifaz</h3>
+
+          <p>Founder & CEO</p>
+
+          <div class="team-description">
+            Leading company strategy, business operations,
+            client relationships, and organizational growth.
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- MUHAMMAD SHAHID -->
+
+      <div class="team-card">
+
+        <div class="team-photo">
+
+          <img
+            src="/assets/Muhammad%20Shahid%20Credentialing.jpeg"
+            alt="Muhammad Shahid - Credentialing Specialist"
+            loading="lazy"
+            onerror="this.onerror=null;this.src='/assets/images/team-placeholder.jpg';"
+          >
+
+        </div>
+
+        <div class="team-info">
+
+          <h3>Muhammad Shahid</h3>
+
+          <p>Credentialing Specialist</p>
+
+          <div class="team-description">
+            Supporting provider credentialing, payer enrollment,
+            documentation, and application follow-up.
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- CTA -->
+
+<section class="about-cta">
+
+  <div class="container">
+
+    <h2>Let's Strengthen Your Revenue Cycle</h2>
+
+    <p>
+      Looking for a dependable medical billing and RCM partner?
+      Let us review your current operations and identify
+      opportunities for improvement.
+    </p>
+
+    <a href="/audit">
+      Request Your Free RCM Audit
+      <i class="fa-solid fa-arrow-right"></i>
+    </a>
+
+  </div>
+
+</section>
+
+
+<!-- FOOTER -->
+
+<footer class="footer">
+
+  <div class="container footer-grid"
+       style="grid-template-columns:1.5fr .9fr 1.1fr .8fr .9fr;gap:20px;">
+
     <div>
+
+      <img src="/assets/images/logo-trim-light.png" alt="Hima Tech RCM">
+
+      <p>
+        Healthcare revenue cycle, credentialing, enrollment
+        and billing support for U.S. providers.
+      </p>
+
+      <p style="margin-top:12px">
+
+        <a href="mailto:info@himatechrcm.com">
+          <i class="fa-solid fa-envelope"></i>
+          info@himatechrcm.com
+        </a>
+
+        <a href="tel:+12146138150">
+          <i class="fa-solid fa-phone"></i>
+          +1 (214) 613-8150
+        </a>
+
+      </p>
+
+    </div>
+
+    <div>
+
       <h4>Solutions</h4>
+
       <a href="/services/medical-billing">Medical Billing</a>
       <a href="/services/revenue-cycle-management">Revenue Cycle Management</a>
       <a href="/services/medical-coding">Medical Coding</a>
       <a href="/services/provider-credentialing">Provider Credentialing</a>
       <a href="/services/payer-enrollment">Payer Enrollment</a>
+
     </div>
+
     <div>
+
       <h4>More Services</h4>
+
       <a href="/services/caqh-management">CAQH Management</a>
-      <a href="/services/medicare-pecos">Medicare & PECOS Enrollment</a>
+      <a href="/services/medicare-pecos">Medicare & PECOS</a>
       <a href="/services/medicaid-enrollment">Medicaid Enrollment</a>
-      <a href="/services/eligibility-verification">Eligibility & Benefits Verification</a>
+      <a href="/services/eligibility-verification">Eligibility Verification</a>
       <a href="/services/claims-management">Claims Management</a>
+
     </div>
+
     <div>
+
       <h4>Company</h4>
+
       <a href="/about">About Us</a>
       <a href="/specialties">Specialties</a>
-      <a href="/free-rcm-audit">Free RCM Audit</a>
-      <a href="/free-consultation">Free Consultation</a>
+      <a href="/audit">Free RCM Audit</a>
+      <a href="/contact">Contact Us</a>
+
     </div>
+
     <div>
-      <h4>Free Tools <span style="background:#dc2626; color:white; font-size:9px; padding:2px 6px; border-radius:10px; vertical-align:middle; margin-left:4px;">NEW</span></h4>
+
+      <h4>Free Tools</h4>
+
       <a href="/tools/patient-bill-defender">Patient Bill Defender</a>
       <a href="/tools/doctor-rcm-portal">Doctor RCM Portal</a>
+
     </div>
+
   </div>
- <div class="footer-bottom" style="border-top:1px solid rgba(255,255,255,0.1); margin-top:30px; padding:15px 30px; display:flex; justify-content:space-between; flex-wrap:wrap; font-size:13px; opacity:0.8; max-width:1200px; margin-left:auto; margin-right:auto;">
+
+  <div class="footer-bottom">
+
     <div>© 2026 Hima Tech RCM. All rights reserved.</div>
-    <div style="display:flex; gap:15px;">
+
+    <div style="display:flex;gap:15px;flex-wrap:wrap">
+
       <a href="/privacy">Privacy</a>
       <a href="/terms">Terms</a>
       <a href="/hipaa">HIPAA</a>
+
     </div>
+
   </div>
+
 </footer>
- <script src="/assets/js/site.js"></script>
-    <script>
-    // BEST - No stuck, no confusion
-    document.addEventListener('DOMContentLoaded', function() {
-      document.querySelectorAll('.navbar .dropdown button').forEach(btn => {
-        btn.addEventListener('click', function(e) {
-          e.preventDefault();
-          setTimeout(() => { this.blur(); document.activeElement.blur(); }, 10);
-        });
-        btn.addEventListener('focus', function() {
-          setTimeout(() => this.blur(), 50);
-        });
-      });
+
+
+<!-- JAVASCRIPT -->
+
+<script src="/assets/js/site.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+
+  // Prevent dropdown buttons from causing unwanted focus behavior
+
+  document.querySelectorAll('.navbar .dropdown button').forEach(btn => {
+
+    btn.addEventListener('click', function(e) {
+      e.preventDefault();
+      this.blur();
     });
-    </script>
+
+  });
+
+});
+</script>
+
 </body>
 </html>
