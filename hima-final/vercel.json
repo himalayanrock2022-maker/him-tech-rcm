@@ -16,6 +16,7 @@
     { "source": "/tools/doctor-rcm-portal", "destination": "/tools/doctor-rcm-portal.html" },
     { "source": "/sitemap.xml", "destination": "/api/sitemap.js" },
     { "source": "/about", "destination": "/about.html" },
+    { "source": "/pharmacy-support", "destination": "/pharmacy-support.html" },
     { "source": "/services/medical-billing", "destination": "/services/medical-billing.html" },
     { "source": "/services/revenue-cycle-management", "destination": "/services/revenue-cycle-management.html" },
     { "source": "/services/medical-coding", "destination": "/services/medical-coding.html" },
