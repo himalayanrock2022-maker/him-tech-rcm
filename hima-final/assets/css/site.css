@@ -250,6 +250,14 @@
   .navbar .logo img { width: 70px !important; max-width: 70px !important; }
   .footer .footer-grid > div:first-child > img { width: 120px !important; max-width: 120px !important; }
 }
+/* Cards aur CTA ke beech me space */
+.cards {
+  margin-bottom: 80px;
+}
+
+.cta {
+  margin-top: 40px;
+}
 
 /* =========================================
    PREMIUM GLASS EFFECTS + ANIMATIONS
