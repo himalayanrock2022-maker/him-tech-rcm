@@ -1,5 +1,26 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<html lang="en"><head><style>
+@font-face {
+  font-family: "Optimistic";
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url("/fonts/OptimisticAI_VF_Optimized.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Optimistic Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/OptimisticMono_W_TextRegular.woff2") format("woff2");
+}
+:where(html) {
+  font-family: "Optimistic", system-ui, sans-serif;
+}
+:where(code, pre, kbd, samp) {
+  font-family: "Optimistic Mono", ui-monospace, monospace;
+}
+</style><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Blog | Hima Tech RCM Solutions</title>
 <style>
 *{box-sizing:border-box} body{margin:0;font-family:system-ui,-apple-system,sans-serif;background:#FEFBF9;color:#221315}
@@ -36,11 +57,12 @@ header{position:sticky;top:0;background:#fff;border-bottom:1px solid #F1E2E5;pad
 .close{float:right;font-size:28px;cursor:pointer;border:0;background:#fff;width:38px;height:38px;border-radius:50%;margin:12px}
 .back{color:#8B1A3A;font-weight:700;background:none;border:0;cursor:pointer;font-size:14px}
 .admin{position:fixed;right:20px;bottom:20px;background:#8B1A3A;color:#fff;padding:12px 20px;border-radius:999px;font-weight:700;font-size:13px;text-decoration:none;z-index:99}
+.loading{text-align:center;padding:40px;color:#8A6E73}
 </style></head><body>
 <header><div class="logo">HIMA</div><div><div style="font-weight:800;letter-spacing:.12em;color:#8B1A3A;font-size:13px">HIMA TECH</div><div style="font-size:11px;letter-spacing:.08em;color:#8A6E73;font-weight:600">RCM SOLUTIONS</div></div></header>
-<div class="hero"><span class="pill"><span style="width:6px;height:6px;background:#8B1A3A;border-radius:50%;display:inline-block"></span> INSIGHTS FOR RCM TEAMS • 7 LIVE POSTS</span><h1>Medical Billing<br>& Growth Blog</h1><p style="color:#8A6E73;max-width:560px;line-height:1.6">Actionable guides on billing, coding, credentialing, payer enrollment and marketing — written by Hima Tech RCM operators for practices and RCM companies.</p></div>
+<div class="hero"><span class="pill"><span style="width:6px;height:6px;background:#8B1A3A;border-radius:50%;display:inline-block"></span> <span id="live-count">INSIGHTS FOR RCM TEAMS • LOADING...</span></span><h1>Medical Billing<br>& Growth Blog</h1><p style="color:#8A6E73;max-width:560px;line-height:1.6">Actionable guides on billing, coding, credentialing, payer enrollment and marketing — written by Hima Tech RCM operators for practices and RCM companies.</p></div>
 <div class="filters" id="filters"></div>
-<div class="grid" id="list"></div>
+<div class="grid" id="list"><div class="loading">Loading articles from Blog.json...</div></div>
 <div class="modal" id="modal"><div class="modal-box">
 <button class="close" onclick="closeArticle()">×</button>
 <img id="m-img" src="" alt=""><div class="modal-body">
@@ -50,16 +72,23 @@ header{position:sticky;top:0;background:#fff;border-bottom:1px solid #F1E2E5;pad
 </div></div></div>
 <a class="admin" href="/admin">⚙ Admin</a>
 <script>
-const ALL = [
-{"id":"1793596526016","title":"The Hidden Cost of Waiting: Why Coverage Hurdles Stall Necessary Patient Care","category":"Medical Billing","excerpt":"With 95% of physicians reporting that prior authorization delays access to essential clinical care, healthcare practices must rethink workflows to protect patient outcomes and revenue.","slug":"ama-survey-prior-authorization-delays-care","content":"<h2>Why Prior Authorization Has Become a Patient-Care Problem</h2><p>Prior authorization was meant to control costs. In practice, it has become one of the biggest reasons patients wait for care they already need. When 95% of physicians say authorization delays access to essential treatment, this is no longer just an administrative issue — it is a clinical risk.</p><h2>The Real Cost of Waiting</h2><p>Delays lead to missed treatments, worsening conditions, abandoned care plans, and extra work for front-desk and billing teams. Practices lose revenue from cancelled appointments, rework, and denied claims, while patients lose trust.</p><h2>What Practices Can Do</h2><ul><li>Verify authorization requirements before the visit, not after</li><li>Track every authorization with status, payer, and deadline</li><li>Build payer-specific checklists for high-denial services</li><li>Appeal quickly with complete clinical documentation</li><li>Use a centralized RCM workflow so nothing falls through the cracks</li></ul><p>At Hima Tech RCM, we help practices reduce authorization delays with proactive verification, clean documentation, and disciplined follow-up — so patients get care on time and practices get paid on time.</p>","image":"https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=1200&q=80&auto=format&fit=crop","imageAlt":"The Hidden Cost of Waiting: Why Coverage Hurdles Stall Necessary Patient Care","date":"2026-11-02","readTime":"3 min read"},
-{"id":"1793533015504","title":"Overcoming Administrative Margin Compression in Modern Healthcare","category":"Practice Management","excerpt":"Discover why adopting a decentralized reimbursement model solves staffing bottlenecks, accelerates collections, and strengthens provider financial health.","slug":"remote-billing-team-healthcare-revenue-growth","content":"<h2>What Is Margin Compression?</h2><p>Practices are earning the same or less per visit, while staffing, technology, and compliance costs keep rising. That squeeze is margin compression — and administrative work is one of its biggest drivers.</p><h2>Why In-House Billing Struggles</h2><p>Small in-house teams face turnover, training gaps, and bottlenecks during peak claim volumes. One absent biller can delay an entire week of claims.</p><h2>The Remote Billing Advantage</h2><ul><li>Lower overhead than hiring, training, and managing in-house</li><li>Faster claim submission and denial follow-up</li><li>Specialized expertise in payer rules and coding</li><li>Scalable support during growth or seasonal spikes</li></ul><p>A remote billing model does not replace your practice — it strengthens it. Hima Tech RCM acts as an extension of your team, keeping your revenue cycle clean, fast, and predictable.</p>","image":"https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=1200&q=80&auto=format&fit=crop","imageAlt":"Overcoming Administrative Margin Compression in Modern Healthcare","date":"2026-11-01","readTime":"3 min read"},
-{"id":"1793500303729","title":"7 Ways to Reduce Medical Billing Denials","category":"Medical Billing","excerpt":"Discover seven actionable strategies to minimize claim rejections, streamline clinical documentation, and safeguard reimbursement cash flow for healthcare practices.","slug":"ways-to-reduce-medical-billing-denials","content":"<h2>1. Verify Eligibility Before Every Visit</h2><p>Most preventable denials start at the front desk. Verify coverage, benefits, and authorization requirements before the patient arrives.</p><h2>2. Get Documentation Right the First Time</h2><p>Clean claims need complete, specific documentation that supports medical necessity and correct coding.</p><h2>3. Code With Specificity</h2><p>Use the most specific ICD-10 and CPT codes available. Unspecified codes are a common denial trigger.</p><h2>4. Submit Claims Quickly</h2><p>Do not wait for month-end. Submit daily and track timely-filing deadlines by payer.</p><h2>5. Work Denials Every Day</h2><p>Denials are not dead claims. Categorize them by root cause, appeal within payer windows, and fix the workflow that caused them.</p><h2>6. Track Your Denial Rate</h2><p>If you do not measure it, you cannot fix it. Watch denial rate, days in A/R, and first-pass resolution rate.</p><h2>7. Partner With RCM Experts</h2><p>Hima Tech RCM helps practices prevent denials at the source — not just chase them after they happen.</p>","image":"https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1200&q=80&auto=format&fit=crop","imageAlt":"7 Ways To Reduce Medical Billing Denials","date":"2026-11-01","readTime":"3 min read"},
-{"id":"1793480244704","title":"Preparing Your Practice for ICD-10 Changes in 2027","category":"RCM","excerpt":"Explore key shifts in diagnostic specificity, revenue cycle risks, and EHR preparation strategies for healthcare providers approaching the 2027 coding updates.","slug":"icd-10-updates-2027-provider-guide","content":"<h2>What Changes in 2027?</h2><p>ICD-10 updates bring new, revised, and deleted codes, plus tighter expectations for specificity. Practices that keep coding the old way will see more denials and audits.</p><h2>3 Areas to Prepare Now</h2><h3>1. EHR & Encoder Updates</h3><p>Confirm your EHR, clearinghouse, and encoder will be updated before October 1. Test claims in advance.</p><h3>2. Documentation</h3><p>Train providers to document laterality, severity, encounter type, and causal relationships — payers expect it.</p><h3>3. Denial Monitoring</h3><p>Watch for new denial patterns in the first 60 days after go-live and fix them fast.</p><p>Hima Tech RCM helps practices transition smoothly with coding audits, staff training, and proactive denial management.</p>","image":"https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=1200&q=80&auto=format&fit=crop","imageAlt":"Preparing Your Practice for ICD-10 Changes in 2027","date":"2026-10-31","readTime":"3 min read"},
-{"id":"1793474415387","title":"How to Reduce Medical Billing Denials in 2027","category":"Medical Billing","excerpt":"Discover proactive strategies for US healthcare providers to navigate predictive payer algorithms, fortify front-end workflows, and prevent claim denials in 2027.","slug":"how-to-reduce-medical-billing-denials-2027","content":"<h2>Why 2027 Will Be Different</h2><p>Payers are using more predictive algorithms and automated audits. Claims that look incomplete, inconsistent, or poorly documented are flagged faster than ever.</p><h2>The 2027 Prevention Playbook</h2><ul><li>Strengthen front-end: eligibility, benefits, and authorization checks</li><li>Document medical necessity clearly in every note</li><li>Use payer-specific coding rules, not generic coding</li><li>Appeal with data — show patterns, not just one claim</li><li>Review denials weekly and fix the root cause</li></ul><p>The practices that win in 2027 will not just work denials faster — they will prevent them earlier. That is exactly what Hima Tech RCM builds for its clients.</p>","image":"https://images.unsplash.com/photo-1521791136064-7986c2920216?w=1200&q=80&auto=format&fit=crop","imageAlt":"How to Reduce Medical Billing Denials in 2027","date":"2026-10-31","readTime":"3 min read"},
-{"id":"1793400000001","title":"When Do FY 2027 ICD-10-PCS Updates Go Into Effect?","category":"Medical Coding","excerpt":"FY 2027 ICD-10-PCS updates go into effect on October 1, 2026. Learn what hospitals and inpatient coders must update before the go-live date.","slug":"when-do-fy-2027-icd-10-pcs-updates-go-into-effect-effective","content":"<h2>Short Answer: October 1, 2026</h2><p>FY 2027 ICD-10-PCS updates go into effect on <strong>October 1, 2026</strong> for discharges on or after that date. This is the federal fiscal year start, and CMS applies the new PCS code set from that day forward.</p><h2>What Is ICD-10-PCS?</h2><p>ICD-10-PCS is the procedure coding system used for inpatient hospital procedures in the United States. Unlike ICD-10-CM (diagnoses), PCS codes describe what was done, how it was done, and with what approach and device.</p><h2>What to Update Before October 1</h2><ul><li>Update your encoder, EHR, and grouper to the FY 2027 PCS version</li><li>Review new and deleted PCS codes that affect your top procedures</li><li>Train inpatient coders on new root operations, approaches, and devices</li><li>Test claims with the new code set before go-live</li><li>Watch for MS-DRG shifts caused by procedure-code changes</li></ul><h2>Common Mistake to Avoid</h2><p>Do not use FY 2027 PCS codes for discharges before October 1, 2026, and do not use FY 2026 codes after. The discharge date controls which code set applies.</p><p>Hima Tech RCM helps hospitals and practices stay audit-ready with coding updates, documentation training, and denial prevention for every fiscal-year transition.</p>","image":"https://images.unsplash.com/photo-1584982751601-97dcc096659c?w=1200&q=80&auto=format&fit=crop","imageAlt":"When Do FY 2027 ICD-10-PCS Updates Go Into Effect","date":"2026-10-30","readTime":"3 min read"},
-{"id":"1793400000002","title":"ICD-10 Coding Pitfalls: Avoiding Compliance Risk","category":"Medical Coding","excerpt":"Learn the common ICD-10 coding mistakes that can lead to denials, audits, compliance risks, and lost revenue.","slug":"icd-10-coding-pitfalls-avoiding-compliance-risk","content":"<h2>The Most Common ICD-10 Pitfalls</h2><ul><li><strong>Unspecified codes:</strong> Using unspecified codes when the record supports a more specific code</li><li><strong>Copy-forward errors:</strong> Copying old diagnoses that are no longer active</li><li><strong>Missing laterality and severity:</strong> Leaving out details payers now require</li><li><strong>Wrong 7th character:</strong> Incorrect encounter type for injuries and fractures</li><li><strong>Outdated code sets:</strong> Coding with last year's codes after October 1</li></ul><h2>How to Stay Compliant</h2><p>Audit charts regularly, train providers on documentation, and fix patterns — not just single claims. A small coding error repeated 100 times becomes a compliance problem.</p><p>Hima Tech RCM provides coding audits and RCM support to keep practices compliant and paid correctly.</p>","image":"https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=1200&q=80&auto=format&fit=crop","imageAlt":"ICD-10 Coding Pitfalls: Avoiding Compliance Risk","date":"2026-10-28","readTime":"3 min read"}
-];
+let ALL = [];
+const FALLBACK_IMG = 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=1200&q=80&auto=format&fit=crop';
 function fmt(d){try{return new Date(d).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}).toUpperCase()}catch(e){return d}}
+function normalize(p){
+  return {
+    id: String(p.id || Date.now()),
+    title: p.title || 'Untitled',
+    category: p.category || 'Medical Billing',
+    excerpt: p.excerpt || '',
+    slug: p.slug || ('post-'+String(p.id||'')),
+    content: p.content || '',
+    image: (p.image && p.image.trim() !== '') ? p.image : FALLBACK_IMG,
+    imageAlt: p.imageAlt || p.title || '',
+    date: p.date || '2026-11-07',
+    readTime: p.readTime || '3 min read'
+  };
+}
 function renderFilters(){
   const cats=['All',...new Set(ALL.map(p=>p.category))];
   document.getElementById('filters').innerHTML=cats.map(c=>`<button data-cat="${c}" class="${c==='All'?'active':''}">${c} <span>${c==='All'?ALL.length:ALL.filter(p=>p.category===c).length}</span></button>`).join('');
@@ -69,11 +98,12 @@ function renderFilters(){
   });
 }
 function render(cat){
-  const list = cat==='All'?ALL:ALL.filter(p=>p.category===cat);
+  const list = cat==='All'||!cat?ALL:ALL.filter(p=>p.category===cat);
+  if(!list.length){ document.getElementById('list').innerHTML='<p style="grid-column:1/-1;text-align:center;color:#8A6E73">No articles found.</p>'; return; }
   document.getElementById('list').innerHTML=list.map(p=>`
   <article class="card">
     <div class="card-img">
-      <img src="${p.image}" alt="${p.imageAlt||p.title}" onerror="this.src='https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=1200&q=80&auto=format&fit=crop'">
+      <img src="${p.image}" alt="${(p.imageAlt||p.title).replace(/"/g,'')}" onerror="this.src='${FALLBACK_IMG}'">
       <span class="date">${fmt(p.date)}</span><span class="cat">${p.category.toUpperCase()}</span>
     </div>
     <div class="body">
@@ -94,5 +124,22 @@ function openArticle(slug){
 }
 function closeArticle(){ document.getElementById('modal').style.display='none'; }
 document.getElementById('modal').addEventListener('click',e=>{ if(e.target.id==='modal') closeArticle(); });
-renderFilters(); render('All');
-</script></body></html>
+async function load(){
+  let data=null;
+  // Try Blog.json first (capital B - your file), then blog.json, then /Blog.json
+  for(const url of ['Blog.json','blog.json','./Blog.json','/Blog.json']){
+    try{
+      const r = await fetch(url, {cache:'no-store'});
+      if(r.ok){ data = await r.json(); break; }
+    }catch(e){}
+  }
+  if(!data || !Array.isArray(data) || !data.length){
+    document.getElementById('list').innerHTML='<p style="grid-column:1/-1;text-align:center;color:#8B1A3A">Blog.json not found. Make sure Blog.json is in the SAME folder as blog.html.</p>';
+    return;
+  }
+  ALL = data.map(normalize).sort((a,b)=> new Date(b.date) - new Date(a.date));
+  document.getElementById('live-count').textContent = 'INSIGHTS FOR RCM TEAMS • ' + ALL.length + ' LIVE POSTS';
+  renderFilters(); render('All');
+}
+load();
+</script><script>(function(){var loc=location.href.replace(/#.*$/,"");var ATTR_NAMES=["data-product-id","data-productid","data-product_id","product-id","productid","product_id","data-source-entity-id","source-entity-id","source_entity_id","data-product","data-metadata","data-meta"];var DATASET_KEYS=["productId","productid","product_id","sourceEntityId","sourceentityid","source_entity_id","product","metadata","meta"];function readProductId(value){if(typeof value!=="string"||value.length===0)return null;if(/^[0-9]{6,}$/.test(value))return value;var match=value.match(/(?:product(?:_|-)?id|source(?:_|-)?entity(?:_|-)?id)["'=:\s]+([0-9]{6,})/i);return match?match[1]:null}function extractProductId(start){for(var node=start;node&&node!==document.body;node=node.parentElement){for(var i=0;i<ATTR_NAMES.length;i++){var attrValue=node.getAttribute&&node.getAttribute(ATTR_NAMES[i]);var attrProductId=readProductId(attrValue);if(attrProductId)return attrProductId}var dataset=node.dataset||null;if(dataset){for(var j=0;j<DATASET_KEYS.length;j++){var dataValue=dataset[DATASET_KEYS[j]];var dataProductId=readProductId(dataValue);if(dataProductId)return dataProductId}}}return null}function isInlineMediaSlotElement(node){return !!(node&&node.getAttribute&&node.getAttribute("data-clippy-inline-media-slot")!==null)}function findInlineMediaSlot(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(isInlineMediaSlotElement(node))return node}return null}function readInlineMediaUrl(node){if(!node)return null;return node.getAttribute&&((node.getAttribute("data-clippy-inline-media-url")||node.getAttribute("data-url")||node.getAttribute("data_url")))||node.href||null}function stripHash(url){return String(url).replace(/#.*$/,"")}function urlsMatch(a,b){if(!a||!b)return false;try{return stripHash(new URL(a,loc).href)===stripHash(new URL(b,loc).href)}catch(_){return stripHash(a)===stripHash(b)}}function isFirstPartyReelUrl(value){try{var url=new URL(value,loc);if(url.protocol!=="https:")return false;var host=url.hostname.toLowerCase();var supported=host==="instagram.com"||host.endsWith(".instagram.com")||host==="facebook.com"||host.endsWith(".facebook.com");return supported&&/\/reels?\//i.test(url.pathname)}catch(_){return false}}function isInlineMediaUrlClick(node,href){var slot=findInlineMediaSlot(node);if(!slot)return false;var slotUrl=readInlineMediaUrl(slot);if(slotUrl)return urlsMatch(href,slotUrl);return isFirstPartyReelUrl(href)}function findDataHref(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(node.getAttribute){var href=node.getAttribute("data-href")||node.getAttribute("data-url");if(href)return{href:href,node:node}}}return null}var nativeOpen=window.open;window.open=function(url){if(parent!==window&&typeof url==="string"&&/^https?:\/\//.test(url)){parent.postMessage({type:"ecto:usercontent-link-click",href:url},"*");return null}return nativeOpen?nativeOpen.apply(window,arguments):null};document.addEventListener("click",function(e){var target=e.target instanceof Element?e.target:null;if(!target)return;if(parent===window)return;var a=target.closest?target.closest("a[href]"):null;if(a&&a.href&&/^https?:\/\//.test(a.href)&&a.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(a,a.href))return;var productId=extractProductId(target)||extractProductId(a);if(productId){e.preventDefault();parent.postMessage({type:"ecto-artifact-link-click",productId:productId},"*");return}e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:a.href},"*");return}var dataHref=findDataHref(target);if(dataHref&&/^https?:\/\//.test(dataHref.href)&&dataHref.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(dataHref.node,dataHref.href))return;e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:dataHref.href},"*")}},true)})();</script><script>(function(){var FOCUS_TYPE="ecto:artifact-focus-request";var CLOSE_TYPE="ecto:artifact-close-request";function focusArtifactDocument(){var body=document.body;if(!body)return;try{window.focus();}catch(e){}if(!body.hasAttribute("tabindex"))body.setAttribute("tabindex","-1");try{body.focus({preventScroll:true});}catch(e){try{body.focus();}catch(e2){}}}window.addEventListener("message",function(event){if(event.source!==window.parent)return;var data=event.data;if(!data||typeof data!=="object"||data.type!==FOCUS_TYPE)return;if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",focusArtifactDocument,{once:true});return;}focusArtifactDocument();});window.addEventListener("keydown",function(event){if(event.key!=="Escape")return;window.setTimeout(function(){if(event.defaultPrevented)return;window.parent.postMessage({type:CLOSE_TYPE},"*");},0);});})();</script></body></html>
