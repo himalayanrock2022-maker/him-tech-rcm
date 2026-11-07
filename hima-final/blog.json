@@ -1,0 +1,93 @@
+[
+  {
+    "id": "1793596526016",
+    "title": "The Hidden Cost of Waiting: Why Coverage Hurdles Stall Necessary Patient Care",
+    "category": "Medical Billing",
+    "excerpt": "With 95% of physicians reporting that prior authorization delays access to essential clinical care, healthcare practices must rethink workflows to protect patient outcomes and revenue.",
+    "seoTitle": "Prior Authorization Delays: AMA Survey Findings & Practice Solutions",
+    "seoDescription": "Explore why 95% of physicians report prior authorization delays necessary care, and discover actionable revenue cycle strategies to overcome payer obstacles.",
+    "slug": "ama-survey-prior-authorization-delays-care",
+    "content": "<h2>Why Prior Authorization Has Become a Patient-Care Problem</h2><p>Prior authorization was meant to control costs. In practice, it has become one of the biggest reasons patients wait for care they already need. When 95% of physicians say authorization delays access to essential treatment, this is no longer just an administrative issue — it is a clinical risk.</p><h2>The Real Cost of Waiting</h2><p>Delays lead to missed treatments, worsening conditions, abandoned care plans, and extra work for front-desk and billing teams. Practices lose revenue from cancelled appointments, rework, and denied claims, while patients lose trust.</p><h2>What Practices Can Do</h2><ul><li>Verify authorization requirements before the visit, not after</li><li>Track every authorization with status, payer, and deadline</li><li>Build payer-specific checklists for high-denial services</li><li>Appeal quickly with complete clinical documentation</li><li>Use a centralized RCM workflow so nothing falls through the cracks</li></ul><p>At Hima Tech RCM, we help practices reduce authorization delays with proactive verification, clean documentation, and disciplined follow-up — so patients get care on time and practices get paid on time.</p>",
+    "image": "/images/blog/prior-authorization-delays.jpg",
+    "imageAlt": "The Hidden Cost of Waiting: Why Coverage Hurdles Stall Necessary Patient Care",
+    "date": "2026-11-02"
+  },
+  {
+    "id": "1793533015504",
+    "title": "Overcoming Administrative Margin Compression in Modern Healthcare",
+    "category": "Practice Management",
+    "excerpt": "Discover why adopting a decentralized reimbursement model solves staffing bottlenecks, accelerates collections, and strengthens provider financial health.",
+    "seoTitle": "Remote Billing Team Strategy: Maximizing Practice Revenue",
+    "seoDescription": "Learn how implementing a remote billing team lowers administrative overhead, accelerates claims processing, and maximizes clinical revenue.",
+    "slug": "remote-billing-team-healthcare-revenue-growth",
+    "content": "<h2>What Is Margin Compression?</h2><p>Practices are earning the same or less per visit, while staffing, technology, and compliance costs keep rising. That squeeze is margin compression — and administrative work is one of its biggest drivers.</p><h2>Why In-House Billing Struggles</h2><p>Small in-house teams face turnover, training gaps, and bottlenecks during peak claim volumes. One absent biller can delay an entire week of claims.</p><h2>The Remote Billing Advantage</h2><ul><li>Lower overhead than hiring, training, and managing in-house</li><li>Faster claim submission and denial follow-up</li><li>Specialized expertise in payer rules and coding</li><li>Scalable support during growth or seasonal spikes</li></ul><p>A remote billing model does not replace your practice — it strengthens it. Hima Tech RCM acts as an extension of your team, keeping your revenue cycle clean, fast, and predictable.</p>",
+    "image": "/images/blog/remote-billing-team.jpg",
+    "imageAlt": "Overcoming Administrative Margin Compression in Modern Healthcare",
+    "date": "2026-11-01"
+  },
+  {
+    "id": "1793500303729",
+    "title": "7 Ways to Reduce Medical Billing Denials",
+    "category": "Medical Billing",
+    "excerpt": "Discover seven actionable strategies to minimize claim rejections, streamline clinical documentation, and safeguard reimbursement cash flow for healthcare practices.",
+    "seoTitle": "7 Ways to Reduce Medical Billing Denials | Revenue Cycle Guide",
+    "seoDescription": "Explore practical steps to decrease claim rejections, improve front-desk verification, and optimize cash flow in your medical practice.",
+    "slug": "ways-to-reduce-medical-billing-denials",
+    "content": "<h2>1. Verify Eligibility Before Every Visit</h2><p>Most preventable denials start at the front desk. Verify coverage, benefits, and authorization requirements before the patient arrives.</p><h2>2. Get Documentation Right the First Time</h2><p>Clean claims need complete, specific documentation that supports medical necessity and correct coding.</p><h2>3. Code With Specificity</h2><p>Use the most specific ICD-10 and CPT codes available. Unspecified codes are a common denial trigger.</p><h2>4. Submit Claims Quickly</h2><p>Do not wait for month-end. Submit daily and track timely-filing deadlines by payer.</p><h2>5. Work Denials Every Day</h2><p>Denials are not dead claims. Categorize them by root cause, appeal within payer windows, and fix the workflow that caused them.</p><h2>6. Track Your Denial Rate</h2><p>If you do not measure it, you cannot fix it. Watch denial rate, days in A/R, and first-pass resolution rate.</p><h2>7. Partner With RCM Experts</h2><p>Hima Tech RCM helps practices prevent denials at the source — not just chase them after they happen.</p>",
+    "image": "/images/blog/reduce-medical-billing-denials.jpg",
+    "imageAlt": "7 Ways To Reduce Medical Billing Denials",
+    "date": "2026-11-01"
+  },
+  {
+    "id": "1793480244704",
+    "title": "Preparing Your Practice for ICD-10 Changes in 2027",
+    "category": "RCM",
+    "excerpt": "Explore key shifts in diagnostic specificity, revenue cycle risks, and EHR preparation strategies for healthcare providers approaching the 2027 coding updates.",
+    "seoTitle": "ICD-10 Updates 2027: Provider Guide to Coding & Billing Shifts",
+    "seoDescription": "Prepare your practice for ICD-10 updates in 2027. Learn how specificity changes, payer scrutiny, and documentation audits impact clinical revenue cycles.",
+    "slug": "icd-10-updates-2027-provider-guide",
+    "content": "<h2>What Changes in 2027?</h2><p>ICD-10 updates bring new, revised, and deleted codes, plus tighter expectations for specificity. Practices that keep coding the old way will see more denials and audits.</p><h2>3 Areas to Prepare Now</h2><h3>1. EHR & Encoder Updates</h3><p>Confirm your EHR, clearinghouse, and encoder will be updated before October 1. Test claims in advance.</p><h3>2. Documentation</h3><p>Train providers to document laterality, severity, encounter type, and causal relationships — payers expect it.</p><h3>3. Denial Monitoring</h3><p>Watch for new denial patterns in the first 60 days after go-live and fix them fast.</p><p>Hima Tech RCM helps practices transition smoothly with coding audits, staff training, and proactive denial management.</p>",
+    "image": "/images/blog/icd-10-updates-2027.jpg",
+    "imageAlt": "Preparing Your Practice for ICD-10 Changes in 2027",
+    "date": "2026-10-31"
+  },
+  {
+    "id": "1793474415387",
+    "title": "How to Reduce Medical Billing Denials in 2027",
+    "category": "Medical Billing",
+    "excerpt": "Discover proactive strategies for US healthcare providers to navigate predictive payer algorithms, fortify front-end workflows, and prevent claim denials in 2027.",
+    "seoTitle": "How to Reduce Medical Billing Denials in 2027 | Hima Tech RCM",
+    "seoDescription": "Learn practical revenue cycle workflows and clinical documentation practices to prevent claim rejections and overcome automated insurer audits in 2027.",
+    "slug": "how-to-reduce-medical-billing-denials-2027",
+    "content": "<h2>Why 2027 Will Be Different</h2><p>Payers are using more predictive algorithms and automated audits. Claims that look incomplete, inconsistent, or poorly documented are flagged faster than ever.</p><h2>The 2027 Prevention Playbook</h2><ul><li>Strengthen front-end: eligibility, benefits, and authorization checks</li><li>Document medical necessity clearly in every note</li><li>Use payer-specific coding rules, not generic coding</li><li>Appeal with data — show patterns, not just one claim</li><li>Review denials weekly and fix the root cause</li></ul><p>The practices that win in 2027 will not just work denials faster — they will prevent them earlier. That is exactly what Hima Tech RCM builds for its clients.</p>",
+    "image": "/images/blog/reduce-denials-2027.jpg",
+    "imageAlt": "How to Reduce Medical Billing Denials in 2027",
+    "date": "2026-10-31"
+  },
+  {
+    "id": "1793400000001",
+    "title": "When Do FY 2027 ICD-10-PCS Updates Go Into Effect?",
+    "category": "Medical Coding",
+    "excerpt": "FY 2027 ICD-10-PCS updates go into effect on October 1, 2026. Learn what hospitals and inpatient coders must update before the go-live date.",
+    "seoTitle": "When Do FY 2027 ICD-10-PCS Updates Go Into Effect? Effective Date Guide",
+    "seoDescription": "FY 2027 ICD-10-PCS updates take effect October 1, 2026. Learn the effective date, new procedure codes, and hospital preparation checklist.",
+    "slug": "when-do-fy-2027-icd-10-pcs-updates-go-into-effect-effective",
+    "content": "<h2>Short Answer: October 1, 2026</h2><p>FY 2027 ICD-10-PCS updates go into effect on <strong>October 1, 2026</strong> for discharges on or after that date. This is the federal fiscal year start, and CMS applies the new PCS code set from that day forward.</p><h2>What Is ICD-10-PCS?</h2><p>ICD-10-PCS is the procedure coding system used for inpatient hospital procedures in the United States. Unlike ICD-10-CM (diagnoses), PCS codes describe what was done, how it was done, and with what approach and device.</p><h2>What to Update Before October 1</h2><ul><li>Update your encoder, EHR, and grouper to the FY 2027 PCS version</li><li>Review new and deleted PCS codes that affect your top procedures</li><li>Train inpatient coders on new root operations, approaches, and devices</li><li>Test claims with the new code set before go-live</li><li>Watch for MS-DRG shifts caused by procedure-code changes</li></ul><h2>Common Mistake to Avoid</h2><p>Do not use FY 2027 PCS codes for discharges before October 1, 2026, and do not use FY 2026 codes after. The discharge date controls which code set applies.</p><p>Hima Tech RCM helps hospitals and practices stay audit-ready with coding updates, documentation training, and denial prevention for every fiscal-year transition.</p>",
+    "image": "/images/blog/fy-2027-icd-10-pcs-updates.jpg",
+    "imageAlt": "When Do FY 2027 ICD-10-PCS Updates Go Into Effect",
+    "date": "2026-10-30"
+  },
+  {
+    "id": "1793400000002",
+    "title": "ICD-10 Coding Pitfalls: Avoiding Compliance Risk",
+    "category": "Medical Coding",
+    "excerpt": "Learn the common ICD-10 coding mistakes that can lead to denials, audits, compliance risks, and lost revenue.",
+    "seoTitle": "ICD-10 Coding Pitfalls: Avoiding Compliance Risk | Hima Tech RCM",
+    "seoDescription": "Avoid the most common ICD-10 coding mistakes. Learn how unspecified codes, poor documentation, and outdated code sets create denials and audit risk.",
+    "slug": "icd-10-coding-pitfalls-avoiding-compliance-risk",
+    "content": "<h2>The Most Common ICD-10 Pitfalls</h2><ul><li><strong>Unspecified codes:</strong> Using unspecified codes when the record supports a more specific code</li><li><strong>Copy-forward errors:</strong> Copying old diagnoses that are no longer active</li><li><strong>Missing laterality and severity:</strong> Leaving out details payers now require</li><li><strong>Wrong 7th character:</strong> Incorrect encounter type for injuries and fractures</li><li><strong>Outdated code sets:</strong> Coding with last year's codes after October 1</li></ul><h2>How to Stay Compliant</h2><p>Audit charts regularly, train providers on documentation, and fix patterns — not just single claims. A small coding error repeated 100 times becomes a compliance problem.</p><p>Hima Tech RCM provides coding audits and RCM support to keep practices compliant and paid correctly.</p>",
+    "image": "/images/blog/icd-10-coding-pitfalls.jpg",
+    "imageAlt": "ICD-10 Coding Pitfalls: Avoiding Compliance Risk",
+    "date": "2026-10-28"
+  }
+]
