@@ -27,7 +27,7 @@
     { "source": "/services/hospital-privileging", "destination": "/services/hospital-privileging.html" },
     { "source": "/services/credentialing-tracking", "destination": "/services/credentialing-tracking.html" },
     { "source": "/specialties", "destination": "/specialties.html" },
-    { "source": "/blog/:slug", "destination": "/blog/article.html" },
+    { "source": "/blog/:slug", "destination": "/blog.html" },
     { "source": "/blog", "destination": "/blog.html" },
     { "source": "/audit", "destination": "/audit.html" },
     { "source": "/contact", "destination": "/contact.html" },
