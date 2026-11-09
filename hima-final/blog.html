@@ -154,8 +154,21 @@ async function load(){
 }
 load();
 // Direct URL se aaye to article khud khul jaye
+// Direct URL se aaye to article khud khul jaye - ALL ka wait karke
 const slugFromUrl = window.location.pathname.replace('/blog/','').replace('/blog','').replace('/','');
-if(slugFromUrl && slugFromUrl !== 'blog'){
-  setTimeout(()=> openArticle(slugFromUrl, false), 1500);
+if(slugFromUrl && slugFromUrl !== 'blog' && slugFromUrl !== ''){
+  let tries = 0;
+  const waitForData = setInterval(()=>{
+    tries++;
+    // ALL me data aa gaya?
+    if(typeof ALL !== 'undefined' && ALL.length > 0){
+      clearInterval(waitForData);
+      openArticle(slugFromUrl, false);
+    }
+    // 10 second tak try karo, phir ruk jao
+    if(tries > 30){
+      clearInterval(waitForData);
+    }
+  }, 300);
 }
 </script></body></html>
