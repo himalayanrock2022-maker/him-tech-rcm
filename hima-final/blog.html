@@ -92,17 +92,39 @@ function render(cat){
     </div>
   </article>`).join('');
 }
-function openArticle(slug){
+function openArticle(slug, push=true){
   const p = ALL.find(x=>x.slug===slug); if(!p) return;
+
   document.getElementById('m-img').src=p.image;
   document.getElementById('m-date').textContent=fmt(p.date)+' • '+p.category.toUpperCase();
   document.getElementById('m-title').textContent=p.title;
   document.getElementById('m-excerpt').textContent=p.excerpt;
   document.getElementById('m-content').innerHTML=p.content;
-  document.getElementById('modal').style.display='block'; window.scrollTo(0,0);
+
+  // Popup ko full article page jaisa banao
+  const modal = document.getElementById('modal');
+  modal.style.display='block';
+  modal.style.position='fixed';
+  modal.style.top='0';
+  modal.style.left='0';
+  modal.style.width='100%';
+  modal.style.height='100%';
+  modal.style.overflowY='auto';
+  modal.style.background='#fff';
+  modal.style.zIndex='9999';
+  window.scrollTo(0,0);
+
+  // URL ko bhi article wala kar do
+  if(push && window.location.pathname !== '/blog/'+slug){
+    history.pushState({slug}, p.title, '/blog/'+slug);
+  }
+  document.title = p.title + ' | Hima Tech RCM';
 }
-function closeArticle(){ document.getElementById('modal').style.display='none'; }
-document.getElementById('modal').addEventListener('click',e=>{ if(e.target.id==='modal') closeArticle(); });
+function closeArticle(){
+  document.getElementById('modal').style.display='none';
+  history.pushState({}, '', '/blog');
+  document.title = 'Blog | Hima Tech RCM';
+}
 
 // FALLBACK: agar Blog.json na mile to page khaali na ho
 const FALLBACK = [
@@ -131,4 +153,9 @@ async function load(){
   renderFilters(); render('All');
 }
 load();
+// Direct URL se aaye to article khud khul jaye
+const slugFromUrl = window.location.pathname.replace('/blog/','').replace('/blog','').replace('/','');
+if(slugFromUrl && slugFromUrl !== 'blog'){
+  setTimeout(()=> openArticle(slugFromUrl, false), 1500);
+}
 </script></body></html>
