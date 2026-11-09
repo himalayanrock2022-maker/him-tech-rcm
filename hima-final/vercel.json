@@ -1,12 +1,7 @@
 {
   "redirects": [
     {
-      "source": "/(.*).html",
-      "destination": "/$1",
-      "permanent": true
-    },
-    {
-      "source": "[STRIPPED 77 bytes]",
+      "source": "/blog/when-to-change-rcm-company.html",
       "destination": "/blog/when-to-change-rcm-company",
       "permanent": true
     }
@@ -32,7 +27,7 @@
     { "source": "/services/hospital-privileging", "destination": "/services/hospital-privileging.html" },
     { "source": "/services/credentialing-tracking", "destination": "/services/credentialing-tracking.html" },
     { "source": "/specialties", "destination": "/specialties.html" },
-    { "source": "/blog/:slug", "destination": "/blog.html" },
+    { "source": "/blog/:slug", "destination": "/blog/article.html" },
     { "source": "/blog", "destination": "/blog.html" },
     { "source": "/audit", "destination": "/audit.html" },
     { "source": "/contact", "destination": "/contact.html" },
