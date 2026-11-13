@@ -1,4 +1,3 @@
-
 export const runtime = "nodejs";
 
 function countWords(html) {
@@ -18,6 +17,55 @@ function cleanHtml(html) {
     .replace(/<(iframe|object|embed)\b[^>]*>[\s\S]*?<\/\1>/gi, "")
     .replace(/\s+on\w+\s*=\s*("[^"]*"|'[^']*'|[^\s>]+)/gi, "")
     .replace(/href\s*=\s*(['"])\s*javascript:[\s\S]*?\1/gi, 'href="#"');
+}
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+// ✅ FIX 1: Sahi models jo abhi chal rahe hain
+const MODELS = [
+  "gemini-2.0-flash",
+  "gemini-1.5-flash",
+  "gemini-1.5-flash-8b",
+  "gemini-1.5-pro"
+];
+
+async function callGemini(model, prompt, apiKey) {
+  const response = await fetch(
+    `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=` +
+      encodeURIComponent(apiKey),
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        contents: [{ parts: [{ text: prompt }] }],
+        generationConfig: {
+          temperature: 0.7,
+          responseMimeType: "application/json"
+        }
+      })
+    }
+  );
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    const msg = data.error?.message || `Model failed: ${response.status}`;
+    const err = new Error(msg);
+    err.status = response.status;
+    throw err;
+  }
+
+  const rawText = data.candidates?.[0]?.content?.parts
+    ?.map(part => part.text || "")
+    .join("");
+
+  if (!rawText) throw new Error("Empty response from Gemini");
+
+  // ```json fences hatana
+  const cleanText = rawText.replace(/```json|```/g, "").trim();
+  return JSON.parse(cleanText);
 }
 
 export default async function handler(req, res) {
@@ -42,10 +90,9 @@ export default async function handler(req, res) {
       });
     }
 
-    const expectedPassword =
-      process.env.BLOG_ADMIN_PASSWORD || "himatech2026";
-
-    if (password !== expectedPassword) {
+    const expectedPassword = process.env.BLOG_ADMIN_PASSWORD;
+    // ✅ FIX 2: Default password hataya, ab Vercel se hi ayega
+    if (!expectedPassword || password !== expectedPassword) {
       return res.status(401).json({
         error: "Admin authentication failed."
       });
@@ -138,61 +185,39 @@ JSON FORMAT:
 }
 `;
 
-    const response = await fetch(
-      "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=" +
-        encodeURIComponent(apiKey),
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          contents: [
-            { parts: [{ text: prompt }] }
-          ],
-          generationConfig: {
-            temperature: 0.7,
-            responseMimeType: "application/json"
+    // ✅ FIX 3: Retry + Fallback logic
+    let lastError = "";
+    for (const model of MODELS) {
+      for (let attempt = 1; attempt <= 2; attempt++) {
+        try {
+          console.log(`Trying ${model} - Attempt ${attempt}`);
+          const article = await callGemini(model, prompt, apiKey);
+          article.contentHtml = cleanHtml(article.contentHtml);
+          const wordCount = countWords(article.contentHtml);
+
+          return res.status(200).json({
+            success: true,
+            article: { ...article, wordCount }
+          });
+        } catch (err) {
+          lastError = err.message;
+          console.log(`Failed ${model}:`, lastError);
+          // 429 / 503 / overloaded ho to 4 sec ruk ke retry karo
+          if (err.status === 429 || err.status === 503 || lastError.toLowerCase().includes("overloaded") || lastError.toLowerCase().includes("high demand")) {
+            await sleep(4000);
+          } else {
+            break; // Model hi galat hai to agle model pe jao
           }
-        })
+        }
       }
-    );
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      console.error("Gemini error:", data);
-      return res.status(502).json({
-        error: data.error?.message || "Gemini generation failed."
-      });
     }
 
-    const rawText = data.candidates?.[0]?.content?.parts
-      ?.map(part => part.text || "")
-      .join("");
-
-    if (!rawText) {
-      return res.status(502).json({
-        error: "Gemini returned an empty response."
-      });
-    }
-
-    const article = JSON.parse(rawText);
-    article.contentHtml = cleanHtml(article.contentHtml);
-
-    const wordCount = countWords(article.contentHtml);
-
-    return res.status(200).json({
-      success: true,
-      article: {
-        ...article,
-        wordCount
-      }
+    return res.status(502).json({
+      error: "Sab models busy hain. 1-2 minute baad dobara try karein. Last Error: " + lastError
     });
 
   } catch (error) {
     console.error("Article generation error:", error);
-
     return res.status(500).json({
       error: "Article generation failed. Please try again."
     });
