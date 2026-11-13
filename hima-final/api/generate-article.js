@@ -23,49 +23,71 @@ function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-// ✅ FIX 1: Sahi models jo abhi chal rahe hain
-const MODELS = [
-  "gemini-2.0-flash",
-  "gemini-1.5-flash",
-  "gemini-1.5-flash-8b",
-  "gemini-1.5-pro"
+// Fallback models - agar ListModels fail ho jaye to ye try honge
+const FALLBACK_MODELS = [
+  "gemini-3.8-flash",
+  "gemini-3.5-flash-lite",
+  "gemini-2.5-flash",
+  "gemini-3-pro-preview"
 ];
 
-async function callGemini(model, prompt, apiKey) {
-  const response = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=` +
-      encodeURIComponent(apiKey),
-    {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        contents: [{ parts: [{ text: prompt }] }],
-        generationConfig: {
-          temperature: 0.7,
-          responseMimeType: "application/json"
-        }
-      })
-    }
-  );
+// Google se poochega ke tumhari API Key pe konsa model available hai
+async function getAvailableModels(apiKey) {
+  try {
+    const res = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models?key=${encodeURIComponent(apiKey)}`
+    );
+    const data = await res.json();
+    const models = (data.models || [])
+      .filter(m => m.supportedGenerationMethods?.includes("generateContent"))
+      .map(m => m.name.replace("models/", ""))
+      .filter(name => !name.includes("image") && !name.includes("embedding") && !name.includes("tts") && !name.includes("imagen"));
 
-  const data = await response.json();
-
-  if (!response.ok) {
-    const msg = data.error?.message || `Model failed: ${response.status}`;
-    const err = new Error(msg);
-    err.status = response.status;
-    throw err;
+    console.log("Available models:", models);
+    return models.length ? models : FALLBACK_MODELS;
+  } catch (e) {
+    console.log("ListModels failed, using fallback:", e.message);
+    return FALLBACK_MODELS;
   }
+}
 
-  const rawText = data.candidates?.[0]?.content?.parts
-    ?.map(part => part.text || "")
-    .join("");
+async function callGemini(model, prompt, apiKey) {
+  const versions = ["v1beta", "v1"];
+  let lastErr = null;
 
-  if (!rawText) throw new Error("Empty response from Gemini");
+  for (const ver of versions) {
+    const response = await fetch(
+      `https://generativelanguage.googleapis.com/${ver}/models/${model}:generateContent?key=` +
+        encodeURIComponent(apiKey),
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: prompt }] }],
+          generationConfig: {
+            temperature: 0.7,
+            responseMimeType: "application/json"
+          }
+        })
+      }
+    );
 
-  // ```json fences hatana
-  const cleanText = rawText.replace(/```json|```/g, "").trim();
-  return JSON.parse(cleanText);
+    const data = await response.json();
+
+    if (response.ok) {
+      const rawText = data.candidates?.[0]?.content?.parts
+        ?.map(part => part.text || "")
+        .join("");
+      if (!rawText) throw new Error("Empty response from Gemini");
+      const cleanText = rawText.replace(/```json|```/g, "").trim();
+      return JSON.parse(cleanText);
+    }
+
+    lastErr = new Error(data.error?.message || `Model failed: ${response.status}`);
+    lastErr.status = response.status;
+    if (response.status === 404) break; // Model hi nahi hai, dusra version try karne ka faida nahi
+  }
+  throw lastErr;
 }
 
 export default async function handler(req, res) {
@@ -91,7 +113,7 @@ export default async function handler(req, res) {
     }
 
     const expectedPassword = process.env.BLOG_ADMIN_PASSWORD;
-    // ✅ FIX 2: Default password hataya, ab Vercel se hi ayega
+
     if (!expectedPassword || password !== expectedPassword) {
       return res.status(401).json({
         error: "Admin authentication failed."
@@ -185,7 +207,9 @@ JSON FORMAT:
 }
 `;
 
-    // ✅ FIX 3: Retry + Fallback logic
+    // Sabse pehle available models lo
+    const MODELS = await getAvailableModels(apiKey);
+
     let lastError = "";
     for (const model of MODELS) {
       for (let attempt = 1; attempt <= 2; attempt++) {
@@ -203,10 +227,10 @@ JSON FORMAT:
           lastError = err.message;
           console.log(`Failed ${model}:`, lastError);
           // 429 / 503 / overloaded ho to 4 sec ruk ke retry karo
-          if (err.status === 429 || err.status === 503 || lastError.toLowerCase().includes("overloaded") || lastError.toLowerCase().includes("high demand")) {
+          if (err.status === 429 || err.status === 503 || lastError.toLowerCase().includes("overloaded") || lastError.toLowerCase().includes("high demand") || lastError.toLowerCase().includes("quota")) {
             await sleep(4000);
           } else {
-            break; // Model hi galat hai to agle model pe jao
+            break; // Model not found hai to agle model pe jao
           }
         }
       }
