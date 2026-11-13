@@ -1,6 +1,18 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Blog | Hima Tech RCM Solutions</title>
+
+<link rel="canonical" href="https://www.himatechrcm.com/blog.html" />
+<script>
+(function(){
+  var parts = location.pathname.split('/').filter(Boolean);
+  var slug = parts[parts.length - 1];
+  if (parts[0] === 'blog' && slug && slug !== 'blog') {
+    var link = document.querySelector('link[rel="canonical"]');
+    if (link) { link.href = 'https://www.himatechrcm.com/blog/' + slug; }
+  }
+})();
+</script>
 <style>
 *{box-sizing:border-box} body{margin:0;font-family:system-ui,-apple-system,sans-serif;background:#FEFBF9;color:#221315}
 header{position:sticky;top:0;background:#fff;border-bottom:1px solid #F1E2E5;padding:14px 20px;display:flex;align-items:center;gap:10px;z-index:30}
