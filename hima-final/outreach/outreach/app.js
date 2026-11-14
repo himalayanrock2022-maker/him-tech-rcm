@@ -151,11 +151,7 @@ function updateSelectionCount() {
 
     const visibleEligible = leads.filter(lead => {
       const searchable = [
-        lead.name,
-        lead.email,
-        lead.city,
-        lead.state,
-        lead.specialty
+        lead.name, lead.email, lead.city, lead.state, lead.specialty
       ].join(" ");
 
       return isEligible(lead) &&
@@ -181,11 +177,7 @@ function renderLeads() {
 
   const filtered = leads.filter(lead => {
     const searchable = [
-      lead.name,
-      lead.email,
-      lead.city,
-      lead.state,
-      lead.specialty
+      lead.name, lead.email, lead.city, lead.state, lead.specialty
     ].join(" ");
 
     return normalize(searchable).includes(search);
@@ -194,9 +186,7 @@ function renderLeads() {
   if (!filtered.length) {
     elements.leadTable.innerHTML = `
       <tr>
-        <td colspan="6" class="empty-state">
-          No matching leads found.
-        </td>
+        <td colspan="6" class="empty-state">No matching leads found.</td>
       </tr>
     `;
     updateSelectionCount();
@@ -210,15 +200,13 @@ function renderLeads() {
     return `
       <tr>
         <td>
-          <input
-            type="checkbox"
+          <input type="checkbox"
             class="lead-select"
             data-id="${escapeHTML(lead.id)}"
             ${checked ? "checked" : ""}
             ${eligible ? "" : "disabled"}
             aria-label="Select ${escapeHTML(lead.name || lead.email)}"
-            style="width:auto"
-          >
+            style="width:auto">
         </td>
         <td>${escapeHTML(lead.name || "Not provided")}</td>
         <td>${escapeHTML(lead.email)}</td>
@@ -262,10 +250,9 @@ async function loadLeadsFromDatabase() {
   return leads;
 }
 
-// IMPORT CSV AND SAVE TO DATABASE
+// IMPORT CSV
 elements.csvFile.addEventListener("change", async event => {
   const file = event.target.files[0];
-
   if (!file) return;
 
   if (!file.name.toLowerCase().endsWith(".csv")) {
@@ -277,9 +264,7 @@ elements.csvFile.addEventListener("change", async event => {
   try {
     showMessage("Reading CSV file...", true);
 
-    const content = await file.text();
-    const imported = parseCSV(content);
-
+    const imported = parseCSV(await file.text());
     let invalid = 0;
     let localDuplicates = 0;
 
@@ -303,15 +288,10 @@ elements.csvFile.addEventListener("change", async event => {
       }
 
       existingEmails.add(email);
-
-      newLeads.push({
-        ...lead,
-        email,
-        status: "Ready"
-      });
+      newLeads.push({ ...lead, email, status: "Ready" });
     });
 
-    if (newLeads.length === 0) {
+    if (!newLeads.length) {
       showMessage(
         `No new leads to save. Duplicates: ${localDuplicates} | Invalid: ${invalid}`
       );
@@ -323,9 +303,7 @@ elements.csvFile.addEventListener("change", async event => {
     const response = await fetch("/api/outreach-leads", {
       method: "POST",
       credentials: "same-origin",
-      headers: {
-        "Content-Type": "application/json"
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ leads: newLeads })
     });
 
@@ -337,11 +315,8 @@ elements.csvFile.addEventListener("change", async event => {
 
     await loadLeadsFromDatabase();
 
-    const added = Number(result.added || 0);
-    const databaseDuplicates = Number(result.duplicates || 0);
-
     showMessage(
-      `Saved: ${added} | Duplicates skipped: ${localDuplicates + databaseDuplicates} | Invalid: ${invalid}`,
+      `Saved: ${Number(result.added || 0)} | Duplicates skipped: ${localDuplicates + Number(result.duplicates || 0)} | Invalid: ${invalid}`,
       true
     );
 
@@ -354,16 +329,16 @@ elements.csvFile.addEventListener("change", async event => {
 
 elements.leadSearch.addEventListener("input", renderLeads);
 
-// SELECT INDIVIDUAL LEADS
+// INDIVIDUAL SELECTION
 elements.leadTable.addEventListener("change", event => {
   if (!event.target.classList.contains("lead-select")) return;
 
-  const id = event.target.dataset.id;
+  const id = String(event.target.dataset.id);
 
   if (event.target.checked) {
-    selectedLeadIds.add(String(id));
+    selectedLeadIds.add(id);
   } else {
-    selectedLeadIds.delete(String(id));
+    selectedLeadIds.delete(id);
   }
 
   updateSelectionCount();
@@ -376,11 +351,7 @@ if (elements.selectAllLeads) {
 
     const visibleEligible = leads.filter(lead => {
       const searchable = [
-        lead.name,
-        lead.email,
-        lead.city,
-        lead.state,
-        lead.specialty
+        lead.name, lead.email, lead.city, lead.state, lead.specialty
       ].join(" ");
 
       return isEligible(lead) &&
@@ -417,9 +388,7 @@ if (findButton) {
       const response = await fetch("/api/outreach-generate-leads", {
         method: "POST",
         credentials: "same-origin",
-        headers: {
-          "Content-Type": "application/json"
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           state: document.getElementById("leadState").value,
           specialty: document.getElementById("leadSpecialty").value,
@@ -437,20 +406,17 @@ if (findButton) {
 
       const clinicsFound = Number(result.clinicsFound || 0);
       const websitesChecked = Number(result.websitesChecked || 0);
-
       const emailsFound = Number(
         result.publicBusinessEmailsFound ??
         result.publicEmailsFound ??
         0
       );
 
-      const added = Number(result.added || 0);
-
       message.textContent =
         "Clinics found: " + clinicsFound +
         " | Websites checked: " + websitesChecked +
         " | Public emails found: " + emailsFound +
-        " | New leads saved: " + added;
+        " | New leads saved: " + Number(result.added || 0);
 
     } catch (error) {
       message.textContent = error.message || "Search failed.";
@@ -459,6 +425,15 @@ if (findButton) {
       findButton.textContent = "Find Leads";
     }
   });
+}
+
+// EMAIL TEMPLATE VARIABLES
+function replaceVariables(text, lead) {
+  return text
+    .replace(/\{\{\s*name\s*\}\}/gi, lead.name || "Healthcare Provider")
+    .replace(/\{\{\s*city\s*\}\}/gi, lead.city || "")
+    .replace(/\{\{\s*state\s*\}\}/gi, lead.state || "")
+    .replace(/\{\{\s*specialty\s*\}\}/gi, lead.specialty || "");
 }
 
 // EMAIL PREVIEW
@@ -485,14 +460,6 @@ elements.previewButton.addEventListener("click", () => {
     `SUBJECT: ${replaceVariables(subject, sampleLead)}\n\n` +
     replaceVariables(template, sampleLead);
 });
-
-function replaceVariables(text, lead) {
-  return text
-    .replace(/\{\{\s*name\s*\}\}/gi, lead.name || "Healthcare Provider")
-    .replace(/\{\{\s*city\s*\}\}/gi, lead.city || "")
-    .replace(/\{\{\s*state\s*\}\}/gi, lead.state || "")
-    .replace(/\{\{\s*specialty\s*\}\}/gi, lead.specialty || "");
-}
 
 // SEND SELECTED EMAILS
 if (elements.sendSelectedButton) {
@@ -530,11 +497,9 @@ if (elements.sendSelectedButton) {
       return;
     }
 
-    const confirmed = window.confirm(
+    if (!window.confirm(
       `You are about to send ${selected.length} emails from info@himatechrcm.com. Continue?`
-    );
-
-    if (!confirmed) return;
+    )) return;
 
     elements.sendSelectedButton.disabled = true;
     elements.sendSelectedButton.textContent = "Sending...";
@@ -545,20 +510,16 @@ if (elements.sendSelectedButton) {
       const ids = selected.map(lead => Number(lead.id));
 
       if (ids.some(id => !Number.isSafeInteger(id) || id <= 0)) {
-        throw new Error("One or more lead IDs are invalid. Refresh the dashboard.");
+        throw new Error(
+          "One or more lead IDs are invalid. Refresh the dashboard."
+        );
       }
 
       const response = await fetch("/api/outreach-send", {
         method: "POST",
         credentials: "same-origin",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          ids,
-          subject,
-          message
-        })
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ids, subject, message })
       });
 
       const result = await response.json();
@@ -568,13 +529,20 @@ if (elements.sendSelectedButton) {
       }
 
       const accepted = Number(result.accepted || 0);
-      const failed = Number(result.failed || 0);
+      const outcomes = Array.isArray(result.results) ? result.results : [];
+
+      const failed = outcomes.filter(
+        item => item.status === "Failed"
+      ).length;
+
+      const skipped = outcomes.filter(
+        item => item.status === "Skipped"
+      ).length;
 
       elements.sendMessage.textContent =
-        `SMTP accepted: ${accepted} | Failed: ${failed}. Acceptance does not guarantee inbox delivery.`;
+        `SMTP accepted: ${accepted} | Failed: ${failed} | Skipped: ${skipped}. SMTP acceptance does not guarantee inbox delivery.`;
 
       selectedLeadIds.clear();
-
       await loadLeadsFromDatabase();
 
     } catch (error) {
@@ -627,9 +595,7 @@ function showLoginScreen() {
       const response = await fetch("/api/outreach-auth", {
         method: "POST",
         credentials: "same-origin",
-        headers: {
-          "Content-Type": "application/json"
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           password: document.getElementById("adminPassword").value
         })
