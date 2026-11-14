@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Hima Tech RCM | Outreach Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-icon">H</div>
+      <div>
+        <h1>HIMA TECH RCM</h1>
+        <p>OUTREACH MANAGEMENT</p>
+      </div>
+    </div>
+    <div class="header-right">
+      <span class="status-dot"></span>
+      <span>Dashboard</span>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="welcome">
+      <div>
+        <p class="eyebrow">BUSINESS DEVELOPMENT</p>
+        <h2>Outreach Dashboard</h2>
+        <p>Find relevant U.S. healthcare practices and manage personalized outreach.</p>
+      </div>
+      <div class="daily-target">
+        <span>DAILY TARGET</span>
+        <strong>30 <small>leads</small></strong>
+      </div>
+    </section>
+
+    <section class="stats-grid">
+      <article class="stat-card">
+        <span>Total Leads</span>
+        <strong id="totalLeads">0</strong>
+        <small>Imported contacts</small>
+      </article>
+
+      <article class="stat-card">
+        <span>Ready to Contact</span>
+        <strong id="readyLeads">0</strong>
+        <small>Eligible leads</small>
+      </article>
+
+      <article class="stat-card">
+        <span>Emails Sent</span>
+        <strong id="sentLeads">0</strong>
+        <small>Campaign activity</small>
+      </article>
+
+      <article class="stat-card">
+        <span>Daily Remaining</span>
+        <strong id="remainingLeads">30</strong>
+        <small>Out of 30 emails</small>
+      </article>
+    </section>
+
+    <section class="panel">
+      <div class="section-heading">
+        <div>
+          <h3>Lead Management</h3>
+          <p>Import your clinic and healthcare provider contacts.</p>
+        </div>
+        <span class="tag">CSV IMPORT</span>
+      </div>
+
+      <div class="import-area">
+        <div class="upload-icon">↑</div>
+        <h4>Import Lead List</h4>
+        <p>Upload a CSV file containing clinic names, emails and locations.</p>
+
+        <label class="primary-button" for="csvFile">
+          Choose CSV File
+        </label>
+        <input type="file" id="csvFile" accept=".csv,text/csv" hidden>
+
+        <p class="file-note">
+          Suggested columns: name, email, city, state, website, specialty
+        </p>
+        <p id="importMessage" class="message" aria-live="polite"></p>
+      </div>
+
+      <div class="table-toolbar">
+        <h4>Imported Leads</h4>
+        <input
+          type="search"
+          id="leadSearch"
+          placeholder="Search clinic or email..."
+          aria-label="Search leads"
+        >
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Clinic / Practice</th>
+              <th>Email</th>
+              <th>Location</th>
+              <th>Specialty</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="leadTable">
+            <tr>
+              <td colspan="5" class="empty-state">
+                No leads imported yet. Upload a CSV file to begin.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="two-column">
+      <div class="panel">
+        <div class="section-heading">
+          <div>
+            <h3>Email Campaign</h3>
+            <p>Personalized Hima Tech RCM outreach.</p>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="senderEmail">Sender Email</label>
+          <input id="senderEmail" type="email"
+            value="info@himatechrcm.com" readonly>
+        </div>
+
+        <div class="form-group">
+          <label for="emailSubject">Email Subject</label>
+          <input id="emailSubject" type="text"
+            placeholder="A quick question about your billing operations">
+        </div>
+
+        <div class="form-group">
+          <label for="emailTemplate">Email Message</label>
+          <textarea id="emailTemplate" rows="7"
+            placeholder="Hello {{name}},
+
+I’m reaching out from Hima Tech RCM. We provide medical billing and revenue cycle management services to U.S. healthcare practices.
+
+Would you be open to a brief discussion about your current billing workflow?
+
+Best regards,
+Hima Tech RCM
+www.himatechrcm.com"></textarea>
+        </div>
+
+        <div class="notice">
+          <strong>Sending is not enabled yet.</strong>
+          Secure Spacemail SMTP integration and campaign safeguards must be configured on the server before emails can be sent.
+        </div>
+
+        <button class="secondary-button" id="previewButton" type="button">
+          Preview Email
+        </button>
+        <div id="emailPreview" class="preview-box" hidden></div>
+      </div>
+
+      <div class="panel">
+        <div class="section-heading">
+          <div>
+            <h3>Lead Sources</h3>
+            <p>Research relevant healthcare practices.</p>
+          </div>
+        </div>
+
+        <div class="source-item">
+          <div class="source-icon">G</div>
+          <div>
+            <strong>Google Search & Maps</strong>
+            <p>Public clinic business contact details</p>
+          </div>
+        </div>
+
+        <div class="source-item">
+          <div class="source-icon">W</div>
+          <div>
+            <strong>Clinic Websites</strong>
+            <p>Official contact and practice information</p>
+          </div>
+        </div>
+
+        <div class="source-item">
+          <div class="source-icon">in</div>
+          <div>
+            <strong>LinkedIn</strong>
+            <p>Professional research using permitted methods</p>
+          </div>
+        </div>
+
+        <div class="source-item">
+          <div class="source-icon">R</div>
+          <div>
+            <strong>Reddit & Instagram</strong>
+            <p>Relevant public business opportunities</p>
+          </div>
+        </div>
+
+        <div class="source-item">
+          <div class="source-icon">+</div>
+          <div>
+            <strong>Manual Lead Entry</strong>
+            <p>Additional verified business contacts</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="section-heading">
+        <div>
+          <h3>Campaign Safety</h3>
+          <p>Required safeguards before automated sending.</p>
+        </div>
+        <span class="tag warning">SETUP REQUIRED</span>
+      </div>
+
+      <div class="safety-grid">
+        <div> <span>01</span> Email verification </div>
+        <div> <span>02</span> Duplicate prevention </div>
+        <div> <span>03</span> Unsubscribe handling </div>
+        <div> <span>04</span> Suppression list </div>
+        <div> <span>05</span> Daily sending limit </div>
+        <div> <span>06</span> Sending activity logs </div>
+      </div>
+    </section>
+
+    <footer>
+      <strong>HIMA TECH RCM</strong>
+      <span>Healthcare Revenue Cycle Management</span>
+      <span>© 2026 Hima Tech RCM</span>
+    </footer>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
