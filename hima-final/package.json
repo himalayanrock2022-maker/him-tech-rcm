@@ -1,0 +1,9 @@
+
+{
+  "name": "hima-tech-rcm",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@neondatabase/serverless": "^1.0.0"
+  }
+}
