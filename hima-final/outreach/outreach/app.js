@@ -274,6 +274,7 @@ elements.csvFile.addEventListener("change", async event => {
 
 elements.leadSearch.addEventListener("input", renderLeads);
 
+// AUTOMATIC LEAD GENERATOR
 const findButton = document.getElementById("findLeadsButton");
 
 if (findButton) {
@@ -282,7 +283,8 @@ if (findButton) {
 
     findButton.disabled = true;
     findButton.textContent = "Searching...";
-    message.textContent = "Google is searching for clinics and public emails...";
+    message.textContent =
+      "Searching for clinics and publicly listed business emails...";
 
     try {
       const response = await fetch("/api/outreach-generate-leads", {
@@ -306,11 +308,22 @@ if (findButton) {
 
       await loadLeadsFromDatabase();
 
+      const clinicsFound = Number(result.clinicsFound || 0);
+      const websitesChecked = Number(result.websitesChecked || 0);
+
+      const emailsFound = Number(
+        result.publicBusinessEmailsFound ??
+        result.publicEmailsFound ??
+        0
+      );
+
+      const added = Number(result.added || 0);
+
       message.textContent =
-        "Clinics found: " + result.clinicsFound +
-        " | Websites checked: " + result.websitesChecked +
-        " | Emails found: " + result.publicEmailsFound +
-        " | New leads saved: " + result.added;
+        "Clinics found: " + clinicsFound +
+        " | Websites checked: " + websitesChecked +
+        " | Public emails found: " + emailsFound +
+        " | New leads saved: " + added;
 
     } catch (error) {
       message.textContent = error.message || "Search failed.";
@@ -320,7 +333,6 @@ if (findButton) {
     }
   });
 }
-
 
 // EMAIL PREVIEW
 elements.previewButton.addEventListener("click", () => {
