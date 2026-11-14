@@ -101,12 +101,10 @@ function extractBusinessEmail(content, host) {
       continue;
     }
 
-    // Publicly listed free email addresses
     if (FREE_EMAIL_DOMAINS.has(domain)) {
       return email;
     }
 
-    // Official clinic domain
     if (domain === host || domain.endsWith("." + host)) {
       return email;
     }
@@ -438,9 +436,22 @@ export default async function handler(req, res) {
           status text
         )
         ON CONFLICT DO NOTHING
-        RETURNING id
+        RETURNING id, email
       `;
     }
+
+    const savedEmails = new Set(
+      inserted.map(item => String(item.email).toLowerCase())
+    );
+
+    const leadDiagnostics = finalLeads.map(lead => ({
+      name: lead.name,
+      email: lead.email,
+      website: lead.website,
+      status: savedEmails.has(lead.email.toLowerCase())
+        ? "SAVED"
+        : "DUPLICATE_OR_CONFLICT"
+    }));
 
     return res.status(200).json({
       success: true,
@@ -453,10 +464,11 @@ export default async function handler(req, res) {
       added: inserted.length,
       duplicates: finalLeads.length - inserted.length,
       scrapeErrors: failures.length,
-      errorSamples: failures.slice(0, 3),
+      errorSamples: failures.slice(0, 5),
+      leadDiagnostics,
       message: finalLeads.length
-        ? "Public business emails found and saved."
-        : "No public emails found on the pages checked. See scrape diagnostics."
+        ? "Email results processed. See diagnostics."
+        : "No public emails found. See scrape diagnostics."
     });
 
   } catch (error) {
