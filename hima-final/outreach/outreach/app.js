@@ -4,6 +4,7 @@
 const DAILY_LIMIT = 30;
 
 let leads = [];
+let selectedLeadIds = new Set();
 let sentToday = 0;
 
 const elements = {
@@ -18,7 +19,11 @@ const elements = {
   previewButton: document.getElementById("previewButton"),
   emailPreview: document.getElementById("emailPreview"),
   emailSubject: document.getElementById("emailSubject"),
-  emailTemplate: document.getElementById("emailTemplate")
+  emailTemplate: document.getElementById("emailTemplate"),
+  selectAllLeads: document.getElementById("selectAllLeads"),
+  selectedLeadCount: document.getElementById("selectedLeadCount"),
+  sendSelectedButton: document.getElementById("sendSelectedButton"),
+  sendMessage: document.getElementById("sendMessage")
 };
 
 function normalize(value) {
@@ -101,10 +106,21 @@ function isValidEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
+function isEligible(lead) {
+  return lead.id !== undefined &&
+    lead.id !== null &&
+    isValidEmail(lead.email) &&
+    String(lead.status || "").toLowerCase() === "ready";
+}
+
 function updateStats() {
   const ready = leads.filter(lead =>
     isValidEmail(lead.email) &&
-    lead.status === "Ready"
+    String(lead.status || "").toLowerCase() === "ready"
+  ).length;
+
+  sentToday = leads.filter(lead =>
+    String(lead.status || "").toLowerCase() === "sent"
   ).length;
 
   elements.totalLeads.textContent = leads.length;
@@ -112,6 +128,52 @@ function updateStats() {
   elements.sentLeads.textContent = sentToday;
   elements.remainingLeads.textContent =
     Math.max(0, DAILY_LIMIT - sentToday);
+
+  updateSelectionCount();
+}
+
+function updateSelectionCount() {
+  const validSelected = leads.filter(lead =>
+    selectedLeadIds.has(String(lead.id)) && isEligible(lead)
+  );
+
+  selectedLeadIds = new Set(
+    validSelected.map(lead => String(lead.id))
+  );
+
+  if (elements.selectedLeadCount) {
+    elements.selectedLeadCount.textContent =
+      validSelected.length + " leads selected";
+  }
+
+  if (elements.selectAllLeads) {
+    const search = normalize(elements.leadSearch.value);
+
+    const visibleEligible = leads.filter(lead => {
+      const searchable = [
+        lead.name,
+        lead.email,
+        lead.city,
+        lead.state,
+        lead.specialty
+      ].join(" ");
+
+      return isEligible(lead) &&
+        normalize(searchable).includes(search);
+    });
+
+    const selectedVisible = visibleEligible.filter(lead =>
+      selectedLeadIds.has(String(lead.id))
+    ).length;
+
+    elements.selectAllLeads.checked =
+      visibleEligible.length > 0 &&
+      selectedVisible === visibleEligible.length;
+
+    elements.selectAllLeads.indeterminate =
+      selectedVisible > 0 &&
+      selectedVisible < visibleEligible.length;
+  }
 }
 
 function renderLeads() {
@@ -132,23 +194,44 @@ function renderLeads() {
   if (!filtered.length) {
     elements.leadTable.innerHTML = `
       <tr>
-        <td colspan="5" class="empty-state">
+        <td colspan="6" class="empty-state">
           No matching leads found.
         </td>
       </tr>
     `;
+    updateSelectionCount();
     return;
   }
 
-  elements.leadTable.innerHTML = filtered.map(lead => `
-    <tr>
-      <td>${escapeHTML(lead.name || "Not provided")}</td>
-      <td>${escapeHTML(lead.email)}</td>
-      <td>${escapeHTML([lead.city, lead.state].filter(Boolean).join(", ") || "Not provided")}</td>
-      <td>${escapeHTML(lead.specialty || "Not provided")}</td>
-      <td>${escapeHTML(lead.status)}</td>
-    </tr>
-  `).join("");
+  elements.leadTable.innerHTML = filtered.map(lead => {
+    const eligible = isEligible(lead);
+    const checked = selectedLeadIds.has(String(lead.id));
+
+    return `
+      <tr>
+        <td>
+          <input
+            type="checkbox"
+            class="lead-select"
+            data-id="${escapeHTML(lead.id)}"
+            ${checked ? "checked" : ""}
+            ${eligible ? "" : "disabled"}
+            aria-label="Select ${escapeHTML(lead.name || lead.email)}"
+            style="width:auto"
+          >
+        </td>
+        <td>${escapeHTML(lead.name || "Not provided")}</td>
+        <td>${escapeHTML(lead.email)}</td>
+        <td>${escapeHTML(
+          [lead.city, lead.state].filter(Boolean).join(", ") || "Not provided"
+        )}</td>
+        <td>${escapeHTML(lead.specialty || "Not provided")}</td>
+        <td>${escapeHTML(lead.status || "Unknown")}</td>
+      </tr>
+    `;
+  }).join("");
+
+  updateSelectionCount();
 }
 
 function showMessage(message, success = false) {
@@ -157,7 +240,7 @@ function showMessage(message, success = false) {
     success ? "#16845b" : "#b42318";
 }
 
-// LOAD LEADS FROM NEON DATABASE
+// LOAD LEADS FROM DATABASE
 async function loadLeadsFromDatabase() {
   const response = await fetch("/api/outreach-leads", {
     method: "GET",
@@ -179,7 +262,7 @@ async function loadLeadsFromDatabase() {
   return leads;
 }
 
-// IMPORT CSV AND SAVE TO NEON
+// IMPORT CSV AND SAVE TO DATABASE
 elements.csvFile.addEventListener("change", async event => {
   const file = event.target.files[0];
 
@@ -243,9 +326,7 @@ elements.csvFile.addEventListener("change", async event => {
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({
-        leads: newLeads
-      })
+      body: JSON.stringify({ leads: newLeads })
     });
 
     const result = await response.json();
@@ -258,10 +339,9 @@ elements.csvFile.addEventListener("change", async event => {
 
     const added = Number(result.added || 0);
     const databaseDuplicates = Number(result.duplicates || 0);
-    const totalDuplicates = localDuplicates + databaseDuplicates;
 
     showMessage(
-      `Saved: ${added} | Duplicates skipped: ${totalDuplicates} | Invalid: ${invalid}`,
+      `Saved: ${added} | Duplicates skipped: ${localDuplicates + databaseDuplicates} | Invalid: ${invalid}`,
       true
     );
 
@@ -273,6 +353,53 @@ elements.csvFile.addEventListener("change", async event => {
 });
 
 elements.leadSearch.addEventListener("input", renderLeads);
+
+// SELECT INDIVIDUAL LEADS
+elements.leadTable.addEventListener("change", event => {
+  if (!event.target.classList.contains("lead-select")) return;
+
+  const id = event.target.dataset.id;
+
+  if (event.target.checked) {
+    selectedLeadIds.add(String(id));
+  } else {
+    selectedLeadIds.delete(String(id));
+  }
+
+  updateSelectionCount();
+});
+
+// SELECT ALL VISIBLE ELIGIBLE LEADS
+if (elements.selectAllLeads) {
+  elements.selectAllLeads.addEventListener("change", event => {
+    const search = normalize(elements.leadSearch.value);
+
+    const visibleEligible = leads.filter(lead => {
+      const searchable = [
+        lead.name,
+        lead.email,
+        lead.city,
+        lead.state,
+        lead.specialty
+      ].join(" ");
+
+      return isEligible(lead) &&
+        normalize(searchable).includes(search);
+    });
+
+    visibleEligible.forEach(lead => {
+      const id = String(lead.id);
+
+      if (event.target.checked) {
+        selectedLeadIds.add(id);
+      } else {
+        selectedLeadIds.delete(id);
+      }
+    });
+
+    renderLeads();
+  });
+}
 
 // AUTOMATIC LEAD GENERATOR
 const findButton = document.getElementById("findLeadsButton");
@@ -353,12 +480,10 @@ elements.previewButton.addEventListener("click", () => {
     specialty: "Family Medicine"
   };
 
-  const personalizedSubject = replaceVariables(subject, sampleLead);
-  const personalizedMessage = replaceVariables(template, sampleLead);
-
   elements.emailPreview.hidden = false;
   elements.emailPreview.textContent =
-    `SUBJECT: ${personalizedSubject}\n\n${personalizedMessage}`;
+    `SUBJECT: ${replaceVariables(subject, sampleLead)}\n\n` +
+    replaceVariables(template, sampleLead);
 });
 
 function replaceVariables(text, lead) {
@@ -367,6 +492,100 @@ function replaceVariables(text, lead) {
     .replace(/\{\{\s*city\s*\}\}/gi, lead.city || "")
     .replace(/\{\{\s*state\s*\}\}/gi, lead.state || "")
     .replace(/\{\{\s*specialty\s*\}\}/gi, lead.specialty || "");
+}
+
+// SEND SELECTED EMAILS
+if (elements.sendSelectedButton) {
+  elements.sendSelectedButton.addEventListener("click", async () => {
+    const selected = leads.filter(lead =>
+      selectedLeadIds.has(String(lead.id)) && isEligible(lead)
+    );
+
+    const subject = elements.emailSubject.value.trim();
+    const message = elements.emailTemplate.value.trim();
+
+    if (!selected.length) {
+      elements.sendMessage.textContent =
+        "Please select at least one eligible lead.";
+      return;
+    }
+
+    if (!subject || !message) {
+      elements.sendMessage.textContent =
+        "Please enter an email subject and message.";
+      return;
+    }
+
+    if (selected.length > DAILY_LIMIT) {
+      elements.sendMessage.textContent =
+        "You can select a maximum of 30 leads per campaign.";
+      return;
+    }
+
+    const remaining = Math.max(0, DAILY_LIMIT - sentToday);
+
+    if (selected.length > remaining) {
+      elements.sendMessage.textContent =
+        `Only ${remaining} daily sending slots remain. Please select fewer leads.`;
+      return;
+    }
+
+    const confirmed = window.confirm(
+      `You are about to send ${selected.length} emails from info@himatechrcm.com. Continue?`
+    );
+
+    if (!confirmed) return;
+
+    elements.sendSelectedButton.disabled = true;
+    elements.sendSelectedButton.textContent = "Sending...";
+    elements.sendMessage.textContent =
+      "Submitting selected emails. Please wait...";
+
+    try {
+      const ids = selected.map(lead => Number(lead.id));
+
+      if (ids.some(id => !Number.isSafeInteger(id) || id <= 0)) {
+        throw new Error("One or more lead IDs are invalid. Refresh the dashboard.");
+      }
+
+      const response = await fetch("/api/outreach-send", {
+        method: "POST",
+        credentials: "same-origin",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          ids,
+          subject,
+          message
+        })
+      });
+
+      const result = await response.json();
+
+      if (!response.ok || !result.success) {
+        throw new Error(result.message || "Email sending failed.");
+      }
+
+      const accepted = Number(result.accepted || 0);
+      const failed = Number(result.failed || 0);
+
+      elements.sendMessage.textContent =
+        `SMTP accepted: ${accepted} | Failed: ${failed}. Acceptance does not guarantee inbox delivery.`;
+
+      selectedLeadIds.clear();
+
+      await loadLeadsFromDatabase();
+
+    } catch (error) {
+      elements.sendMessage.textContent =
+        error.message || "Unable to send selected emails.";
+    } finally {
+      elements.sendSelectedButton.disabled = false;
+      elements.sendSelectedButton.textContent = "Send Selected Emails";
+      updateSelectionCount();
+    }
+  });
 }
 
 // INITIAL DISPLAY
@@ -464,9 +683,7 @@ async function checkAdminSession() {
       try {
         await loadLeadsFromDatabase();
       } catch (error) {
-        showMessage(
-          error.message || "Unable to load database leads."
-        );
+        showMessage(error.message || "Unable to load database leads.");
       }
 
       return;
