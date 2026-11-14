@@ -17,17 +17,18 @@ function hasValidSession(req) {
   const secret = process.env.OUTREACH_SESSION_SECRET;
   if (!secret) return false;
 
-  const cookie = (req.headers.cookie || "")
+  const item = (req.headers.cookie || "")
     .split(";")
     .map(v => v.trim())
     .find(v => v.startsWith(COOKIE_NAME + "="));
 
-  if (!cookie) return false;
+  if (!item) return false;
 
-  const parts = cookie.slice(COOKIE_NAME.length + 1).split(".");
+  const parts = item.slice(COOKIE_NAME.length + 1).split(".");
   if (parts.length !== 2) return false;
 
   const [expires, signature] = parts;
+
   if (!/^\d+$/.test(expires)) return false;
   if (Number(expires) < Math.floor(Date.now() / 1000)) return false;
 
@@ -79,13 +80,103 @@ async function ensureTable(sql) {
   `;
 }
 
-async function getPracticeEmail(website) {
-  if (!website) return "";
+function extractJsonArray(text) {
+  const start = text.indexOf("[");
+  const end = text.lastIndexOf("]");
 
+  if (start === -1 || end <= start) return [];
+
+  try {
+    const result = JSON.parse(text.slice(start, end + 1));
+    return Array.isArray(result) ? result : [];
+  } catch {
+    return [];
+  }
+}
+
+// GOOGLE SEARCH: FIND REAL CLINICS
+async function searchClinics(state, specialty) {
+  const key = process.env.GEMINI_API_KEY;
+
+  if (!key) {
+    throw new Error("GEMINI_API_KEY is missing in Vercel.");
+  }
+
+  const prompt = `
+Find real independent healthcare clinics and medical practices in ${state}, USA.
+
+Specialty: ${specialty || "Family Medicine, Primary Care, Internal Medicine"}.
+
+Use Google Search to discover official practice websites.
+
+Return ONLY a JSON array with these fields:
+name, website, city, state, phone, specialty.
+
+Rules:
+- Only real healthcare practices.
+- Only official clinic websites.
+- Do not invent names, websites or contact details.
+- Do not return directory websites as clinic websites.
+- Do not return email addresses.
+- State must be ${state}.
+- Return up to 15 relevant practices.
+- If uncertain, leave the practice out.
+`;
+
+  const response = await fetch(
+    "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=" +
+      encodeURIComponent(key),
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        contents: [
+          {
+            role: "user",
+            parts: [{ text: prompt }]
+          }
+        ],
+        tools: [
+          {
+            google_search: {}
+          }
+        ],
+        generationConfig: {
+          temperature: 0.1,
+          maxOutputTokens: 4096
+        }
+      }),
+      signal: AbortSignal.timeout(45000)
+    }
+  );
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    console.error("Google Search error:", data);
+    throw new Error(
+      data?.error?.message || "Google Search failed."
+    );
+  }
+
+  const text = (data.candidates?.[0]?.content?.parts || [])
+    .map(part => part.text || "")
+    .join("\n");
+
+  return extractJsonArray(text).slice(0, 20);
+}
+
+// EXTRACT PUBLIC EMAIL FROM OFFICIAL CLINIC WEBSITE
+async function findPublicEmail(website) {
   let base;
+
   try {
     base = new URL(
-      website.startsWith("http") ? website : `https://${website}`
+      /^https?:\/\//i.test(website)
+        ? website
+        : "https://" + website
     );
   } catch {
     return "";
@@ -93,17 +184,33 @@ async function getPracticeEmail(website) {
 
   if (!["http:", "https:"].includes(base.protocol)) return "";
 
-  const pages = [
-    base.href,
-    new URL("/contact", base).href,
-    new URL("/contact-us", base).href,
-    new URL("/about", base).href
+  const hostname = base.hostname.toLowerCase();
+
+  if (
+    hostname === "localhost" ||
+    hostname.endsWith(".localhost") ||
+    hostname.endsWith(".local") ||
+    !hostname.includes(".")
+  ) {
+    return "";
+  }
+
+  const paths = [
+    "/",
+    "/contact",
+    "/contact-us",
+    "/about",
+    "/about-us"
   ];
 
-  for (const page of pages) {
+  for (const path of paths) {
     try {
-      const response = await fetch(page, {
-        signal: AbortSignal.timeout(7000),
+      const url = new URL(path, base);
+
+      if (url.hostname !== base.hostname) continue;
+
+      const response = await fetch(url, {
+        signal: AbortSignal.timeout(6000),
         headers: {
           "User-Agent": "Mozilla/5.0 (compatible; HimaTechRCM/1.0)"
         }
@@ -111,7 +218,7 @@ async function getPracticeEmail(website) {
 
       if (!response.ok) continue;
 
-      const html = (await response.text()).slice(0, 500000);
+      const html = (await response.text()).slice(0, 350000);
 
       const mailto = html.match(
         /mailto:([A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,})/i
@@ -121,18 +228,17 @@ async function getPracticeEmail(website) {
         /[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/ig
       );
 
-      const candidates = [
+      const emails = [
         ...(mailto ? [mailto[1]] : []),
         ...(visible || [])
       ];
 
-      for (const candidate of candidates) {
-        const email = candidate.toLowerCase().trim();
+      for (const raw of emails) {
+        const email = raw.split("?")[0].toLowerCase().trim();
 
         if (
           validEmail(email) &&
-          !/\.(png|jpg|jpeg|gif|webp|svg)$/i.test(email) &&
-          !/(example\.com|email\.com|domain\.com)$/i.test(email)
+          !/(example\.com|email\.com|domain\.com|wixpress\.com)$/i.test(email)
         ) {
           return email;
         }
@@ -145,38 +251,7 @@ async function getPracticeEmail(website) {
   return "";
 }
 
-async function getProviders(state, specialty, limit) {
-  const url = new URL("https://npiregistry.cms.hhs.gov/api/");
-  url.searchParams.set("version", "2.1");
-  url.searchParams.set("enumeration_type", "NPI-2");
-  url.searchParams.set("state", state);
-  url.searchParams.set("limit", String(limit));
-  url.searchParams.set("skip", "0");
-
-  const response = await fetch(url, {
-    signal: AbortSignal.timeout(15000),
-    headers: { "User-Agent": "HimaTechRCM/1.0" }
-  });
-
-  if (!response.ok) {
-    throw new Error(`NPI Registry returned HTTP ${response.status}`);
-  }
-
-  const data = await response.json();
-  const results = data.results || [];
-
-  return results.filter(item => {
-    const taxonomies = item.taxonomies || [];
-    if (!specialty) return true;
-
-    return taxonomies.some(t =>
-      String(t.desc || "").toLowerCase().includes(
-        specialty.toLowerCase()
-      )
-    );
-  });
-}
-
+// MAIN API
 export default async function handler(req, res) {
   res.setHeader("Cache-Control", "no-store");
 
@@ -202,11 +277,24 @@ export default async function handler(req, res) {
   }
 
   try {
-    const body = req.body || {};
-    const state = clean(body.state, 2).toUpperCase();
-    const specialty = clean(body.specialty, 100);
+    let body = req.body || {};
+
+    if (typeof body === "string") {
+      try {
+        body = JSON.parse(body);
+      } catch {
+        body = {};
+      }
+    }
+
+    const state = clean(body.state || "TX", 2).toUpperCase();
+    const specialty = clean(
+      body.specialty || "Primary Care",
+      100
+    );
+
     const limit = Math.min(
-      Math.max(Number(body.limit) || 30, 1),
+      Math.max(Number(body.limit) || 10, 1),
       30
     );
 
@@ -218,60 +306,71 @@ export default async function handler(req, res) {
     }
 
     const sql = neon(process.env.DATABASE_URL);
+
     await ensureTable(sql);
 
-    const providers = await getProviders(state, specialty, 200);
+    // Search Google for clinic websites
+    const clinics = await searchClinics(state, specialty);
 
-    let candidates = providers.slice(0, 60);
     const discovered = [];
+    let websitesChecked = 0;
 
-    for (const provider of candidates) {
+    // Visit official websites and look for public emails
+    for (const clinic of clinics) {
       if (discovered.length >= limit) break;
 
-      const basic = provider.basic || {};
-      const address = (provider.addresses || []).find(
-        a => a.address_purpose === "LOCATION"
-      ) || (provider.addresses || [])[0] || {};
+      const website = clean(clinic.website, 300);
 
-      const website = "";
-      const email = await getPracticeEmail(website);
+      if (!website) continue;
 
-      if (!email || !validEmail(email)) continue;
+      websitesChecked++;
 
-      const name =
-        basic.organization_name ||
-        [basic.first_name, basic.last_name].filter(Boolean).join(" ") ||
-        "";
+      const email = await findPublicEmail(website);
 
-      const npi = clean(provider.number, 10);
-      if (!npi) continue;
+      if (!email) continue;
 
       discovered.push({
-        name: clean(name),
-        email: email.toLowerCase(),
-        city: clean(address.city),
-        state: clean(address.state || state, 2),
+        name: clean(clinic.name) || "Healthcare Practice",
+        email,
+        city: clean(clinic.city),
+        state,
         website,
-        phone: clean(address.telephone_number, 60),
-        npi,
-        specialty: clean(
-          (provider.taxonomies || []).map(t => t.desc).filter(Boolean)[0] ||
-          specialty
-        ),
+        phone: clean(clinic.phone, 60),
+        npi: "",
+        specialty: clean(clinic.specialty || specialty),
         status: "Needs Review"
       });
     }
 
     let inserted = [];
 
-    if (discovered.length) {
+    if (discovered.length > 0) {
       inserted = await sql`
         INSERT INTO outreach_leads
-          (name, email, city, state, website, phone, npi, specialty, status)
+          (
+            name,
+            email,
+            city,
+            state,
+            website,
+            phone,
+            npi,
+            specialty,
+            status
+          )
         SELECT
-          item.name, item.email, item.city, item.state,
-          item.website, item.phone, item.npi, item.specialty, item.status
-        FROM jsonb_to_recordset(${JSON.stringify(discovered)}::jsonb) AS item(
+          item.name,
+          item.email,
+          item.city,
+          item.state,
+          item.website,
+          item.phone,
+          item.npi,
+          item.specialty,
+          item.status
+        FROM jsonb_to_recordset(
+          ${JSON.stringify(discovered)}::jsonb
+        ) AS item(
           name text,
           email text,
           city text,
@@ -289,13 +388,14 @@ export default async function handler(req, res) {
 
     return res.status(200).json({
       success: true,
-      checked: providers.length,
-      emailsFound: discovered.length,
+      clinicsFound: clinics.length,
+      websitesChecked,
+      publicEmailsFound: discovered.length,
       added: inserted.length,
       duplicates: discovered.length - inserted.length,
       message: discovered.length
-        ? "Email leads saved."
-        : "No public email addresses found. No leads were saved."
+        ? "Public business emails found and saved. Please review the leads."
+        : "Search completed, but no public clinic emails were verified."
     });
 
   } catch (error) {
@@ -303,7 +403,7 @@ export default async function handler(req, res) {
 
     return res.status(500).json({
       success: false,
-      message: "Lead generation failed. Check Vercel function logs."
+      message: error.message || "Lead generation failed."
     });
   }
 }
