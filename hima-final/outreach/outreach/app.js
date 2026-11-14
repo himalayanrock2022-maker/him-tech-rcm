@@ -274,6 +274,54 @@ elements.csvFile.addEventListener("change", async event => {
 
 elements.leadSearch.addEventListener("input", renderLeads);
 
+const findButton = document.getElementById("findLeadsButton");
+
+if (findButton) {
+  findButton.addEventListener("click", async () => {
+    const message = document.getElementById("findLeadsMessage");
+
+    findButton.disabled = true;
+    findButton.textContent = "Searching...";
+    message.textContent = "Google is searching for clinics and public emails...";
+
+    try {
+      const response = await fetch("/api/outreach-generate-leads", {
+        method: "POST",
+        credentials: "same-origin",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          state: document.getElementById("leadState").value,
+          specialty: document.getElementById("leadSpecialty").value,
+          limit: 30
+        })
+      });
+
+      const result = await response.json();
+
+      if (!response.ok || !result.success) {
+        throw new Error(result.message || "Lead search failed.");
+      }
+
+      await loadLeadsFromDatabase();
+
+      message.textContent =
+        "Clinics found: " + result.clinicsFound +
+        " | Websites checked: " + result.websitesChecked +
+        " | Emails found: " + result.publicEmailsFound +
+        " | New leads saved: " + result.added;
+
+    } catch (error) {
+      message.textContent = error.message || "Search failed.";
+    } finally {
+      findButton.disabled = false;
+      findButton.textContent = "Find Leads";
+    }
+  });
+}
+
+
 // EMAIL PREVIEW
 elements.previewButton.addEventListener("click", () => {
   const subject = elements.emailSubject.value.trim();
