@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hima Tech RCM - Email Test</title>
+<style>
+body{font-family:Arial;background:#f5f5f5;padding:25px}
+.box{max-width:420px;margin:50px auto;background:white;padding:25px;border-radius:12px}
+h2{color:#7D1A36}
+input,button{width:100%;padding:13px;margin-top:12px;box-sizing:border-box}
+button{background:#7D1A36;color:white;border:0;border-radius:6px;font-weight:bold}
+#result{margin-top:18px;overflow-wrap:anywhere}
+</style>
+</head>
+<body>
+<div class="box">
+<h2>Hima Tech RCM</h2>
+<h3>Test Email Sending</h3>
+<p>This will send one test email to your registered test address.</p>
+<input id="key" type="password" placeholder="Enter Outreach API Key">
+<button id="send" onclick="sendTest()">Send Test Email</button>
+<div id="result"></div>
+</div>
+<script>
+async function sendTest(){
+ const key=document.getElementById("key").value.trim();
+ const result=document.getElementById("result");
+ const button=document.getElementById("send");
+ if(!key){result.textContent="Please enter your API key.";return;}
+ button.disabled=true;
+ button.textContent="Sending...";
+ result.textContent="Please wait...";
+ try{
+  const response=await fetch("/api/send-test-email",{
+   method:"POST",
+   headers:{
+    "Authorization":"Bearer "+key,
+    "Content-Type":"application/json"
+   }
+  });
+  const data=await response.json();
+  result.textContent=data.message||data.error||"Request completed. Status: "+response.status;
+ }catch(error){
+  result.textContent="Error: "+error.message;
+ }finally{
+  document.getElementById("key").value="";
+  button.disabled=false;
+  button.textContent="Send Test Email";
+ }
+}
+</script>
+</body>
+</html>
