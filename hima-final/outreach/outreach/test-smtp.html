@@ -1,0 +1,77 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hima Tech RCM - SMTP Test</title>
+<style>
+body{font-family:Arial,sans-serif;background:#f5f5f5;margin:0;padding:25px}
+.card{max-width:480px;margin:50px auto;background:white;padding:28px;border-radius:12px;box-shadow:0 4px 20px #0001}
+h2{color:#7d1a36;margin-top:0}
+p{color:#555;line-height:1.5}
+input{box-sizing:border-box;width:100%;padding:13px;margin:12px 0;border:1px solid #ccc;border-radius:7px}
+button{width:100%;padding:14px;background:#7d1a36;color:white;border:0;border-radius:7px;font-weight:bold;cursor:pointer}
+button:disabled{opacity:.6;cursor:wait}
+#result{margin-top:18px;padding:12px;border-radius:7px;white-space:pre-wrap;overflow-wrap:anywhere}
+</style>
+</head>
+<body>
+<div class="card">
+<h2>Hima Tech RCM</h2>
+<h3>SMTP Connection Test</h3>
+<p>Enter your Outreach API Key to test the Spacemail SMTP connection. This test does not send an email.</p>
+
+<input id="apiKey" type="password" placeholder="Enter Outreach API Key" autocomplete="off">
+<button id="testBtn" onclick="testSMTP()">Test SMTP Connection</button>
+<div id="result"></div>
+</div>
+
+<script>
+async function testSMTP(){
+  const key = document.getElementById('apiKey').value.trim();
+  const btn = document.getElementById('testBtn');
+  const result = document.getElementById('result');
+
+  if(!key){
+    result.textContent = 'Please enter your API key.';
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Testing connection...';
+  result.textContent = '';
+
+  try{
+    const response = await fetch('/api/smtp-test',{
+      method:'POST',
+      headers:{
+        'Authorization':'Bearer '+key,
+        'Content-Type':'application/json'
+      }
+    });
+
+    const data = await response.json();
+
+    if(response.ok && data.success){
+      result.textContent = 'SUCCESS: SMTP connection and login verified. No email was sent.';
+      result.style.background = '#e7f6ec';
+      result.style.color = '#176b35';
+    }else{
+      result.textContent = 'FAILED: '+(data.error || 'SMTP test failed.');
+      result.style.background = '#fdeaea';
+      result.style.color = '#a02020';
+    }
+  }catch(error){
+    result.textContent = 'Connection test could not complete. Please check deployment and try again.';
+    result.style.background = '#fdeaea';
+    result.style.color = '#a02020';
+  }finally{
+    document.getElementById('apiKey').value = '';
+    btn.disabled = false;
+    btn.textContent = 'Test SMTP Connection';
+  }
+}
+</script>
+</body>
+</html>
