@@ -43,6 +43,19 @@ function clean(value, max = 250) {
   return String(value || "").trim().slice(0, max);
 }
 
+function decodeHtml(value) {
+  return String(value || "")
+    .replace(/&amp;/g, "&")
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&#x27;/gi, "'")
+    .replace(/&nbsp;/g, " ")
+    .replace(/<[^>]*>/g, "")
+    .trim();
+}
+
 function validEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
@@ -80,95 +93,107 @@ async function ensureTable(sql) {
   `;
 }
 
-function extractJsonArray(text) {
-  const start = text.indexOf("[");
-  const end = text.lastIndexOf("]");
-
-  if (start === -1 || end <= start) return [];
-
-  try {
-    const result = JSON.parse(text.slice(start, end + 1));
-    return Array.isArray(result) ? result : [];
-  } catch {
-    return [];
-  }
-}
-
-// GOOGLE SEARCH: FIND REAL CLINICS
+// FREE DUCKDUCKGO SEARCH
 async function searchClinics(state, specialty) {
-  const key = process.env.GEMINI_API_KEY;
+  const searches = [
+    `${specialty} clinics in ${state} USA official website`,
+    `${specialty} medical practice ${state} contact`,
+    `independent family medicine primary care doctors ${state}`
+  ];
 
-  if (!key) {
-    throw new Error("GEMINI_API_KEY is missing in Vercel.");
-  }
+  const results = new Map();
 
-  const prompt = `
-Find real independent healthcare clinics and medical practices in ${state}, USA.
+  for (const query of searches) {
+    const searchUrl =
+      "https://html.duckduckgo.com/html/?q=" +
+      encodeURIComponent(query);
 
-Specialty: ${specialty || "Family Medicine, Primary Care, Internal Medicine"}.
-
-Use Google Search to discover official practice websites.
-
-Return ONLY a JSON array with these fields:
-name, website, city, state, phone, specialty.
-
-Rules:
-- Only real healthcare practices.
-- Only official clinic websites.
-- Do not invent names, websites or contact details.
-- Do not return directory websites as clinic websites.
-- Do not return email addresses.
-- State must be ${state}.
-- Return up to 15 relevant practices.
-- If uncertain, leave the practice out.
-`;
-
-  const response = await fetch(
-    "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=" +
-      encodeURIComponent(key),
-    {
-      method: "POST",
+    const response = await fetch(searchUrl, {
       headers: {
-        "Content-Type": "application/json"
+        "User-Agent": "Mozilla/5.0 (compatible; HimaTechRCM/1.0)",
+        "Accept": "text/html"
       },
-      body: JSON.stringify({
-        contents: [
-          {
-            role: "user",
-            parts: [{ text: prompt }]
-          }
-        ],
-        tools: [
-          {
-            google_search: {}
-          }
-        ],
-        generationConfig: {
-          temperature: 0.1,
-          maxOutputTokens: 4096
-        }
-      }),
-      signal: AbortSignal.timeout(45000)
+      signal: AbortSignal.timeout(10000)
+    });
+
+    if (!response.ok) {
+      throw new Error(
+        "Free search service returned HTTP " + response.status +
+        ". Please try again later."
+      );
     }
-  );
 
-  const data = await response.json();
+    const html = await response.text();
 
-  if (!response.ok) {
-    console.error("Google Search error:", data);
-    throw new Error(
-      data?.error?.message || "Google Search failed."
-    );
+    const regex =
+      /<a\b[^>]*class="[^"]*result__a[^"]*"[^>]*href="([^"]+)"[^>]*>([\s\S]*?)<\/a>/gi;
+
+    let match;
+
+    while ((match = regex.exec(html)) !== null) {
+      let link = match[1];
+
+      try {
+        const parsed = new URL(link, "https://html.duckduckgo.com");
+
+        const redirected = parsed.searchParams.get("uddg");
+        if (redirected) link = decodeURIComponent(redirected);
+
+        const websiteUrl = new URL(link);
+
+        if (!["http:", "https:"].includes(websiteUrl.protocol)) continue;
+
+        const host = websiteUrl.hostname.toLowerCase();
+
+        const blocked = [
+          "facebook.com",
+          "instagram.com",
+          "linkedin.com",
+          "twitter.com",
+          "x.com",
+          "yelp.com",
+          "healthgrades.com",
+          "webmd.com",
+          "mapquest.com",
+          "yellowpages.com",
+          "doximity.com",
+          "vitals.com",
+          "zocdoc.com",
+          "duckduckgo.com"
+        ];
+
+        if (
+          blocked.some(domain =>
+            host === domain || host.endsWith("." + domain)
+          )
+        ) continue;
+
+        const title = decodeHtml(match[2]);
+
+        if (!title || !host.includes(".")) continue;
+
+        if (!results.has(host)) {
+          results.set(host, {
+            name: clean(title.replace(/\s+/g, " "), 200),
+            website: websiteUrl.origin,
+            city: "",
+            state,
+            phone: "",
+            specialty
+          });
+        }
+      } catch {
+        continue;
+      }
+    }
+
+    if (results.size >= 20) break;
   }
 
-  const text = (data.candidates?.[0]?.content?.parts || [])
-    .map(part => part.text || "")
-    .join("\n");
-
-  return extractJsonArray(text).slice(0, 20);
+  return Array.from(results.values()).slice(0, 20);
 }
 
-// EXTRACT PUBLIC EMAIL FROM OFFICIAL CLINIC WEBSITE
+// EXTRACT PUBLIC EMAIL FROM OFFICIAL WEBSITE
 async function findPublicEmail(website) {
   let base;
 
@@ -183,17 +208,6 @@ async function findPublicEmail(website) {
   }
 
   if (!["http:", "https:"].includes(base.protocol)) return "";
-
-  const hostname = base.hostname.toLowerCase();
-
-  if (
-    hostname === "localhost" ||
-    hostname.endsWith(".localhost") ||
-    hostname.endsWith(".local") ||
-    !hostname.includes(".")
-  ) {
-    return "";
-  }
 
   const paths = [
     "/",
@@ -210,7 +224,7 @@ async function findPublicEmail(website) {
       if (url.hostname !== base.hostname) continue;
 
       const response = await fetch(url, {
-        signal: AbortSignal.timeout(6000),
+        signal: AbortSignal.timeout(5000),
         headers: {
           "User-Agent": "Mozilla/5.0 (compatible; HimaTechRCM/1.0)"
         }
@@ -218,7 +232,7 @@ async function findPublicEmail(website) {
 
       if (!response.ok) continue;
 
-      const html = (await response.text()).slice(0, 350000);
+      const html = (await response.text()).slice(0, 250000);
 
       const mailto = html.match(
         /mailto:([A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,})/i
@@ -288,10 +302,7 @@ export default async function handler(req, res) {
     }
 
     const state = clean(body.state || "TX", 2).toUpperCase();
-    const specialty = clean(
-      body.specialty || "Primary Care",
-      100
-    );
+    const specialty = clean(body.specialty || "Primary Care", 100);
 
     const limit = Math.min(
       Math.max(Number(body.limit) || 10, 1),
@@ -317,25 +328,21 @@ export default async function handler(req, res) {
     for (const clinic of clinics) {
       if (discovered.length >= limit) break;
 
-      const website = clean(clinic.website, 300);
-
-      if (!website) continue;
-
       websitesChecked++;
 
-      const email = await findPublicEmail(website);
+      const email = await findPublicEmail(clinic.website);
 
       if (!email) continue;
 
       discovered.push({
-        name: clean(clinic.name) || "Healthcare Practice",
+        name: clinic.name || "Healthcare Practice",
         email,
-        city: clean(clinic.city),
+        city: clinic.city,
         state,
-        website,
-        phone: clean(clinic.phone, 60),
+        website: clinic.website,
+        phone: clinic.phone,
         npi: "",
-        specialty: clean(clinic.specialty || specialty),
+        specialty,
         status: "Needs Review"
       });
     }
@@ -346,15 +353,8 @@ export default async function handler(req, res) {
       inserted = await sql`
         INSERT INTO outreach_leads
           (
-            name,
-            email,
-            city,
-            state,
-            website,
-            phone,
-            npi,
-            specialty,
-            status
+            name, email, city, state, website,
+            phone, npi, specialty, status
           )
         SELECT
           item.name,
@@ -386,6 +386,7 @@ export default async function handler(req, res) {
 
     return res.status(200).json({
       success: true,
+      searchProvider: "DuckDuckGo",
       clinicsFound: clinics.length,
       websitesChecked,
       publicEmailsFound: discovered.length,
