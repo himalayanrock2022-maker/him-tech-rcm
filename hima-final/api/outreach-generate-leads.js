@@ -8,18 +8,18 @@ export const maxDuration = 60;
 const COOKIE_NAME = "hima_outreach_session";
 const STATES = ["TX", "FL", "TN"];
 
-const ALLOWED_MAILBOXES = new Set([
-  "info", "office", "contact", "appointments",
-  "frontdesk", "admin", "billing", "reception",
-  "hello", "support", "referrals", "scheduling"
-]);
-
 const BLOCKED_HOSTS = [
   "facebook.com", "instagram.com", "linkedin.com",
   "x.com", "twitter.com", "yelp.com",
   "healthgrades.com", "webmd.com", "yellowpages.com",
   "doximity.com", "vitals.com", "zocdoc.com"
 ];
+
+const FREE_EMAIL_DOMAINS = new Set([
+  "gmail.com", "yahoo.com", "outlook.com",
+  "hotmail.com", "aol.com", "icloud.com",
+  "live.com", "comcast.net", "att.net"
+]);
 
 function safeEqual(a, b) {
   const x = Buffer.from(String(a));
@@ -79,20 +79,37 @@ function getWebsite(value) {
   }
 }
 
-function extractBusinessEmail(markdown, host) {
-  const matches = String(markdown || "")
-    .match(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/ig) || [];
+function extractBusinessEmail(content, host) {
+  const text = String(content || "")
+    .replace(/\s*\[at\]\s*/ig, "@")
+    .replace(/\s*\(at\)\s*/ig, "@")
+    .replace(/\s*\[dot\]\s*/ig, ".")
+    .replace(/\s*\(dot\)\s*/ig, ".");
+
+  const matches = text.match(
+    /[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/ig
+  ) || [];
 
   for (const raw of matches) {
     const email = raw.toLowerCase().replace(/[),.;:]+$/, "");
     const [mailbox, domain] = email.split("@");
 
     if (!mailbox || !domain) continue;
-    if (!ALLOWED_MAILBOXES.has(mailbox)) continue;
-    if (domain !== host && !host.endsWith("." + domain)) continue;
-    if (/example|domain\.com|wixpress|sentry/i.test(email)) continue;
+    if (mailbox.length > 64) continue;
 
-    return email;
+    if (/noreply|no-reply|example|wixpress|sentry|cloudflare/i.test(email)) {
+      continue;
+    }
+
+    // Publicly listed free email addresses
+    if (FREE_EMAIL_DOMAINS.has(domain)) {
+      return email;
+    }
+
+    // Official clinic domain
+    if (domain === host || domain.endsWith("." + host)) {
+      return email;
+    }
   }
 
   return "";
@@ -108,7 +125,7 @@ async function firecrawl(path, body) {
         "Content-Type": "application/json"
       },
       body: JSON.stringify(body),
-      signal: AbortSignal.timeout(18000)
+      signal: AbortSignal.timeout(16000)
     }
   );
 
@@ -169,15 +186,86 @@ async function searchClinics(state, specialty) {
   return Array.from(found.values()).slice(0, 18);
 }
 
+function candidateContactUrls(homepage, links) {
+  const base = new URL(homepage);
+  const urls = [];
+
+  for (const link of Array.isArray(links) ? links : []) {
+    try {
+      const u = new URL(
+        typeof link === "string" ? link : link.url,
+        homepage
+      );
+
+      if (
+        u.hostname.replace(/^www\./, "") !==
+        base.hostname.replace(/^www\./, "")
+      ) continue;
+
+      if (/contact|about|location|office|team|staff|provider|practice/i.test(
+        u.pathname + " " + u.search
+      )) {
+        urls.push(u.origin + u.pathname);
+      }
+    } catch {}
+  }
+
+  for (const path of [
+    "/contact",
+    "/contact-us",
+    "/about",
+    "/locations"
+  ]) {
+    urls.push(base.origin + path);
+  }
+
+  return [...new Set(urls)]
+    .filter(url => url !== homepage)
+    .slice(0, 4);
+}
+
 async function scrapeEmail(clinic) {
-  const result = await firecrawl("scrape", {
+  const home = await firecrawl("scrape", {
     url: clinic.website,
-    formats: ["markdown"]
+    formats: ["markdown", "links"]
   });
 
-  const markdown = result.data?.markdown || result.markdown || "";
+  const homeData = home.data || home;
 
-  return extractBusinessEmail(markdown, clinic.host);
+  let email = extractBusinessEmail(
+    homeData.markdown || "",
+    clinic.host
+  );
+
+  if (email) return email;
+
+  const urls = candidateContactUrls(
+    clinic.website,
+    homeData.links || []
+  );
+
+  for (const url of urls) {
+    try {
+      const page = await firecrawl("scrape", {
+        url,
+        formats: ["markdown"]
+      });
+
+      const data = page.data || page;
+
+      email = extractBusinessEmail(
+        data.markdown || "",
+        clinic.host
+      );
+
+      if (email) return email;
+
+    } catch (error) {
+      console.error("Contact page failed:", url, error.message);
+    }
+  }
+
+  return "";
 }
 
 async function ensureTable(sql) {
@@ -280,7 +368,10 @@ export default async function handler(req, res) {
     await ensureTable(sql);
 
     const clinics = await searchClinics(state, specialty);
+
     const discovered = [];
+    const failures = [];
+
     let checked = 0;
     let next = 0;
 
@@ -305,7 +396,13 @@ export default async function handler(req, res) {
               status: "Needs Review"
             });
           }
+
         } catch (error) {
+          failures.push({
+            website: clinic.website,
+            error: clean(error.message, 180)
+          });
+
           console.error(
             "Scrape failed:", clinic.website, error.message
           );
@@ -355,9 +452,11 @@ export default async function handler(req, res) {
       publicBusinessEmailsFound: finalLeads.length,
       added: inserted.length,
       duplicates: finalLeads.length - inserted.length,
+      scrapeErrors: failures.length,
+      errorSamples: failures.slice(0, 3),
       message: finalLeads.length
         ? "Public business emails found and saved."
-        : "No matching public business emails found. Try another state or specialty."
+        : "No public emails found on the pages checked. See scrape diagnostics."
     });
 
   } catch (error) {
