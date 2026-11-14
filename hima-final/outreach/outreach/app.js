@@ -72,9 +72,8 @@ function parseCSV(text) {
   }
 
   const headers = parseCSVLine(lines[0]).map(normalize);
-  const emailIndex = headers.indexOf("email");
 
-  if (emailIndex === -1) {
+  if (!headers.includes("email")) {
     throw new Error("CSV must contain an email column.");
   }
 
@@ -154,9 +153,33 @@ function renderLeads() {
 
 function showMessage(message, success = false) {
   elements.importMessage.textContent = message;
-  elements.importMessage.style.color = success ? "#16845b" : "#b42318";
+  elements.importMessage.style.color =
+    success ? "#16845b" : "#b42318";
 }
 
+// LOAD LEADS FROM NEON DATABASE
+async function loadLeadsFromDatabase() {
+  const response = await fetch("/api/outreach-leads", {
+    method: "GET",
+    credentials: "same-origin",
+    cache: "no-store"
+  });
+
+  const result = await response.json();
+
+  if (!response.ok || !result.success) {
+    throw new Error(result.message || "Unable to load saved leads.");
+  }
+
+  leads = Array.isArray(result.leads) ? result.leads : [];
+
+  updateStats();
+  renderLeads();
+
+  return leads;
+}
+
+// IMPORT CSV AND SAVE TO NEON
 elements.csvFile.addEventListener("change", async event => {
   const file = event.target.files[0];
 
@@ -164,20 +187,24 @@ elements.csvFile.addEventListener("change", async event => {
 
   if (!file.name.toLowerCase().endsWith(".csv")) {
     showMessage("Please select a CSV file.");
+    event.target.value = "";
     return;
   }
 
   try {
+    showMessage("Reading CSV file...", true);
+
     const content = await file.text();
     const imported = parseCSV(content);
 
-    let added = 0;
-    let duplicates = 0;
     let invalid = 0;
+    let localDuplicates = 0;
 
     const existingEmails = new Set(
       leads.map(lead => normalize(lead.email))
     );
+
+    const newLeads = [];
 
     imported.forEach(lead => {
       const email = normalize(lead.email);
@@ -188,30 +215,58 @@ elements.csvFile.addEventListener("change", async event => {
       }
 
       if (existingEmails.has(email)) {
-        duplicates++;
+        localDuplicates++;
         return;
       }
 
-      leads.push({
+      existingEmails.add(email);
+
+      newLeads.push({
         ...lead,
         email,
         status: "Ready"
       });
-
-      existingEmails.add(email);
-      added++;
     });
 
-    updateStats();
-    renderLeads();
+    if (newLeads.length === 0) {
+      showMessage(
+        `No new leads to save. Duplicates: ${localDuplicates} | Invalid: ${invalid}`
+      );
+      return;
+    }
+
+    showMessage("Saving leads to database...", true);
+
+    const response = await fetch("/api/outreach-leads", {
+      method: "POST",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        leads: newLeads
+      })
+    });
+
+    const result = await response.json();
+
+    if (!response.ok || !result.success) {
+      throw new Error(result.message || "Unable to save leads.");
+    }
+
+    await loadLeadsFromDatabase();
+
+    const added = Number(result.added || 0);
+    const databaseDuplicates = Number(result.duplicates || 0);
+    const totalDuplicates = localDuplicates + databaseDuplicates;
 
     showMessage(
-      `Imported: ${added} | Duplicates skipped: ${duplicates} | Invalid: ${invalid}`,
+      `Saved: ${added} | Duplicates skipped: ${totalDuplicates} | Invalid: ${invalid}`,
       true
     );
 
   } catch (error) {
-    showMessage(error.message || "Unable to read CSV file.");
+    showMessage(error.message || "Unable to import CSV.");
   }
 
   event.target.value = "";
@@ -219,6 +274,7 @@ elements.csvFile.addEventListener("change", async event => {
 
 elements.leadSearch.addEventListener("input", renderLeads);
 
+// EMAIL PREVIEW
 elements.previewButton.addEventListener("click", () => {
   const subject = elements.emailSubject.value.trim();
   const template = elements.emailTemplate.value.trim();
@@ -253,9 +309,9 @@ function replaceVariables(text, lead) {
     .replace(/\{\{\s*specialty\s*\}\}/gi, lead.specialty || "");
 }
 
+// INITIAL DISPLAY
 updateStats();
 renderLeads();
-
 
 // ADMIN LOGIN
 document.body.style.visibility = "hidden";
@@ -292,7 +348,9 @@ function showLoginScreen() {
       const response = await fetch("/api/outreach-auth", {
         method: "POST",
         credentials: "same-origin",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json"
+        },
         body: JSON.stringify({
           password: document.getElementById("adminPassword").value
         })
@@ -315,6 +373,7 @@ function showLoginScreen() {
   });
 }
 
+// CHECK SESSION AND LOAD DATABASE
 async function checkAdminSession() {
   try {
     const response = await fetch("/api/outreach-auth", {
@@ -328,21 +387,34 @@ async function checkAdminSession() {
 
       const logout = document.createElement("button");
       logout.textContent = "Logout";
-      logout.style.cssText = "position:fixed;top:18px;right:20px;z-index:9999;padding:9px 15px;background:#7d1a36;color:white;border:0;border-radius:6px;cursor:pointer";
+      logout.style.cssText =
+        "position:fixed;top:18px;right:20px;z-index:9999;padding:9px 15px;background:#7d1a36;color:white;border:0;border-radius:6px;cursor:pointer";
 
       logout.onclick = async () => {
         await fetch("/api/outreach-auth", {
           method: "DELETE",
           credentials: "same-origin"
         });
+
         location.reload();
       };
 
       document.body.appendChild(logout);
+
+      try {
+        await loadLeadsFromDatabase();
+      } catch (error) {
+        showMessage(
+          error.message || "Unable to load database leads."
+        );
+      }
+
       return;
     }
 
-  } catch {}
+  } catch (error) {
+    console.error("Session check failed:", error);
+  }
 
   showLoginScreen();
 }
