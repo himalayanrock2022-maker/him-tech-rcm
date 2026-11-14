@@ -372,17 +372,28 @@ if (elements.selectAllLeads) {
   });
 }
 
-// AUTOMATIC LEAD GENERATOR
+// AUTOMATIC LEAD GENERATOR WITH DIAGNOSTICS
 const findButton = document.getElementById("findLeadsButton");
 
 if (findButton) {
   findButton.addEventListener("click", async () => {
     const message = document.getElementById("findLeadsMessage");
 
+    let details = document.getElementById("leadSearchDetails");
+
+    if (!details) {
+      details = document.createElement("div");
+      details.id = "leadSearchDetails";
+      details.style.cssText =
+        "margin-top:14px;padding:14px;border:1px solid #ddd;border-radius:8px;line-height:1.7;overflow-wrap:anywhere";
+      message.insertAdjacentElement("afterend", details);
+    }
+
     findButton.disabled = true;
     findButton.textContent = "Searching...";
     message.textContent =
-      "Searching for clinics and publicly listed business emails...";
+      "Searching clinics and public business emails...";
+    details.textContent = "";
 
     try {
       const response = await fetch("/api/outreach-generate-leads", {
@@ -404,19 +415,81 @@ if (findButton) {
 
       await loadLeadsFromDatabase();
 
-      const clinicsFound = Number(result.clinicsFound || 0);
-      const websitesChecked = Number(result.websitesChecked || 0);
-      const emailsFound = Number(
-        result.publicBusinessEmailsFound ??
-        result.publicEmailsFound ??
-        0
-      );
-
       message.textContent =
-        "Clinics found: " + clinicsFound +
-        " | Websites checked: " + websitesChecked +
-        " | Public emails found: " + emailsFound +
+        "Clinics found: " + Number(result.clinicsFound || 0) +
+        " | Websites checked: " + Number(result.websitesChecked || 0) +
+        " | Public emails found: " +
+        Number(result.publicBusinessEmailsFound || 0) +
         " | New leads saved: " + Number(result.added || 0);
+
+      const heading = document.createElement("h3");
+      heading.textContent = "Email Search Details";
+      details.appendChild(heading);
+
+      const summary = document.createElement("p");
+      summary.textContent =
+        "Saved: " + Number(result.added || 0) +
+        " | Duplicate/conflict: " +
+        Number(result.duplicates || 0) +
+        " | Scrape errors: " +
+        Number(result.scrapeErrors || 0);
+      details.appendChild(summary);
+
+      const foundLeads = Array.isArray(result.leadDiagnostics)
+        ? result.leadDiagnostics
+        : [];
+
+      if (foundLeads.length) {
+        const list = document.createElement("div");
+
+        foundLeads.forEach(lead => {
+          const item = document.createElement("div");
+          item.style.cssText =
+            "padding:10px 0;border-top:1px solid #eee";
+
+          const name = document.createElement("strong");
+          name.textContent = lead.name || "Clinic";
+          item.appendChild(name);
+
+          const email = document.createElement("div");
+          email.textContent = "Email: " + (lead.email || "Not available");
+          item.appendChild(email);
+
+          const website = document.createElement("div");
+          website.textContent = "Website: " + (lead.website || "");
+          item.appendChild(website);
+
+          const status = document.createElement("div");
+          status.textContent = "Result: " + (lead.status || "Unknown");
+          item.appendChild(status);
+
+          list.appendChild(item);
+        });
+
+        details.appendChild(list);
+      } else {
+        const noEmails = document.createElement("p");
+        noEmails.textContent = "No email addresses were extracted.";
+        details.appendChild(noEmails);
+      }
+
+      const errors = Array.isArray(result.errorSamples)
+        ? result.errorSamples
+        : [];
+
+      if (errors.length) {
+        const errorHeading = document.createElement("h4");
+        errorHeading.textContent = "Scraping Errors";
+        details.appendChild(errorHeading);
+
+        errors.forEach(error => {
+          const item = document.createElement("p");
+          item.textContent =
+            (error.website || "") + " — " +
+            (error.error || "Unknown error");
+          details.appendChild(item);
+        });
+      }
 
     } catch (error) {
       message.textContent = error.message || "Search failed.";
