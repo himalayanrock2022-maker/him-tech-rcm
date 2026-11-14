@@ -49,10 +49,12 @@ async function ensureTable(sql) {
     CREATE TABLE IF NOT EXISTS outreach_leads (
       id BIGSERIAL PRIMARY KEY,
       name TEXT NOT NULL DEFAULT '',
-      email TEXT NOT NULL,
+      email TEXT,
       city TEXT NOT NULL DEFAULT '',
       state TEXT NOT NULL DEFAULT '',
       website TEXT NOT NULL DEFAULT '',
+      phone TEXT NOT NULL DEFAULT '',
+      npi TEXT NOT NULL DEFAULT '',
       specialty TEXT NOT NULL DEFAULT '',
       status TEXT NOT NULL DEFAULT 'Ready',
       created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
@@ -61,8 +63,29 @@ async function ensureTable(sql) {
   `;
 
   await sql`
+    ALTER TABLE outreach_leads
+    ALTER COLUMN email DROP NOT NULL
+  `;
+
+  await sql`
+    ALTER TABLE outreach_leads
+    ADD COLUMN IF NOT EXISTS phone TEXT NOT NULL DEFAULT ''
+  `;
+
+  await sql`
+    ALTER TABLE outreach_leads
+    ADD COLUMN IF NOT EXISTS npi TEXT NOT NULL DEFAULT ''
+  `;
+
+  await sql`
     CREATE UNIQUE INDEX IF NOT EXISTS outreach_leads_email_unique
     ON outreach_leads (LOWER(email))
+  `;
+
+  await sql`
+    CREATE UNIQUE INDEX IF NOT EXISTS outreach_leads_npi_unique
+    ON outreach_leads (npi)
+    WHERE npi <> ''
   `;
 }
 
@@ -96,7 +119,9 @@ export default async function handler(req, res) {
 
     if (req.method === "GET") {
       const rows = await sql`
-        SELECT id, name, email, city, state, website, specialty, status
+        SELECT
+          id, name, email, city, state, website,
+          phone, npi, specialty, status, created_at
         FROM outreach_leads
         ORDER BY created_at DESC
         LIMIT 5000
@@ -138,6 +163,8 @@ export default async function handler(req, res) {
       city: clean(lead.city),
       state: clean(lead.state, 100),
       website: clean(lead.website, 500),
+      phone: clean(lead.phone, 60),
+      npi: clean(lead.npi, 10),
       specialty: clean(lead.specialty),
       status: "Ready"
     })).filter(lead => validEmail(lead.email));
@@ -151,20 +178,22 @@ export default async function handler(req, res) {
 
     const inserted = await sql`
       INSERT INTO outreach_leads
-        (name, email, city, state, website, specialty, status)
+        (name, email, city, state, website, phone, npi, specialty, status)
       SELECT
         item.name, item.email, item.city, item.state,
-        item.website, item.specialty, item.status
+        item.website, item.phone, item.npi, item.specialty, item.status
       FROM jsonb_to_recordset(${JSON.stringify(rows)}::jsonb) AS item(
         name text,
         email text,
         city text,
         state text,
         website text,
+        phone text,
+        npi text,
         specialty text,
         status text
       )
-      ON CONFLICT (LOWER(email)) DO NOTHING
+      ON CONFLICT DO NOTHING
       RETURNING id
     `;
 
