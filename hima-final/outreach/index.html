@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,7 +8,6 @@
   <title>Hima Tech RCM | Outreach Dashboard</title>
   <link rel="stylesheet" href="outreach/style.css">
 </head>
-
 <body>
   <header class="topbar">
     <div class="brand">
@@ -32,7 +32,7 @@
       </div>
       <div class="daily-target">
         <span>DAILY TARGET</span>
-        <strong>30 <small>leads</small></strong>
+        <strong>30 <small>emails</small></strong>
       </div>
     </section>
 
@@ -68,31 +68,30 @@
         <span class="tag">CSV IMPORT</span>
       </div>
 
-<div class="panel" style="margin-bottom:20px">
-  <h3>Automatic Google Lead Finder</h3>
-  <p>Find US clinics and extract publicly listed business emails.</p>
+      <div class="panel" style="margin-bottom:20px">
+        <h3>Automatic Google Lead Finder</h3>
+        <p>Find U.S. clinics and extract publicly listed business emails.</p>
 
-  <label for="leadState">Select State</label>
-  <select id="leadState">
-    <option value="TX">Texas</option>
-    <option value="FL">Florida</option>
-    <option value="TN">Tennessee</option>
-  </select>
+        <label for="leadState">Select State</label>
+        <select id="leadState">
+          <option value="TX">Texas</option>
+          <option value="FL">Florida</option>
+          <option value="TN">Tennessee</option>
+        </select>
 
-  <label for="leadSpecialty">Specialty</label>
-  <select id="leadSpecialty">
-    <option value="Primary Care">Primary Care</option>
-    <option value="Family Medicine">Family Medicine</option>
-    <option value="Internal Medicine">Internal Medicine</option>
-    <option value="General Practice">General Practice</option>
-  </select>
+        <label for="leadSpecialty">Specialty</label>
+        <select id="leadSpecialty">
+          <option value="Primary Care">Primary Care</option>
+          <option value="Family Medicine">Family Medicine</option>
+          <option value="Internal Medicine">Internal Medicine</option>
+          <option value="General Practice">General Practice</option>
+        </select>
 
-  <button class="primary-button" id="findLeadsButton" type="button">
-    Find Leads
-  </button>
-
-  <p id="findLeadsMessage" aria-live="polite"></p>
-</div>
+        <button class="primary-button" id="findLeadsButton" type="button">
+          Find Leads
+        </button>
+        <p id="findLeadsMessage" aria-live="polite"></p>
+      </div>
 
       <div class="import-area">
         <div class="upload-icon">↑</div>
@@ -116,6 +115,7 @@
         <table>
           <thead>
             <tr>
+              <th><input type="checkbox" id="selectAllLeads" aria-label="Select all eligible leads"></th>
               <th>Clinic / Practice</th>
               <th>Email</th>
               <th>Location</th>
@@ -125,13 +125,16 @@
           </thead>
           <tbody id="leadTable">
             <tr>
-              <td colspan="5" class="empty-state">
+              <td colspan="6" class="empty-state">
                 No leads imported yet. Upload a CSV file to begin.
               </td>
             </tr>
           </tbody>
         </table>
       </div>
+      <p id="selectedLeadCount" class="message" aria-live="polite">
+        0 leads selected
+      </p>
     </section>
 
     <section class="two-column">
@@ -170,13 +173,21 @@ www.himatechrcm.com"></textarea>
         </div>
 
         <div class="notice">
-          <strong>Sending is not enabled yet.</strong>
-          Secure Spacemail SMTP integration and campaign safeguards must be configured on the server before emails can be sent.
+          <strong>Controlled email sending</strong>
+          Select eligible leads from the table, review your subject and message,
+          then send. Maximum 30 accepted emails per day. Unsubscribed contacts
+          are excluded. Start with a small test campaign.
         </div>
 
         <button class="secondary-button" id="previewButton" type="button">
           Preview Email
         </button>
+
+        <button class="primary-button" id="sendSelectedButton" type="button">
+          Send Selected Emails
+        </button>
+
+        <p id="sendMessage" class="message" aria-live="polite"></p>
         <div id="emailPreview" class="preview-box" hidden></div>
       </div>
 
@@ -190,28 +201,38 @@ www.himatechrcm.com"></textarea>
 
         <div class="source-item">
           <div class="source-icon">G</div>
-          <div><strong>Google Search & Maps</strong>
-            <p>Public clinic business contact details</p></div>
+          <div>
+            <strong>Google Search & Maps</strong>
+            <p>Public clinic business contact details</p>
+          </div>
         </div>
         <div class="source-item">
           <div class="source-icon">W</div>
-          <div><strong>Clinic Websites</strong>
-            <p>Official contact and practice information</p></div>
+          <div>
+            <strong>Clinic Websites</strong>
+            <p>Official contact and practice information</p>
+          </div>
         </div>
         <div class="source-item">
           <div class="source-icon">in</div>
-          <div><strong>LinkedIn</strong>
-            <p>Professional research using permitted methods</p></div>
+          <div>
+            <strong>LinkedIn</strong>
+            <p>Professional research using permitted methods</p>
+          </div>
         </div>
         <div class="source-item">
           <div class="source-icon">R</div>
-          <div><strong>Reddit & Instagram</strong>
-            <p>Relevant public business opportunities</p></div>
+          <div>
+            <strong>Reddit & Instagram</strong>
+            <p>Relevant public business opportunities</p>
+          </div>
         </div>
         <div class="source-item">
           <div class="source-icon">+</div>
-          <div><strong>Manual Lead Entry</strong>
-            <p>Additional verified business contacts</p></div>
+          <div>
+            <strong>Manual Lead Entry</strong>
+            <p>Additional verified business contacts</p>
+          </div>
         </div>
       </div>
     </section>
@@ -220,9 +241,9 @@ www.himatechrcm.com"></textarea>
       <div class="section-heading">
         <div>
           <h3>Campaign Safety</h3>
-          <p>Required safeguards before automated sending.</p>
+          <p>Sending safeguards and contact preferences.</p>
         </div>
-        <span class="tag warning">SETUP REQUIRED</span>
+        <span class="tag warning">REVIEW REQUIRED</span>
       </div>
 
       <div class="safety-grid">
