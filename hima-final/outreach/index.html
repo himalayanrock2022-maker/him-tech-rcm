@@ -68,6 +68,32 @@
         <span class="tag">CSV IMPORT</span>
       </div>
 
+<div class="panel" style="margin-bottom:20px">
+  <h3>Automatic Google Lead Finder</h3>
+  <p>Find US clinics and extract publicly listed business emails.</p>
+
+  <label for="leadState">Select State</label>
+  <select id="leadState">
+    <option value="TX">Texas</option>
+    <option value="FL">Florida</option>
+    <option value="TN">Tennessee</option>
+  </select>
+
+  <label for="leadSpecialty">Specialty</label>
+  <select id="leadSpecialty">
+    <option value="Primary Care">Primary Care</option>
+    <option value="Family Medicine">Family Medicine</option>
+    <option value="Internal Medicine">Internal Medicine</option>
+    <option value="General Practice">General Practice</option>
+  </select>
+
+  <button class="primary-button" id="findLeadsButton" type="button">
+    Find Leads
+  </button>
+
+  <p id="findLeadsMessage" aria-live="polite"></p>
+</div>
+
       <div class="import-area">
         <div class="upload-icon">↑</div>
         <h4>Import Lead List</h4>
