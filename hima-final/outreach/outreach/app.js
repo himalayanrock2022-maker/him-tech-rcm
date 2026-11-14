@@ -1,3 +1,4 @@
+
 "use strict";
 
 const DAILY_LIMIT = 30;
@@ -290,6 +291,7 @@ function showLoginScreen() {
     try {
       const response = await fetch("/api/outreach-auth", {
         method: "POST",
+        credentials: "same-origin",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           password: document.getElementById("adminPassword").value
@@ -316,6 +318,8 @@ function showLoginScreen() {
 async function checkAdminSession() {
   try {
     const response = await fetch("/api/outreach-auth", {
+      method: "GET",
+      credentials: "same-origin",
       cache: "no-store"
     });
 
@@ -327,7 +331,10 @@ async function checkAdminSession() {
       logout.style.cssText = "position:fixed;top:18px;right:20px;z-index:9999;padding:9px 15px;background:#7d1a36;color:white;border:0;border-radius:6px;cursor:pointer";
 
       logout.onclick = async () => {
-        await fetch("/api/outreach-auth", { method: "DELETE" });
+        await fetch("/api/outreach-auth", {
+          method: "DELETE",
+          credentials: "same-origin"
+        });
         location.reload();
       };
 
