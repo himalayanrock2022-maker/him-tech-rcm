@@ -41,14 +41,13 @@ function validSession(req, secret) {
   if (!/^\d+$/.test(expires)) return false;
   if (Number(expires) < Math.floor(Date.now() / 1000)) return false;
 
-  const expected = sign(expires, secret);
-  return safeEqual(signature, expected);
+  return safeEqual(signature, sign(expires, secret));
 }
 
 function setCookie(res, value, maxAge) {
   res.setHeader(
     "Set-Cookie",
-    `${COOKIE_NAME}=${value}; HttpOnly; Secure; SameSite=Strict; Path=/; Max-Age=${maxAge}`
+    `${COOKIE_NAME}=${value}; HttpOnly; Secure; SameSite=Lax; Path=/; Max-Age=${maxAge}`
   );
 }
 
@@ -57,6 +56,20 @@ export default async function handler(req, res) {
 
   const password = process.env.OUTREACH_ADMIN_PASSWORD;
   const secret = process.env.OUTREACH_SESSION_SECRET;
+
+  if (req.method === "GET") {
+    const cookie = getCookie(req);
+    const authenticated = Boolean(secret && validSession(req, secret));
+
+    return res.status(authenticated ? 200 : 401).json({
+      success: authenticated,
+      diagnostic: {
+        cookieReceived: Boolean(cookie),
+        secretConfigured: Boolean(secret),
+        signatureValid: authenticated
+      }
+    });
+  }
 
   if (!password || !secret) {
     return res.status(503).json({
@@ -94,14 +107,6 @@ export default async function handler(req, res) {
     return res.status(200).json({
       success: true,
       message: "Login successful."
-    });
-  }
-
-  if (req.method === "GET") {
-    const authenticated = validSession(req, secret);
-
-    return res.status(authenticated ? 200 : 401).json({
-      success: authenticated
     });
   }
 
