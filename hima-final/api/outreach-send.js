@@ -1,3 +1,4 @@
+
 import tls from "node:tls";
 import { createHmac, timingSafeEqual } from "node:crypto";
 import { neon } from "@neondatabase/serverless";
@@ -6,8 +7,6 @@ export const runtime = "nodejs";
 
 const DAILY_LIMIT = 30;
 const COOKIE_NAME = "hima_outreach_session";
-const BUSINESS_ADDRESS =
-  "Hima Tech, FC Road, Jutial, Gilgit, 15150, Pakistan";
 
 function safeEqual(a, b) {
   const x = Buffer.from(String(a));
@@ -51,6 +50,7 @@ function validEmail(value) {
 function makeUnsubscribe(email) {
   const secret = process.env.OUTREACH_SESSION_SECRET;
   const encoded = Buffer.from(email.toLowerCase()).toString("base64url");
+
   const token = createHmac("sha256", secret)
     .update(email.toLowerCase())
     .digest("hex");
@@ -184,6 +184,7 @@ function sendSMTP({ host, port, username, password, from, to, subject, body }) {
         finished = true;
         socket.end();
         resolve();
+
       } catch (error) {
         fail(error);
       }
@@ -256,6 +257,7 @@ export default async function handler(req, res) {
   }
 
   let body = req.body || {};
+
   if (typeof body === "string") {
     try {
       body = JSON.parse(body);
@@ -361,13 +363,13 @@ export default async function handler(req, res) {
       const subject = personalized(subjectTemplate);
       const unsubscribe = makeUnsubscribe(email);
 
+      // Postal address intentionally omitted from the email footer.
       const finalMessage = [
         personalized(messageTemplate),
         "",
         "------------------------------",
         "Hima Tech RCM",
         "https://www.himatechrcm.com",
-        BUSINESS_ADDRESS,
         "",
         "If you do not wish to receive further business emails from us, unsubscribe here:",
         unsubscribe
