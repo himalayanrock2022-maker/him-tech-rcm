@@ -738,3 +738,7 @@ button.free-tools-btn {
   .container{max-width:1360px !important;}
   .container.nav{max-width:1360px !important;}
 }
+/* TEMPORARILY HIDE ABOUT PAGE TEAM SECTION */
+body:has(.about-hero) .team-section {
+    display: none !important;
+}
