@@ -1,85 +1,15 @@
-// api/blog.js - FIXED VERSION - Replace your old api/blog.js fully with this file
-export default async function handler(req, res) {
-  const OWNER = process.env.GITHUB_OWNER;
-  const REPO = process.env.GITHUB_REPO;
-  const BRANCH = process.env.GITHUB_BRANCH || "main";
-  const TOKEN = process.env.GITHUB_TOKEN;
-  const FILE_PATH = "blog.json";
-
-  if (!OWNER || !REPO || !TOKEN) {
-    return res.status(500).json({ error: "Missing GitHub env vars: GITHUB_OWNER, GITHUB_REPO, GITHUB_TOKEN. Check Vercel Settings > Environment Variables." });
+[
+  {
+    "id": 1,
+    "title": "Test Post - Delete Me After Fix",
+    "category": "Healthcare",
+    "excerpt": "This is a test post to check if blog.json is valid. Delete it after publish works.",
+    "seoTitle": "Test Post",
+    "seoDescription": "Test post",
+    "slug": "test-post-delete-me",
+    "image": "",
+    "imageAlt": "Test Post",
+    "content": "<h1>Test Post</h1><p>If you can see this, your blog.json is fixed.</p>",
+    "date": "2026-11-18"
   }
-
-  const RAW_URL = `https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRANCH}/${FILE_PATH}?t=${Date.now()}`;
-  const API_URL = `https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE_PATH}`;
-  const headers = { Authorization: `Bearer ${TOKEN}`, Accept: "application/vnd.github+json" };
-
-  async function getPosts() {
-    const r = await fetch(RAW_URL, { cache: "no-store" });
-    if (r.status === 404) return [];
-    const text = await r.text();
-    if (!text || !text.trim()) return [];
-    try {
-      const data = JSON.parse(text);
-      return Array.isArray(data) ? data : (data.posts || []);
-    } catch (e) {
-      throw new Error("blog.json is not valid JSON. Open it on GitHub and fix JSON syntax first.");
-    }
-  }
-
-  async function getSha() {
-    const r = await fetch(`${API_URL}?ref=${BRANCH}`, { headers });
-    if (r.status === 404) return null;
-    const j = await r.json();
-    return j.sha || null;
-  }
-
-  try {
-    if (req.method === "GET") {
-      const posts = await getPosts();
-      return res.status(200).json(posts);
-    }
-
-    if (req.method === "POST") {
-      const { action, post, postId } = req.body || {};
-
-      if (post?.image && typeof post.image === "string" && post.image.startsWith("data:image")) {
-        if (post.image.length > 500000) {
-          return res.status(400).json({ error: "Image too large (over ~500KB base64). Paste an image URL instead. Example: https://www.himatechrcm.com/images/your-image.jpg" });
-        }
-      }
-
-      let posts = await getPosts();
-
-      if (action === "create") {
-        posts.unshift(post);
-      } else if (action === "update") {
-        posts = posts.map(p => String(p.id) === String(postId) ? post : p);
-      } else if (action === "delete") {
-        posts = posts.filter(p => String(p.id) !== String(postId));
-      } else {
-        return res.status(400).json({ error: "Invalid action. Use create / update / delete" });
-      }
-
-      const content = Buffer.from(JSON.stringify(posts, null, 2)).toString("base64");
-      const sha = await getSha();
-
-      const saveRes = await fetch(API_URL, {
-        method: "PUT",
-        headers: { ...headers, "Content-Type": "application/json" },
-        body: JSON.stringify({ message: `Blog ${action}: ${post?.title || postId}`, content, branch: BRANCH, ...(sha ? { sha } : {}) }),
-      });
-
-      const saveJson = await saveRes.json();
-      if (!saveRes.ok) {
-        return res.status(saveRes.status).json({ error: saveJson.message || "GitHub save failed", status: saveRes.status, details: saveJson });
-      }
-      return res.status(200).json({ success: true, posts });
-    }
-
-    return res.status(405).json({ error: "Method not allowed" });
-  } catch (err) {
-    console.error(err);
-    return res.status(500).json({ error: err.message || String(err) });
-  }
-}
+]
