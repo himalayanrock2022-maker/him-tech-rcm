@@ -102,7 +102,7 @@
           <div class="btn-row"><button id="publishBtn" class="btn-primary" onclick="publishPost()">Publish Post</button><button class="btn-secondary" onclick="clearForm()">Clear Form</button><button id="cancelEditBtn" class="btn-secondary hidden" onclick="clearForm()">Cancel Edit</button></div>
           <div id="statusBox" class="status"></div>
         </div>
-        <div class="card"><h2>Gemini AI Article Generator</h2><div class="danger-box">Generate a complete AI-assisted article with Gemini. Review the draft, verify facts, and edit before publishing.</div><label>Article Topic</label><input id="aiTopic" type="text" placeholder="Example: How to Reduce Medical Billing Denials"><button id="generateBtn" class="btn-secondary" onclick="generateArticle()">Generate Article with Gemini</button></div>
+        <div class="card"><h2>Gemini AI Article Generator</h2><div class="danger-box">Generate a complete AI-assisted article with Gemini. Review the draft, verify facts, and edit before publishing.</div><label>Article Topic</label><input id="aiTopic" type="text" placeholder="Example: How to Reduce Medical Billing Denials"><button id="generateBtn" class="btn-secondary" onclick="generateArticle()">Generate Article with Gemini</button><div id="geminiDebug" style="display:none;margin-top:12px;font-size:12px;background:#f5f5f5;padding:10px;border-radius:6px;white-space:pre-wrap;word-break:break-word;color:#333;"></div></div>
       </div><div>
         <div class="card"><h2>Published Posts</h2><button class="btn-secondary" onclick="loadPosts()" style="margin-bottom:15px;">Refresh Posts</button><div id="postsList">Loading posts...</div></div>
         <div class="card"><h2>Blog Links</h2><p style="font-size:14px;line-height:1.6;">Public Blog:</p><a href="/blog" target="_blank" style="color:#7d1a36;font-weight:bold;">Open /blog</a><p style="font-size:14px;line-height:1.6;margin-top:20px;">Admin:</p><a href="/admin.html" target="_blank" style="color:#7d1a36;font-weight:bold;">Open Admin</a></div>
@@ -122,7 +122,6 @@ function createSlug(t){ return t.toLowerCase().trim().replace(/[^a-z0-9\s-]/g,""
 document.getElementById("postTitle").addEventListener("input",function(){ const s=document.getElementById("postSlug"); if(!s.dataset.manual) s.value=createSlug(this.value); updateSlugPreview(); });
 document.getElementById("postSlug").addEventListener("input",function(){ this.dataset.manual="true"; updateSlugPreview(); });
 function updateSlugPreview(){ const s=document.getElementById("postSlug").value.trim(); document.getElementById("slugText").textContent=s||"your-slug"; }
-// FIXED IMAGE HANDLING - max 400KB, warn if base64
 const imageUpload=document.getElementById("imageUpload"); const postImage=document.getElementById("postImage"); const previewImage=document.getElementById("previewImage"); const imagePreview=document.getElementById("imagePreview");
 function showImagePreview(src){ if(!src){ previewImage.removeAttribute("src"); imagePreview.style.display="none"; return; } previewImage.onload=function(){ imagePreview.style.display="block"; }; previewImage.onerror=function(){ imagePreview.style.display="none"; showStatus("Image preview failed. Please select another image.","error"); }; previewImage.src=src; }
 async function processUploadedImage(file){
@@ -148,6 +147,32 @@ imageUpload.addEventListener("change",async function(e){ const file=e.target.fil
 postImage.addEventListener("input",function(){ showImagePreview(this.value.trim()); });
 function showStatus(m,t="info"){ const b=document.getElementById("statusBox"); b.className="status "+t; b.textContent=m; b.scrollIntoView({behavior:"smooth",block:"nearest"}); }
 function clearStatus(){ const b=document.getElementById("statusBox"); b.className="status"; b.textContent=""; }
+
+// ===== FIXED: [object Object] kabhi nahi aayega - har error ko string me badlo =====
+function errToString(v){
+  if(v===null||v===undefined) return "";
+  if(typeof v==="string") return v;
+  if(v instanceof Error) return v.message || String(v);
+  if(typeof v==="object"){
+    // Gemini ka error aksar {error:{message:"..."}} ya {message:"..."} hota hai
+    if(v.error) return errToString(v.error);
+    if(v.message) return errToString(v.message);
+    if(v.details) return errToString(v.details);
+    try{ return JSON.stringify(v, null, 2); }catch(e){ return String(v); }
+  }
+  return String(v);
+}
+function extractApiError(data, rawText, status){
+  if(!data || (typeof data==="object" && Object.keys(data).length===0)){
+    return rawText ? "Server ne khaali / ghalat jawab diya (HTTP "+status+"): "+rawText.slice(0,500) : "Server ne koi jawab nahi diya (HTTP "+status+")";
+  }
+  if(typeof data==="string") return data;
+  if(data.error) return errToString(data.error);
+  if(data.message) return errToString(data.message);
+  if(data.details) return errToString(data.details);
+  return JSON.stringify(data, null, 2);
+}
+
 async function saveToGitHub(action,post=null,postId=null){
   try{
     if(action!=="delete"&&!post) throw new Error("Post data missing.");
@@ -155,28 +180,72 @@ async function saveToGitHub(action,post=null,postId=null){
     const body={action}; if(action==="delete"){ body.postId=String(finalId); } else { body.post=post; body.postId=String(finalId); }
     const response=await fetch("/api/blog?t="+Date.now(),{method:"POST",cache:"no-store",headers:{"Content-Type":"application/json","Accept":"application/json"},body:JSON.stringify(body)});
     const rawText=await response.text(); let data={}; try{ data=rawText?JSON.parse(rawText):{}; }catch(e){ data={error:rawText||"Empty response from API."}; }
-    if(!response.ok){ let message=""; if(typeof data==="string") message=data; else if(data.error) message=typeof data.error==="string"?data.error:JSON.stringify(data.error,null,2); else if(data.message) message=typeof data.message==="string"?data.message:JSON.stringify(data.message,null,2); else message=JSON.stringify(data,null,2); if(data.status) message+="\nGitHub Status: "+data.status; if(data.details) message+="\nDetails: "+(typeof data.details==="string"?data.details:JSON.stringify(data.details,null,2)); throw new Error(message||"API request failed with HTTP status "+response.status); }
+    if(!response.ok){ let message=extractApiError(data, rawText, response.status); if(data.status) message+="\nGitHub Status: "+data.status; throw new Error(message||"API request failed with HTTP status "+response.status); }
     return data;
-  }catch(e){ console.error(e); throw new Error(e?.message||String(e)); }
+  }catch(e){ console.error(e); throw new Error(errToString(e)); }
 }
-async function loadPosts(){ const list=document.getElementById("postsList"); list.innerHTML="Loading posts..."; try{ const r=await fetch("/api/blog?t="+Date.now(),{method:"GET",cache:"no-store"}); const raw=await r.text(); let data=[]; try{ data=raw?JSON.parse(raw):[]; }catch(e){ throw new Error("Invalid JSON returned by /api/blog:\n"+raw); } if(!r.ok){ throw new Error(typeof data?.error==="string"?data.error:JSON.stringify(data,null,2)); } const posts=Array.isArray(data)?data:Array.isArray(data.posts)?data.posts:[]; renderPosts(posts); }catch(e){ console.error(e); list.innerHTML=`<div class="status error" style="display:block;">Failed to load posts. ${escapeHtml(e?.message||String(e))}</div>`; } }
+async function loadPosts(){ const list=document.getElementById("postsList"); list.innerHTML="Loading posts..."; try{ const r=await fetch("/api/blog?t="+Date.now(),{method:"GET",cache:"no-store"}); const raw=await r.text(); let data=[]; try{ data=raw?JSON.parse(raw):[]; }catch(e){ throw new Error("Invalid JSON returned by /api/blog:\n"+raw); } if(!r.ok){ throw new Error(extractApiError(data, raw, r.status)); } const posts=Array.isArray(data)?data:Array.isArray(data.posts)?data.posts:[]; renderPosts(posts); }catch(e){ console.error(e); list.innerHTML=`<div class="status error" style="display:block;">Failed to load posts. ${escapeHtml(errToString(e))}</div>`; } }
 function renderPosts(posts){ const list=document.getElementById("postsList"); if(!posts.length){ list.innerHTML=`<div style="color:#777;font-size:14px;">No posts found.</div>`; return; } list.innerHTML=posts.map(function(p){ const t=escapeHtml(p.title||"Untitled Post"); const c=escapeHtml(p.category||"Uncategorized"); const d=escapeHtml(p.date||""); const s=escapeHtml(p.slug||String(p.id||"")); return `<div class="post-item"><h3>${t}</h3><div class="post-meta">${c}${d?" • "+d:""}</div><div style="font-size:12px;color:#777;margin-bottom:10px;word-break:break-all;">/blog/${s}</div><div class="post-actions"><button class="btn-secondary" onclick="editPost('${escapeAttribute(String(p.id))}')">Edit</button><button class="btn-danger" onclick="deletePost('${escapeAttribute(String(p.id))}')">Delete</button><button class="btn-success" onclick="openPost('${escapeAttribute(String(p.slug||p.id))}')">View</button></div></div>`; }).join(""); }
-async function getPosts(){ const r=await fetch("/api/blog?t="+Date.now(),{cache:"no-store"}); const raw=await r.text(); let data; try{ data=raw?JSON.parse(raw):[]; }catch(e){ throw new Error("API returned invalid JSON:\n"+raw); } if(!r.ok){ throw new Error(data?.error?(typeof data.error==="string"?data.error:JSON.stringify(data.error,null,2)):JSON.stringify(data,null,2)); } return Array.isArray(data)?data:(Array.isArray(data.posts)?data.posts:[]); }
+async function getPosts(){ const r=await fetch("/api/blog?t="+Date.now(),{cache:"no-store"}); const raw=await r.text(); let data; try{ data=raw?JSON.parse(raw):[]; }catch(e){ throw new Error("API returned invalid JSON:\n"+raw); } if(!r.ok){ throw new Error(extractApiError(data, raw, r.status)); } return Array.isArray(data)?data:(Array.isArray(data.posts)?data.posts:[]); }
 async function publishPost(){
   clearStatus(); const button=document.getElementById("publishBtn");
   const title=document.getElementById("postTitle").value.trim(); const category=document.getElementById("postCategory").value.trim(); const date=document.getElementById("postDate").value.trim(); const slug=document.getElementById("postSlug").value.trim(); const excerpt=document.getElementById("postExcerpt").value.trim(); const image=document.getElementById("postImage").value.trim(); const imageAlt=document.getElementById("postImageAlt").value.trim(); const seoTitle=document.getElementById("seoTitle").value.trim(); const seoDescription=document.getElementById("seoDescription").value.trim(); const content=quill?quill.root.innerHTML.trim():""; const postId=document.getElementById("postId").value.trim();
   if(!title){ showStatus("Please enter a post title.","error"); return; } if(!slug){ showStatus("Please enter a URL slug.","error"); return; } if(!excerpt){ showStatus("Please enter a short excerpt.","error"); return; } if(!content||content==="<p><br></p>"){ showStatus("Please enter article content.","error"); return; }
-  // FIXED: Block large base64 images before sending
   if(image.startsWith("data:image") && image.length>400000){ showStatus("Image is too large (over 400KB base64). Please paste an image URL instead, or use a smaller image. Blog.json will fail if image is large.","error"); return; }
   const action=postId?"update":"create";
   const post={ id: postId?postId:Date.now(), title, category, excerpt, seoTitle: seoTitle||title, seoDescription: seoDescription||excerpt, slug, image, imageAlt: imageAlt||title, content, date: date||new Date().toISOString().split("T")[0] };
-  try{ button.disabled=true; button.textContent=action==="create"?"Publishing...":"Updating..."; showStatus(action==="create"?"Publishing post...":"Updating post...","info"); const result=await saveToGitHub(action,post,post.id); console.log(result); showStatus(action==="create"?"Post published successfully!":"Post updated successfully!","success"); clearForm(); await loadPosts(); }catch(e){ console.error(e); showStatus("Publish failed:\n\n"+(e?.message||String(e)),"error"); } finally { button.disabled=false; button.textContent=document.getElementById("postId").value.trim()?"Update Post":"Publish Post"; }
+  try{ button.disabled=true; button.textContent=action==="create"?"Publishing...":"Updating..."; showStatus(action==="create"?"Publishing post...":"Updating post...","info"); const result=await saveToGitHub(action,post,post.id); console.log(result); showStatus(action==="create"?"Post published successfully!":"Post updated successfully!","success"); clearForm(); await loadPosts(); }catch(e){ console.error(e); showStatus("Publish failed:\n\n"+errToString(e),"error"); } finally { button.disabled=false; button.textContent=document.getElementById("postId").value.trim()?"Update Post":"Publish Post"; }
 }
-async function editPost(id){ try{ showStatus("Loading post...","info"); const posts=await getPosts(); const post=posts.find(i=>String(i.id)===String(id)); if(!post) throw new Error("Post not found."); document.getElementById("postId").value=post.id||""; document.getElementById("postTitle").value=post.title||""; document.getElementById("postCategory").value=post.category||"Medical Billing"; document.getElementById("postDate").value=post.date||""; document.getElementById("postSlug").value=post.slug||""; document.getElementById("postSlug").dataset.manual="true"; document.getElementById("postExcerpt").value=post.excerpt||""; document.getElementById("postImage").value=post.image||""; document.getElementById("postImageAlt").value=post.imageAlt||""; document.getElementById("seoTitle").value=post.seoTitle||""; document.getElementById("seoDescription").value=post.seoDescription||""; if(quill) quill.root.innerHTML=post.content||""; if(post.image){ document.getElementById("previewImage").src=post.image; document.getElementById("imagePreview").style.display="block"; } document.getElementById("formHeading").textContent="Edit Post"; document.getElementById("publishBtn").textContent="Update Post"; document.getElementById("cancelEditBtn").classList.remove("hidden"); updateSlugPreview(); clearStatus(); window.scrollTo({top:0,behavior:"smooth"}); }catch(e){ showStatus("Could not load post:\n\n"+(e?.message||String(e)),"error"); } }
-async function deletePost(id){ if(!confirm("Are you sure you want to delete this post?\n\nThis cannot be undone.")) return; try{ showStatus("Deleting post...","info"); await saveToGitHub("delete",null,id); showStatus("Post deleted successfully.","success"); await loadPosts(); }catch(e){ showStatus("Delete failed:\n\n"+(e?.message||String(e)),"error"); } }
+async function editPost(id){ try{ showStatus("Loading post...","info"); const posts=await getPosts(); const post=posts.find(i=>String(i.id)===String(id)); if(!post) throw new Error("Post not found."); document.getElementById("postId").value=post.id||""; document.getElementById("postTitle").value=post.title||""; document.getElementById("postCategory").value=post.category||"Medical Billing"; document.getElementById("postDate").value=post.date||""; document.getElementById("postSlug").value=post.slug||""; document.getElementById("postSlug").dataset.manual="true"; document.getElementById("postExcerpt").value=post.excerpt||""; document.getElementById("postImage").value=post.image||""; document.getElementById("postImageAlt").value=post.imageAlt||""; document.getElementById("seoTitle").value=post.seoTitle||""; document.getElementById("seoDescription").value=post.seoDescription||""; if(quill) quill.root.innerHTML=post.content||""; if(post.image){ document.getElementById("previewImage").src=post.image; document.getElementById("imagePreview").style.display="block"; } document.getElementById("formHeading").textContent="Edit Post"; document.getElementById("publishBtn").textContent="Update Post"; document.getElementById("cancelEditBtn").classList.remove("hidden"); updateSlugPreview(); clearStatus(); window.scrollTo({top:0,behavior:"smooth"}); }catch(e){ showStatus("Could not load post:\n\n"+errToString(e),"error"); } }
+async function deletePost(id){ if(!confirm("Are you sure you want to delete this post?\n\nThis cannot be undone.")) return; try{ showStatus("Deleting post...","info"); await saveToGitHub("delete",null,id); showStatus("Post deleted successfully.","success"); await loadPosts(); }catch(e){ showStatus("Delete failed:\n\n"+errToString(e),"error"); } }
 function openPost(slug){ window.open("/blog/"+encodeURIComponent(slug),"_blank"); }
 function clearForm(){ document.getElementById("postId").value=""; document.getElementById("postTitle").value=""; document.getElementById("postCategory").value="Medical Billing"; document.getElementById("postSlug").value=""; document.getElementById("postSlug").dataset.manual=""; document.getElementById("postExcerpt").value=""; document.getElementById("postImage").value=""; document.getElementById("postImageAlt").value=""; document.getElementById("seoTitle").value=""; document.getElementById("seoDescription").value=""; document.getElementById("imageUpload").value=""; document.getElementById("imagePreview").style.display="none"; document.getElementById("previewImage").src=""; if(quill) quill.setContents([]); setDefaultDate(); document.getElementById("formHeading").textContent="Create New Post"; document.getElementById("publishBtn").textContent="Publish Post"; document.getElementById("cancelEditBtn").classList.add("hidden"); updateSlugPreview(); clearStatus(); }
-async function generateArticle(){ const topic=document.getElementById("aiTopic").value.trim(); const button=document.getElementById("generateBtn"); if(!topic){ showStatus("Please enter an article topic first.","error"); return; } if(!quill){ showStatus("Article editor is not initialized. Please reload the page.","error"); return; } const orig=button.textContent; try{ button.disabled=true; button.textContent="Generating with Gemini..."; showStatus("Gemini is writing your article. Please wait...","info"); const r=await fetch("/api/generate-article",{method:"POST",headers:{"Content-Type":"application/json","Accept":"application/json"},body:JSON.stringify({topic:topic,password:ADMIN_PASSWORD})}); const raw=await r.text(); let result={}; try{ result=raw?JSON.parse(raw):{}; }catch(e){ throw new Error("Invalid response from Gemini API."); } if(!r.ok||!result.success) throw new Error(result.error||"Gemini article generation failed."); const a=result.article||{}; if(!a.title||!a.contentHtml) throw new Error("Gemini returned incomplete article content."); document.getElementById("postTitle").value=a.title; document.getElementById("postSlug").value=a.slug||createSlug(a.title); document.getElementById("postSlug").dataset.manual="true"; document.getElementById("postExcerpt").value=a.excerpt||""; document.getElementById("seoTitle").value=a.seoTitle||a.title; document.getElementById("seoDescription").value=a.seoDescription||""; quill.root.innerHTML=a.contentHtml; updateSlugPreview(); showStatus("AI article generated successfully! "+Number(a.wordCount||0)+" words. Please review the article before publishing.","success"); window.scrollTo({top:0,behavior:"smooth"}); }catch(e){ showStatus("Article generation failed:\n\n"+(e.message||String(e)),"error"); } finally { button.disabled=false; button.textContent=orig; } }
+
+// ======== FIXED generateArticle - YEHI TUMHARA BUG THA ========
+async function generateArticle(){
+  const topic=document.getElementById("aiTopic").value.trim();
+  const button=document.getElementById("generateBtn");
+  const debugBox=document.getElementById("geminiDebug");
+  if(!topic){ showStatus("Please enter an article topic first.","error"); return; }
+  if(!quill){ showStatus("Article editor is not initialized. Please reload the page.","error"); return; }
+  const orig=button.textContent;
+  try{
+    button.disabled=true; button.textContent="Generating with Gemini...";
+    showStatus("Gemini is writing your article. Please wait...","info");
+    if(debugBox){ debugBox.style.display="none"; debugBox.textContent=""; }
+    const r=await fetch("/api/generate-article",{method:"POST",headers:{"Content-Type":"application/json","Accept":"application/json"},body:JSON.stringify({topic:topic,password:ADMIN_PASSWORD})});
+    const raw=await r.text();
+    let result={};
+    try{ result=raw?JSON.parse(raw):{}; }catch(e){
+      // Backend ne JSON nahi bheja - raw dikhao taake pata chale
+      throw new Error("Gemini API ne JSON nahi bheja (HTTP "+r.status+"). Raw jawab:\n"+raw.slice(0,1000));
+    }
+    if(!r.ok || result.success===false){
+      // FIX: result.error object ho sakta hai - errToString se string banao, warna [object Object] aayega
+      const msg = extractApiError(result, raw, r.status);
+      if(debugBox){ debugBox.style.display="block"; debugBox.textContent="DEBUG - HTTP "+r.status+" - Raw:\n"+raw.slice(0,2000); }
+      throw new Error(msg || "Gemini article generation failed (HTTP "+r.status+")");
+    }
+    const a=result.article||result.data||result.post||{};
+    if(!a.title || !a.contentHtml){
+      throw new Error("Gemini ne adhoora article bheja. Dobara try karo. Mila: "+JSON.stringify(a).slice(0,500));
+    }
+    document.getElementById("postTitle").value=a.title;
+    document.getElementById("postSlug").value=a.slug||createSlug(a.title);
+    document.getElementById("postSlug").dataset.manual="true";
+    document.getElementById("postExcerpt").value=a.excerpt||"";
+    document.getElementById("seoTitle").value=a.seoTitle||a.title;
+    document.getElementById("seoDescription").value=a.seoDescription||"";
+    if(a.category) document.getElementById("postCategory").value=a.category;
+    quill.root.innerHTML=a.contentHtml;
+    updateSlugPreview();
+    showStatus("AI article generated successfully! "+Number(a.wordCount||0)+" words. Please review the article before publishing.","success");
+    window.scrollTo({top:0,behavior:"smooth"});
+  }catch(e){
+    // FIX: e.message bhi object ho sakta hai - errToString use karo
+    showStatus("Article generation failed:\n\n"+errToString(e),"error");
+  } finally { button.disabled=false; button.textContent=orig; }
+}
 function escapeHtml(v){ return String(v??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;"); }
 function escapeAttribute(v){ return String(v??"").replace(/\\/g,"\\\\").replace(/'/g,"\\'").replace(/"/g,"&quot;"); }
 document.getElementById("loginPassword").addEventListener("keydown",function(e){ if(e.key==="Enter") checkLogin(); });
